@@ -19,7 +19,7 @@ export default function Register() {
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className="max-w-2xl mx-auto">
+      <form onSubmit={formik.handleSubmit} className="max-w-2xl mx-auto p-8">
         <div className="relative z-0 w-full mb-5 group">
           <input
             type="text"
