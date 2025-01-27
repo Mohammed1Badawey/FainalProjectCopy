@@ -2,15 +2,24 @@ import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Register() {
+
+  let navigate = useNavigate()
+
   async function submitData(registerObj) {
     console.log(registerObj);
-    let res = await axios.post(
+    let {data} = await axios.post(
       `https://ecommerce.routemisr.com/api/v1/auth/signup`,
       registerObj
     );
-    console.log(res);
+    if (data.massage == "success") {
+      navigate("/")
+    }else{
+      
+    }
   }
 
   let validationSchema = yup.object().shape({
@@ -52,7 +61,7 @@ export default function Register() {
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className="max-w-2xl mx-auto p-8">
+      <form onSubmit={formik.handleSubmit} className="max-w-2xl mx-auto px-8">
         <div className="relative z-0 w-full mb-5 group">
           <input
             type="text"
@@ -200,9 +209,10 @@ export default function Register() {
 
         <button
           type="submit"
-          className="text-white bg-emerald-500 hover:bg-emerald-600 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
+          className="text-white bg-emerald-500 hover:bg-emerald-600 focus:ring-4 m-auto
+          focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-sm block mx-auto  px-5 py-2.5 text-center "
         >
-          Submit
+          Register
         </button>
       </form>
     </>
