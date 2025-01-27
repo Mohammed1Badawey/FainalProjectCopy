@@ -8,9 +8,9 @@ import googlePlay from "../../assets/Payment_Methods/google-play-badge.svg";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 py-5 px-6 border-t border-gray-200/60 mx-auto">
-      <div className="">
-        <div className="md:px-12 border-b-2 border-gray-300">
+    <footer className="bg-gray-100 pt-5 pb-12 px-6 border-t border-gray-200/60 mx-auto">
+      <div className="allFooter">
+        <div className="md:px-12 border-b-2 border-gray-300 EmailPart">
           <div className="flex flex-col">
             <h2 className="text-xl font-normal md:ps-0.5">
               Get the FreshCart app
@@ -25,52 +25,57 @@ export default function Footer() {
             <input
               type="email"
               placeholder="Email .."
-              className=" md:w-3/4 w-full  border border-gray-300 px-3 py-1.5 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              className=" md:w-3/4 w-full  border border-gray-300 px-3 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
             />
-            <button className="bg-green-500 w-fit mx-auto text-white px-6 py-1.5 rounded-md hover:bg-green-600">
+            <button className="bg-green-500 w-fit ms-auto text-white px-6 py-0.5 rounded-md hover:bg-green-600">
               Share App Link
             </button>
           </div>
         </div>
 
-        <div className="justify-center items-center flex flex-col md:flex-row md:justify-between md:items-center text-gray-600 border-b-2 border-gray-300">
-          <div className="grid grid-cols-5 gap-1">
-            <h5 className="col-span-5 md:col-span-1 text-center pt-2 md:pe-1 self-center text-sm md:text-lg font-light">
-              Payment Partners
-            </h5>
+        <div className="PaymentPart gird grid-cols-12 text-gray-600 border-b-2 border-gray-300">
+          <div className="grid grid-cols-12">
+            <div className="lg:flex lg:items-center grid grid-cols-12 lg:col-span-4 justify-items-center col-span-12 mx-auto gap-3">
+              <h6 className="col-span-12 text-center w-fit mx-auto pt-2 text-sm md:text-lg font-light">
+                Payment Partners
+              </h6>
 
-            <div className="grid grid-cols-4 md:grid-cols-4 mx-auto col-span-4 md:flex gap-3">
-              <figure className="col-span-1">
-                <img src={amazonLogo} alt="Amazon Pay" className="h-10" />
-              </figure>
-              <figure className="col-span-1">
-                <img
-                  src={americanExpressLogo}
-                  alt="American Express"
-                  className="h-10"
-                />
-              </figure>
-              <figure className="col-span-1">
-                <img src={mastercardLogo} alt="Mastercard" className="h-10" />
-              </figure>
-              <figure className="col-span-1">
-                <img src={paypalLogo} alt="PayPal" className="h-10" />
-              </figure>
-            </div>
-          </div>
+              <div className="col-span-12 grid grid-cols-12 justify-items-center gap-2">
+                <figure className="col-span-3">
+                  <img src={amazonLogo} alt="Amazon Pay" className="h-10" />
+                </figure>
 
-          <div className="flex flex-col md:flex-row items-center mt-4 md:mt-0">
-            <span className="text-lg font-medium">
-              Get deliveries with FreshCart
-            </span>
+                <figure className="col-span-3">
+                  <img
+                    src={americanExpressLogo}
+                    alt="American Express"
+                    className="h-10"
+                  />
+                </figure>
 
-            <div className="flex">
-              {" "}
-              <div className="px-1">
-                <img src={googlePlay} alt="Google Play" className="h-30" />
+                <figure className="col-span-3">
+                  <img src={mastercardLogo} alt="Mastercard" className="h-10" />
+                </figure>
+
+                <figure className="col-span-3">
+                  <img src={paypalLogo} alt="PayPal" className="h-10" />
+                </figure>
               </div>
-              <div className="px-1">
-                <img src={appStore} alt="App Store" className="h-30" />
+            </div>
+
+            <div className="lg:flex lg:items-center col-span-12 lg:col-span-5 lg:col-start-8 justify-items-center">
+              <h6 className="text-lg font-medium pe-1">
+                Get deliveries with FreshCart
+              </h6>
+
+              <div className="flex">
+                {" "}
+                <figure className="px-1">
+                  <img src={googlePlay} alt="Google Play" className="h-30" />
+                </figure>
+                <figure className="px-1">
+                  <img src={appStore} alt="App Store" className="h-30" />
+                </figure>
               </div>
             </div>
           </div>
