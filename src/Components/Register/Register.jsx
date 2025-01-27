@@ -1,10 +1,42 @@
 import React from "react";
 import { useFormik } from "formik";
+import * as yup from "yup";
+import axios from "axios";
 
 export default function Register() {
-  function submitData() {
-    console.log("Hello");
+  async function submitData(registerObj) {
+    console.log(registerObj);
+    let res = await axios.post(
+      `https://ecommerce.routemisr.com/api/v1/auth/signup`,
+      registerObj
+    );
+    console.log(res);
   }
+
+  let validationSchema = yup.object().shape({
+    name: yup
+      .string()
+      .min(3, "Min Length is 3")
+      .max(10, "Max Length is 10")
+      .required("Name is required"),
+
+    email: yup.string().email("Invalid Email").required("Email is required"),
+
+    password: yup
+      .string()
+      .min(6, "Min Length is 6")
+      .required("Password is required"),
+
+    rePassword: yup
+      .string()
+      .required("RePassword Is Required")
+      .oneOf([yup.ref("password")], "Not Matched With Password"),
+
+    phone: yup
+      .string()
+      .required()
+      .matches(/^01[0125][0-9]{8}$/, "Please Enter Egyption Number"),
+  });
 
   let formik = useFormik({
     initialValues: {
@@ -14,6 +46,7 @@ export default function Register() {
       rePassword: "",
       phone: "",
     },
+    validationSchema,
     onSubmit: submitData,
   });
 
@@ -37,6 +70,16 @@ export default function Register() {
           >
             Enter Your Name
           </label>
+          {formik.errors.name && formik.touched.name ? (
+            <div
+              className="p-4 mb-4 text-sm mt-2 text-red-800 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <span className="font-medium">Danger alert!</span>{" "}
+              {formik.errors.name} Change a few things up and try submitting
+              again.
+            </div>
+          ) : null}
         </div>
 
         <div className="relative z-0 w-full mb-5 group">
@@ -56,6 +99,16 @@ export default function Register() {
           >
             Enter Your Email
           </label>
+          {formik.errors.email && formik.touched.email ? (
+            <div
+              className="p-4 mb-4 text-sm mt-2 text-red-800 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <span className="font-medium">Danger alert!</span>{" "}
+              {formik.errors.email} Change a few things up and try submitting
+              again.
+            </div>
+          ) : null}
         </div>
 
         <div className="relative z-0 w-full mb-5 group">
@@ -75,6 +128,16 @@ export default function Register() {
           >
             Enter Your Password
           </label>
+          {formik.errors.password && formik.touched.password ? (
+            <div
+              className="p-4 mb-4 text-sm mt-2 text-red-800 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <span className="font-medium">Danger alert!</span>{" "}
+              {formik.errors.password} Change a few things up and try submitting
+              again.
+            </div>
+          ) : null}
         </div>
 
         <div className="relative z-0 w-full mb-5 group">
@@ -94,6 +157,16 @@ export default function Register() {
           >
             Enter Your RePassword
           </label>
+          {formik.errors.rePassword && formik.touched.rePassword ? (
+            <div
+              className="p-4 mb-4 text-sm mt-2 text-red-800 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <span className="font-medium">Danger alert!</span>{" "}
+              {formik.errors.rePassword} Change a few things up and try
+              submitting again.
+            </div>
+          ) : null}
         </div>
 
         <div className="relative z-0 w-full mb-5 group">
@@ -106,7 +179,6 @@ export default function Register() {
             id="phone"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-emerald-600 peer"
             placeholder=" "
-            required
           />
           <label
             htmlFor="phone"
@@ -114,6 +186,16 @@ export default function Register() {
           >
             Enter Your Phone
           </label>
+          {formik.errors.phone && formik.touched.phone ? (
+            <div
+              className="p-4 mb-4 text-sm mt-2 text-red-800 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <span className="font-medium">Danger alert!</span>{" "}
+              {formik.errors.phone} Change a few things up and try submitting
+              again.
+            </div>
+          ) : null}
         </div>
 
         <button

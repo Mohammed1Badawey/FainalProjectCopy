@@ -6,7 +6,7 @@ export default function Navbar() {
   return (
     <>
       <div>
-        <nav className="bg-slate-400 fixed inset-x-0 top-0 border-gray-200">
+        <nav className="bg-slate-400 z-[9999] fixed inset-x-0 top-0 border-gray-200">
           <div className="flex flex-wrap justify-center lg:justify-between items-center mx-auto max-w-screen-2xl p-4">
             <div className="flex items-center gap-5 ">
               <NavLink
@@ -41,21 +41,31 @@ export default function Navbar() {
 
             <div className="flex items-center space-x-6 rtl:space-x-reverse">
               <ul className="flex gap-3">
-                <li><i className="fab fa-facebook"></i></li>
-                <li><i className="fab fa-twitter"></i></li>
-                <li><i className="fab fa-linkedin"></i></li>
-                <li><i className="fab fa-tiktok"></i></li>
-                <li><i className="fab fa-youtube"></i></li>
+                <li>
+                  <i className="fab fa-facebook"></i>
+                </li>
+                <li>
+                  <i className="fab fa-twitter"></i>
+                </li>
+                <li>
+                  <i className="fab fa-linkedin"></i>
+                </li>
+                <li>
+                  <i className="fab fa-tiktok"></i>
+                </li>
+                <li>
+                  <i className="fab fa-youtube"></i>
+                </li>
               </ul>
               <ul className="flex gap-3">
                 <li>
-                <Link to="login">Login</Link>
+                  <Link to="login">Login</Link>
                 </li>
                 <li>
-                <Link to="register">Register</Link>
+                  <Link to="register">Register</Link>
                 </li>
                 <li>
-                <Link to="">Signout</Link>
+                  <Link to="">Signout</Link>
                 </li>
               </ul>
             </div>
