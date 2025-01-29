@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Register() {
   let navigate = useNavigate();
@@ -10,22 +10,24 @@ export default function Register() {
   const [IsLoading, setIsLoading] = useState(false);
 
   function setErrorNull() {
-    setApiError("")
+    setApiError("");
   }
 
   async function submitData(registerObj) {
     setIsLoading(true);
-    console.log(registerObj);
     await axios
       .post(`https://ecommerce.routemisr.com/api/v1/auth/signup`, registerObj)
       .then((res) => {
-        console.log(res);
         setIsLoading(false);
+        if (res.data.message) {
+        }
+        setErrorNull();
+        localStorage.setItem("userToken", res.data.token);
+        navigate("/");
       })
       .catch((res) => {
         setApiError(res.response.data.message);
         setIsLoading(false);
-      
       });
   }
 
@@ -218,7 +220,7 @@ export default function Register() {
         </div>
 
         {ApiError && (
-          <div className="p-2 mt-2 text-center bg-red-700/80 text-black text-md font-semibold w-1/3 mx-auto border border-transparent rounded-md">
+          <div className="p-2 mt-2 text-center  text-black text-md font-semibold w-1/2 mx-auto border-2 border-red-600  rounded-md">
             {ApiError}
           </div>
         )}
@@ -229,6 +231,15 @@ export default function Register() {
         >
           {IsLoading ? <i className="fas fa-spinner fa-spin"></i> : "Register"}
         </button>
+        <div className="mx-auto">
+          <h6 className="text-center">
+            Already have an account?{" "}
+            <Link to={"/login"}>
+              {" "}
+              <span className="underline font-semibold">Login</span>{" "}
+            </Link>
+          </h6>
+        </div>
       </form>
     </>
   );
