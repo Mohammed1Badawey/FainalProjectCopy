@@ -11,3 +11,12 @@
 body {
     font-family: EncodeSans-light ;
 }
+
+nav.mainNavbar ul li .active {
+  font-weight: bolder;  
+}
+
+nav.mainNavbar ul li:hover :not(.active) {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.6);
+}

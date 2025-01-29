@@ -1,25 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Register() {
+  let navigate = useNavigate();
+  const [ApiError, setApiError] = useState("");
+  const [IsLoading, setIsLoading] = useState(false);
 
-  let navigate = useNavigate()
+  function setErrorNull() {
+    setApiError("")
+  }
 
   async function submitData(registerObj) {
+    setIsLoading(true);
     console.log(registerObj);
-    let {data} = await axios.post(
-      `https://ecommerce.routemisr.com/api/v1/auth/signup`,
-      registerObj
-    );
-    if (data.massage == "success") {
-      navigate("/")
-    }else{
+    await axios
+      .post(`https://ecommerce.routemisr.com/api/v1/auth/signup`, registerObj)
+      .then((res) => {
+        console.log(res);
+        setIsLoading(false);
+      })
+      .catch((res) => {
+        setApiError(res.response.data.message);
+        setIsLoading(false);
       
-    }
+      });
   }
 
   let validationSchema = yup.object().shape({
@@ -61,7 +68,10 @@ export default function Register() {
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className="max-w-2xl mx-auto px-8">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="max-w-2xl mx-auto px-8 py-2"
+      >
         <div className="relative z-0 w-full mb-5 group">
           <input
             type="text"
@@ -178,7 +188,7 @@ export default function Register() {
           ) : null}
         </div>
 
-        <div className="relative z-0 w-full mb-5 group">
+        <div className="relative z-0 w-full mb-1 group">
           <input
             type="tel"
             name="phone"
@@ -207,14 +217,21 @@ export default function Register() {
           ) : null}
         </div>
 
+        {ApiError && (
+          <div className="p-2 mt-2 text-center bg-red-700/80 text-black text-md font-semibold w-1/3 mx-auto border border-transparent rounded-md">
+            {ApiError}
+          </div>
+        )}
         <button
           type="submit"
           className="text-white bg-emerald-500 hover:bg-emerald-600 focus:ring-4 m-auto
-          focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-sm block mx-auto  px-5 py-2.5 text-center "
+          focus:outline-none my-2 focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-sm block mx-auto  px-5 py-2.5 text-center "
         >
-          Register
+          {IsLoading ? <i className="fas fa-spinner fa-spin"></i> : "Register"}
         </button>
       </form>
     </>
   );
 }
+
+//  && formik.values.phone.trim() !== ""

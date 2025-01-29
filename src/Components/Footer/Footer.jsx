@@ -8,13 +8,10 @@ import googlePlay from "../../assets/Payment_Methods/google-play-badge.svg";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 pt-5 pb-12 px-6 border-t border-gray-200/60 mx-auto">
-
-      <div className="allFooter">
-
+    <footer className="bg-gray-100 pt-5 pb-12 px-6 border-t border-gray-200/60 mx-auto min-w-full">
+      <div className="">
 
         <div className="px-8 py-4 grid grid-cols-12 border-b-2 border-gray-300/90">
-
           <div className="col-span-12">
             <h2 className="text-xl font-normal md:ps-0.5">
               Get the FreshCart app
@@ -25,34 +22,28 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="col-span-12  py-2 gap-y-2 grid grid-cols-12">
+          <div className="col-span-12 justify-start  py-2 gap-y-2 grid grid-cols-12 ps-2">
             <input
               type="email"
               placeholder="Email .."
-              className="col-span-12 md:col-span-9 lg:ms-6 border border-gray-300 px-3 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="col-span-12 md:col-span-9 lg:ms-6 xl:ms-0 border border-gray-300 px-3 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
             />
-            <button className="col-span-12 md:col-span-3 md:col-start-10   bg-green-500 w-fit mx-auto md:inline block text-white px-6 py-1 rounded-md hover:bg-green-600">
+            <button className="col-span-12 md:col-span-3 md:col-start-10 xl:grid-cols-subgrid xl:col-start-10 xl:col-end-12    bg-green-500 w-fit mx-auto md:inline block text-white px-6 py-1 rounded-md hover:bg-green-600">
               Share App Link
             </button>
           </div>
-
         </div>
-
-
-
 
         <div className="gird grid-cols-12 text-gray-600 border-b-2 border-gray-300/90">
 
           <div className="grid grid-cols-12">
 
             <div className="grid grid-cols-12 md:grid-cols-10 col-span-12 xl:col-span-5 xl:justify-items-start mx-auto gap-3 items-center">
-              
               <h6 className="col-span-12 md:col-span-2 text-center w-fit mx-auto pt-2 text-xl font-light">
                 Payment Partners
               </h6>
 
               <div className="col-span-12 md:col-span-8 grid grid-cols-12 justify-items-center gap-2">
-                
                 <figure className="col-span-3">
                   <img src={amazonLogo} alt="Amazon Pay" className="" />
                 </figure>
@@ -75,13 +66,12 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="col-span-12 grid grid-cols-12 xl:col-span-7 xl:col-start-8 items-center justify-items-center gap-x-1">
-
-              <h6 className="col-span-12 md:col-span-6 lg:col-span-4 lg:col-start-2 xl:col-span-5 xl:col-start-1 text-xl font-medium">
+            <div className="col-span-12 grid grid-cols-12 xl:col-span-7 xl:col-start-8 items-center justify-items-center gap-x-1.5">
+              <h6 className="col-span-12 md:col-span-6 lg:col-span-4 xl:justify-self-end lg:col-start-2 xl:col-span-5 xl:col-start-1 text-xl font-medium">
                 Get deliveries with FreshCart
               </h6>
 
-              <div className="col-span-12 md:col-span-6 lg:col-span-7 lg:col-start-6 grid grid-cols-2 gap-x-2">
+              <div className="col-span-12 md:col-span-6 lg:col-span-7 xl:justify-self-start lg:col-start-6 grid grid-cols-2 gap-x-2">
                 {" "}
                 <figure className="col-span-1">
                   <img src={googlePlay} alt="Google Play" className="" />
@@ -91,9 +81,10 @@ export default function Footer() {
                 </figure>
               </div>
             </div>
-            
+
           </div>
         </div>
+
       </div>
     </footer>
   );
