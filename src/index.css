@@ -1,22 +1,22 @@
-@import "tailwindcss";
+  @import "tailwindcss";
 
-@font-face {
-  font-family: EncodeSans-light;
-  font-style: light;
-  font-weight: 300;
-  font-display: swap;
-  src: url("../src/assets/Fonts/EncodeSans-Light.ttf") format("truetype");
-}
+  @font-face {
+    font-family: EncodeSans-light;
+    font-style: light;
+    font-weight: 300;
+    font-display: swap;
+    src: url("../src/assets/Fonts/EncodeSans-Light.ttf") format("truetype");
+  }
 
-body {
-  font-family: EncodeSans-light;
-}
+  body {
+    font-family: EncodeSans-light;
+  }
 
-nav.mainNavbar ul li .active {
-  font-weight: bolder;
-}
+  nav.mainNavbar ul li .active {
+    font-weight: bolder;
+  }
 
-nav.mainNavbar ul li:hover :not(.active) {
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.6);
-}
+  nav.mainNavbar ul li:hover :not(.active) {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.6);
+  }
