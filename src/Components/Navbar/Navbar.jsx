@@ -7,17 +7,17 @@ import HumburgerBotton from "../../assets/NavBar/burger-menu.svg";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [MenuOpenClass, setMenuOpenClass] = useState(
-    "p-0.5 border bg-slate-500 rounded text-gray-600 border-gray-400 hover:text-gray-800 border-gray-600"
+    "p-0.5 border bg-slate-500 rounded text-gray-600 border-gray-400 hover:text-gray-800 border-gray-600",
   );
   const [MenuCloseClass, setMenuCloseClass] = useState(
-    "p-0.5 border rounded text-gray-600 border-gray-400 hover:text-gray-800 hover:border-gray-600"
+    "p-0.5 border rounded text-gray-600 border-gray-400 hover:text-gray-800 hover:border-gray-600",
   );
 
   return (
     <>
       <div>
-        <nav className="bg-slate-400 z-[9999] fixed inset-x-0 top-0 border-gray-200 min-h-18 mainNavbar">
-          <div className="flex flex-wrap justify-between items-center max-w-screen-2xl p-4 mx-auto container">
+        <nav className="mainNavbar fixed inset-x-0 top-0 z-[9999] min-h-18 border-gray-200 bg-slate-400">
+          <div className="container mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between p-4">
             {/* Logo */}
             <div className="flex items-center gap-5">
               <NavLink
@@ -29,7 +29,7 @@ export default function Navbar() {
 
               {/* pages for lg Screen and higher */}
 
-              <ul className="gap-3 text-slate-800 hidden lg:flex">
+              <ul className="hidden gap-3 text-slate-800 lg:flex">
                 <li>
                   {" "}
                   <NavLink to="">Home</NavLink>{" "}
@@ -54,7 +54,7 @@ export default function Navbar() {
             </div>
 
             {/* SocialMedia and Login for large Screens */}
-            <div className=" items-center space-x-6 rtl:space-x-reverse hidden lg:flex">
+            <div className="hidden items-center space-x-6 lg:flex rtl:space-x-reverse">
               <ul className="flex gap-3">
                 <li>
                   <i className="fab fa-facebook"></i>
@@ -100,8 +100,8 @@ export default function Navbar() {
 
           <div>
             {isMenuOpen && (
-              <div className="lg:hidden bg-slate-400 mobileNavbar">
-                <ul className="flex flex-col  items-center space-y-3 ">
+              <div className="mobileNavbar bg-slate-400 lg:hidden">
+                <ul className="flex flex-col items-center space-y-3">
                   <li className="">
                     <NavLink to="" onClick={() => setIsMenuOpen(false)}>
                       Home
@@ -147,8 +147,8 @@ export default function Navbar() {
                   </li>
                 </ul>
 
-                <div className="socialMobileNavbar mx-auto bg-slate-500 mt-2 min-h-18">
-                  <ul className="flex justify-center min-h-18 items-center gap-3">
+                <div className="socialMobileNavbar mx-auto mt-2 min-h-18 bg-slate-500">
+                  <ul className="flex min-h-18 items-center justify-center gap-3">
                     <li>
                       <i className="fab fa-facebook"></i>
                     </li>

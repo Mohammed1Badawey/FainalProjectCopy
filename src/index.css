@@ -9,11 +9,11 @@
 }
 
 body {
-    font-family: EncodeSans-light ;
+  font-family: EncodeSans-light;
 }
 
 nav.mainNavbar ul li .active {
-  font-weight: bolder;  
+  font-weight: bolder;
 }
 
 nav.mainNavbar ul li:hover :not(.active) {

@@ -47,7 +47,7 @@ export default function Register() {
 
     rePassword: yup
       .string()
-      .required("RePassword Is Required")
+      .required("rePassword Is Required")
       .oneOf([yup.ref("password")], "Not Matched With Password"),
 
     phone: yup
@@ -72,9 +72,9 @@ export default function Register() {
     <>
       <form
         onSubmit={formik.handleSubmit}
-        className="max-w-2xl mx-auto px-8 py-2"
+        className="mx-auto max-w-2xl px-8 py-2"
       >
-        <div className="relative z-0 w-full mb-5 group">
+        <div className="group relative z-0 mb-5 w-full">
           <input
             type="text"
             name="name"
@@ -82,28 +82,24 @@ export default function Register() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             id="name"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-emerald-600 peer"
+            className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
             placeholder=" "
           />
           <label
             htmlFor="name"
-            className="peer-focus:font-medium  absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-emerald-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-emerald-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
           >
             Enter Your Name
           </label>
           {formik.errors.name && formik.touched.name ? (
-            <div
-              className="p-4 mb-4 text-sm mt-2 text-red-800 rounded-lg bg-red-50"
-              role="alert"
-            >
+            <div className="rounded-lg p-2 text-sm text-red-800" role="alert">
               <span className="font-medium">Danger alert!</span>{" "}
-              {formik.errors.name} Change a few things up and try submitting
-              again.
+              {formik.errors.name}
             </div>
           ) : null}
         </div>
 
-        <div className="relative z-0 w-full mb-5 group">
+        <div className="group relative z-0 mb-5 w-full">
           <input
             type="email"
             name="email"
@@ -111,28 +107,24 @@ export default function Register() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             id="email"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-emerald-600 peer"
+            className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
             placeholder=" "
           />
           <label
             htmlFor="email"
-            className="peer-focus:font-medium  absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-emerald-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-emerald-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
           >
             Enter Your Email
           </label>
           {formik.errors.email && formik.touched.email ? (
-            <div
-              className="p-4 mb-4 text-sm mt-2 text-red-800 rounded-lg bg-red-50"
-              role="alert"
-            >
+            <div className="rounded-lg p-2 text-sm text-red-800" role="alert">
               <span className="font-medium">Danger alert!</span>{" "}
-              {formik.errors.email} Change a few things up and try submitting
-              again.
+              {formik.errors.email}
             </div>
           ) : null}
         </div>
 
-        <div className="relative z-0 w-full mb-5 group">
+        <div className="group relative z-0 mb-5 w-full">
           <input
             type="password"
             name="password"
@@ -140,28 +132,24 @@ export default function Register() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             id="password"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-emerald-600 peer"
+            className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
             placeholder=" "
           />
           <label
             htmlFor="password"
-            className="peer-focus:font-medium  absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-emerald-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-emerald-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
           >
             Enter Your Password
           </label>
           {formik.errors.password && formik.touched.password ? (
-            <div
-              className="p-4 mb-4 text-sm mt-2 text-red-800 rounded-lg bg-red-50"
-              role="alert"
-            >
+            <div className="rounded-lg p-2 text-sm text-red-800" role="alert">
               <span className="font-medium">Danger alert!</span>{" "}
-              {formik.errors.password} Change a few things up and try submitting
-              again.
+              {formik.errors.password}
             </div>
           ) : null}
         </div>
 
-        <div className="relative z-0 w-full mb-5 group">
+        <div className="group relative z-0 mb-5 w-full">
           <input
             type="password"
             name="rePassword"
@@ -169,28 +157,24 @@ export default function Register() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             id="rePassword"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-emerald-600 peer"
+            className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
             placeholder=" "
           />
           <label
             htmlFor="rePassword"
-            className="peer-focus:font-medium  absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-emerald-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-emerald-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
           >
-            Enter Your RePassword
+            Enter Your rePassword
           </label>
           {formik.errors.rePassword && formik.touched.rePassword ? (
-            <div
-              className="p-4 mb-4 text-sm mt-2 text-red-800 rounded-lg bg-red-50"
-              role="alert"
-            >
+            <div className="rounded-lg p-2 text-sm text-red-800" role="alert">
               <span className="font-medium">Danger alert!</span>{" "}
-              {formik.errors.rePassword} Change a few things up and try
-              submitting again.
+              {formik.errors.rePassword}
             </div>
           ) : null}
         </div>
 
-        <div className="relative z-0 w-full mb-1 group">
+        <div className="group relative z-0 mb-1 w-full">
           <input
             type="tel"
             name="phone"
@@ -198,36 +182,31 @@ export default function Register() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             id="phone"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-emerald-600 peer"
+            className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
             placeholder=" "
           />
           <label
             htmlFor="phone"
-            className="peer-focus:font-medium  absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-emerald-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-emerald-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
           >
             Enter Your Phone
           </label>
           {formik.errors.phone && formik.touched.phone ? (
-            <div
-              className="p-4 mb-4 text-sm mt-2 text-red-800 rounded-lg bg-red-50"
-              role="alert"
-            >
+            <div className="rounded-lg p-2 text-sm text-red-800" role="alert">
               <span className="font-medium">Danger alert!</span>{" "}
-              {formik.errors.phone} Change a few things up and try submitting
-              again.
+              {formik.errors.phone}
             </div>
           ) : null}
         </div>
 
         {ApiError && (
-          <div className="p-2 mt-2 text-center  text-black text-md font-semibold w-1/2 mx-auto border-2 border-red-600  rounded-md">
+          <div className="text-md mx-auto mt-2 w-1/2 rounded-md border-2 border-red-600 p-2 text-center font-semibold text-black">
             {ApiError}
           </div>
         )}
         <button
           type="submit"
-          className="text-white bg-emerald-500 hover:bg-emerald-600 focus:ring-4 m-auto
-          focus:outline-none my-2 focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-sm block mx-auto  px-5 py-2.5 text-center "
+          className="m-auto mx-auto my-2 block w-full rounded-lg bg-emerald-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-emerald-600 focus:ring-4 focus:ring-emerald-300 focus:outline-none sm:w-sm"
         >
           {IsLoading ? <i className="fas fa-spinner fa-spin"></i> : "Register"}
         </button>
@@ -236,7 +215,7 @@ export default function Register() {
             Already have an account?{" "}
             <Link to={"/login"}>
               {" "}
-              <span className="underline font-semibold">Login</span>{" "}
+              <span className="font-semibold underline">Login</span>{" "}
             </Link>
           </h6>
         </div>
