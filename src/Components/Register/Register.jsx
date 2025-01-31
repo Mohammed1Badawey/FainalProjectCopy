@@ -23,7 +23,7 @@ export default function Register() {
         }
         setErrorNull();
         localStorage.setItem("userToken", res.data.token);
-        navigate("/");
+        navigate("/login");
       })
       .catch((res) => {
         setApiError(res.response.data.message);

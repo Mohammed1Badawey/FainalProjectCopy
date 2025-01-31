@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Logo from "../../assets/freshcart-logo.svg";
 import NavbarCss from "./Navbar.module.css";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import HumburgerBotton from "../../assets/NavBar/burger-menu.svg";
+import classNames from "classnames";
+import { authContext } from "./../../Context/AuthContext";
 import {
   FaFacebook,
   FaTwitter,
@@ -10,10 +12,11 @@ import {
   FaTiktok,
   FaYoutube,
 } from "react-icons/fa";
-import classNames from "classnames";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { userToken, setuserToken } = useContext(authContext);
+  const navigate = useNavigate();
 
   const menuClass = classNames(
     "p-0.5",
@@ -36,28 +39,26 @@ export default function Navbar() {
   const authLinks = [
     { name: "Login", path: "login" },
     { name: "Register", path: "register" },
-    { name: "Signout", path: "" },
   ];
 
   const iconClass = "text-xl text-gray-900 hover:text-gray-950";
 
   const socialIcons = {
-    facebook: (
-      <FaFacebook className={iconClass} />
-    ),
-    twitter: (
-      <FaTwitter className={iconClass} />
-    ),
-    linkedin: (
-      <FaLinkedin className={iconClass} />
-    ),
+    facebook: <FaFacebook className={iconClass} />,
+    twitter: <FaTwitter className={iconClass} />,
+    linkedin: <FaLinkedin className={iconClass} />,
     tiktok: <FaTiktok className={iconClass} />,
-    youtube: (
-      <FaYoutube className={iconClass} />
-    ),
+    youtube: <FaYoutube className={iconClass} />,
   };
 
   const socialLinks = ["facebook", "twitter", "linkedin", "tiktok", "youtube"];
+
+  function hundelLogout() {
+    setIsMenuOpen(false);
+    localStorage.removeItem("userToken");
+    setuserToken(null);
+    navigate("/login");
+  }
 
   return (
     <>
@@ -65,6 +66,7 @@ export default function Navbar() {
         <nav className="mainNavbar fixed inset-x-0 top-0 z-[9999] min-h-18 border-gray-200 bg-slate-400">
           <div className="container mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between p-4">
             {/* Logo */}
+
             <div className="flex items-center gap-5">
               <NavLink
                 to=""
@@ -75,13 +77,15 @@ export default function Navbar() {
 
               {/* pages for lg Screen and higher */}
 
-              <ul className="hidden gap-3 text-slate-800 lg:flex">
-                {navLinks.map((link) => (
-                  <li key={link.name}>
-                    <NavLink to={link.path}>{link.name}</NavLink>
-                  </li>
-                ))}
-              </ul>
+              {userToken && (
+                <ul className="hidden gap-3 text-slate-800 lg:flex">
+                  {navLinks.map((link) => (
+                    <li key={link.name}>
+                      <NavLink to={link.path}>{link.name}</NavLink>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             {/* SocialMedia and Login for large Screens */}
@@ -92,15 +96,34 @@ export default function Navbar() {
                 ))}
               </ul>
 
-              <ul className="hidden gap-3 lg:flex">
-                {authLinks.map((link) => (
-                  <li key={link.name}>
-                    <Link to={link.path}>{link.name}</Link>
+              <ul className="hidden gap-1 lg:flex">
+                {userToken ? (
+                  <li>
+                    <span
+                      className="cursor-pointer"
+                      onClick={hundelLogout}
+                      to=""
+                    >
+                      Logout
+                    </span>
                   </li>
-                ))}
+                ) : (
+                  <>
+                    <li className="underline underline-offset-2">
+                      <Link to="/login"> Login </Link>
+                    </li>
+                      <span className="font-semibold">/</span>
+                    <li className="underline underline-offset-2">
+                      <Link to="/register"> Register </Link>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
 
+
+
+                
             <div className="lg:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -116,26 +139,58 @@ export default function Navbar() {
           <div>
             {isMenuOpen && (
               <div className="mobileNavbar bg-slate-400 lg:hidden">
-                <ul
-                  className="flex flex-col items-center space-y-3"
-                >
-                  {navLinks.map((link) => (
-                    <li key={link.name}>
-                      <NavLink to={link.path} onClick={() => setIsMenuOpen(false)}>{link.name}</NavLink>
-                    </li>
-                  ))}
+                <ul className="flex flex-col items-center space-y-3">
+                  {userToken &&
+                    navLinks.map((link) => (
+                      <li key={link.name}>
+                        <NavLink
+                          to={link.path}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {link.name}
+                        </NavLink>
+                      </li>
+                    ))}
+                </ul>
 
-                  {authLinks.map((link) => (
-                    <li key={link.name}>
-                      <Link to={link.path} onClick={() => setIsMenuOpen(false)}>{link.name}</Link>
-                    </li>
-                  ))}
+                {userToken && (
+                  <li>
+                    <span
+                      className="cursor-pointer"
+                      onClick={hundelLogout}
+                      to=""
+                    >
+                      Logout
+                    </span>
+                  </li>
+                )}
+
+                <ul className="bo flex justify-center gap-1 font-semibold">
+                  {!userToken &&
+                    <>
+                      <li className="underline underline-offset-2">
+                        <Link to ="/login" onClick={() => setIsMenuOpen(false)}>
+                          Login
+                        </Link>
+                      </li>
+                        <span className="font-semibold">
+                          /
+                        </span>
+                      <li className="underline underline-offset-2">
+                        <Link to ="/register" onClick={() => setIsMenuOpen(false)}>
+                          Register
+                        </Link>
+                      </li>
+                      </>
+                    }
                 </ul>
 
                 <div className="socialMobileNavbar mx-auto mt-2 min-h-18 bg-slate-500">
-                  <ul className="flex min-h-18 items-center justify-center gap-3" >
+                  <ul className="flex min-h-18 items-center justify-center gap-3">
                     {socialLinks.map((platform) => (
-                      <li key={platform} onClick={() => setIsMenuOpen(false)}>{socialIcons[platform]}</li>
+                      <li key={platform} onClick={() => setIsMenuOpen(false)}>
+                        {socialIcons[platform]}
+                      </li>
                     ))}
                   </ul>
                 </div>

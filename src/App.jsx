@@ -9,6 +9,7 @@ import Brands from "./Components/Brands/Brands";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import Notfound from "./Components/Notfound/Notfound";
+import AuthContextProvider from "./Context/AuthContext";
 
 function App() {
   let routs = createBrowserRouter([
@@ -27,7 +28,11 @@ function App() {
       ],
     },
   ]);
-  return <RouterProvider router={routs}></RouterProvider>;
+  return (
+    <AuthContextProvider>
+      <RouterProvider router={routs}></RouterProvider>;
+    </AuthContextProvider>
+  );
 }
 
 export default App;

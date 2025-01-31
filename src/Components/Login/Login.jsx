@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { authContext } from "../../Context/AuthContext";
 
 export default function Login() {
   let navigate = useNavigate();
   const [ApiError, setApiError] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
+  const { setuserToken } = useContext(authContext);
 
   function setErrorNull() {
     setApiError("");
@@ -23,6 +25,7 @@ export default function Login() {
         }
         setErrorNull();
         localStorage.setItem("userToken", res.data.token);
+        setuserToken(res.data.token);
         navigate("/");
       })
       .catch((res) => {
