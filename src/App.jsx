@@ -30,7 +30,7 @@ function App() {
   ]);
   return (
     <AuthContextProvider>
-      <RouterProvider router={routs}></RouterProvider>;
+      <RouterProvider router={routs}></RouterProvider>
     </AuthContextProvider>
   );
 }
