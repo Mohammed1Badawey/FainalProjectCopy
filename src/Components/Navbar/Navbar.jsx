@@ -54,10 +54,10 @@ export default function Navbar() {
   const socialLinks = ["facebook", "twitter", "linkedin", "tiktok", "youtube"];
 
   function hundelLogout() {
-    setIsMenuOpen(false);
     localStorage.removeItem("userToken");
     setuserToken(null);
     navigate("/login");
+    setIsMenuOpen(false);
   }
 
   return (
@@ -112,7 +112,7 @@ export default function Navbar() {
                     <li className="underline underline-offset-2">
                       <Link to="/login"> Login </Link>
                     </li>
-                      <span className="font-semibold">/</span>
+                    <span className="font-semibold">/</span>
                     <li className="underline underline-offset-2">
                       <Link to="/register"> Register </Link>
                     </li>
@@ -121,9 +121,6 @@ export default function Navbar() {
               </ul>
             </div>
 
-
-
-                
             <div className="lg:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -139,7 +136,7 @@ export default function Navbar() {
           <div>
             {isMenuOpen && (
               <div className="mobileNavbar bg-slate-400 lg:hidden">
-                <ul className="flex flex-col items-center space-y-3">
+                <ul className="flex flex-col items-start space-y-5 px-4">
                   {userToken &&
                     navLinks.map((link) => (
                       <li key={link.name}>
@@ -151,38 +148,37 @@ export default function Navbar() {
                         </NavLink>
                       </li>
                     ))}
-                </ul>
-
-                {userToken && (
-                  <li>
+                  <div className="border-t w-full py-2">
+                  {userToken && (
                     <span
-                      className="cursor-pointer"
+                      className="cursor-pointer font-normal hover:font-bold"
                       onClick={hundelLogout}
                       to=""
                     >
                       Logout
                     </span>
-                  </li>
-                )}
+                  )}
+                  </div>
+                </ul>
 
-                <ul className="bo flex justify-center gap-1 font-semibold">
-                  {!userToken &&
+                <ul className="flex flex-col px-4 space-y-5 justify-center gap-1 font-semibold">
+                  {!userToken && (
                     <>
                       <li className="underline underline-offset-2">
-                        <Link to ="/login" onClick={() => setIsMenuOpen(false)}>
+                        <Link to="/login" onClick={() => setIsMenuOpen(false)}>
                           Login
                         </Link>
                       </li>
-                        <span className="font-semibold">
-                          /
-                        </span>
                       <li className="underline underline-offset-2">
-                        <Link to ="/register" onClick={() => setIsMenuOpen(false)}>
+                        <Link
+                          to="/register"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
                           Register
                         </Link>
                       </li>
-                      </>
-                    }
+                    </>
+                  )}
                 </ul>
 
                 <div className="socialMobileNavbar mx-auto mt-2 min-h-18 bg-slate-500">
