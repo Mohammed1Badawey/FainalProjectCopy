@@ -5,6 +5,9 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import HumburgerBotton from "../../assets/NavBar/burger-menu.svg";
 import classNames from "classnames";
 import { authContext } from "./../../Context/AuthContext";
+import { MdLogout, MdOutlineLogin } from "react-icons/md";
+import { HiMiniUserPlus } from "react-icons/hi2";
+import { VscSignIn } from "react-icons/vsc";
 import {
   FaFacebook,
   FaTwitter,
@@ -25,15 +28,16 @@ export default function Navbar() {
     "text-gray-600",
     "border-gray-500",
     "hover:text-gray-800",
-    { "bg-slate-500": isMenuOpen },
+    "hover:bg-slate-400/80",
+    { "bg-slate-400": isMenuOpen },
   );
 
   const navLinks = [
     { name: "Home", path: "" },
-    { name: "Cart", path: "cart" },
     { name: "Products", path: "products" },
     { name: "Categories", path: "categories" },
     { name: "Brands", path: "brands" },
+    { name: "Cart", path: "cart" },
   ];
 
   const authLinks = [
@@ -63,7 +67,7 @@ export default function Navbar() {
   return (
     <>
       <div>
-        <nav className="mainNavbar fixed inset-x-0 top-0 z-[9999] min-h-18 border-gray-200 bg-slate-400">
+        <nav className="mainNavbar fixed inset-x-0 top-0 z-[9999] min-h-18 border-gray-100 bg-slate-300">
           <div className="container mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between p-4">
             {/* Logo */}
 
@@ -135,7 +139,7 @@ export default function Navbar() {
 
           <div>
             {isMenuOpen && (
-              <div className="mobileNavbar bg-slate-400 lg:hidden">
+              <div className="mobileNavbar bg-slate-300 lg:hidden">
                 <ul className="flex flex-col items-start space-y-5 px-4">
                   {userToken &&
                     navLinks.map((link) => (
@@ -148,40 +152,48 @@ export default function Navbar() {
                         </NavLink>
                       </li>
                     ))}
-                  <div className="border-t w-full py-2">
-                  {userToken && (
-                    <span
-                      className="cursor-pointer font-normal hover:font-bold"
-                      onClick={hundelLogout}
-                      to=""
-                    >
-                      Logout
-                    </span>
-                  )}
+                  <div className="w-full border-t py-2">
+                    {userToken && (
+                      <div
+                        className="group flex w-[120px] cursor-pointer items-center justify-center gap-2 rounded-full border-1 border-red-400 px-2 py-1.5 transition-all duration-300 hover:bg-red-400"
+                        onClick={hundelLogout}
+                        to=""
+                      >
+                        <span
+                          className="font-normal"
+                          onClick={hundelLogout}
+                          to=""
+                        >
+                          Logout
+                        </span>
+                        <VscSignIn className="" />
+                      </div>
+                    )}
                   </div>
                 </ul>
 
-                <ul className="flex flex-col px-4 space-y-5 justify-center gap-1 font-semibold">
+                <ul className="flex flex-col justify-center gap-3 px-4 font-semibold">
                   {!userToken && (
                     <>
-                      <li className="underline underline-offset-2">
-                        <Link to="/login" onClick={() => setIsMenuOpen(false)}>
-                          Login
-                        </Link>
+                      <li
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex w-[120px] cursor-pointer items-center justify-center gap-1 rounded-full border border-emerald-600 p-2 hover:bg-emerald-600"
+                      >
+                        <Link to="/login">Login</Link>
+                        <MdOutlineLogin />
                       </li>
-                      <li className="underline underline-offset-2">
-                        <Link
-                          to="/register"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          Register
-                        </Link>
+                      <li
+                        onClick={() => setIsMenuOpen(false)}
+                        className="mb-2 flex w-[120px] cursor-pointer items-center justify-center gap-1 rounded-full border border-emerald-600 p-2 transition-all duration-300 hover:bg-emerald-600"
+                      >
+                        <Link to="/register">Register</Link>
+                        <HiMiniUserPlus />
                       </li>
                     </>
                   )}
                 </ul>
 
-                <div className="socialMobileNavbar mx-auto mt-2 min-h-18 bg-slate-500">
+                <div className="socialMobileNavbar mx-auto min-h-18 bg-slate-400">
                   <ul className="flex min-h-18 items-center justify-center gap-3">
                     {socialLinks.map((platform) => (
                       <li key={platform} onClick={() => setIsMenuOpen(false)}>

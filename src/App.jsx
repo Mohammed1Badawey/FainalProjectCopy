@@ -10,6 +10,7 @@ import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import Notfound from "./Components/Notfound/Notfound";
 import AuthContextProvider from "./Context/AuthContext";
+import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   let routs = createBrowserRouter([
@@ -18,10 +19,38 @@ function App() {
       element: <Layout />,
       children: [
         { index: true, element: <Home /> },
-        { path: "cart", element: <Cart /> },
-        { path: "products", element: <Products /> },
-        { path: "categories", element: <Categories /> },
-        { path: "brands", element: <Brands /> },
+        {
+          path: "cart",
+          element: (
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "products",
+          element: (
+            <ProtectedRoute>
+              <Products />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "categories",
+          element: (
+            <ProtectedRoute>
+              <Categories />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "brands",
+          element: (
+            <ProtectedRoute>
+              <Brands />
+            </ProtectedRoute>
+          ),
+        },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "*", element: <Notfound /> },
