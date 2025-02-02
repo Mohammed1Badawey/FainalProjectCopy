@@ -11,6 +11,7 @@ import Register from "./Components/Register/Register";
 import Notfound from "./Components/Notfound/Notfound";
 import AuthContextProvider from "./Context/AuthContext";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import ProductDetails from "./Components/ProductDetails/ProductDetails";
 
 function App() {
   let routs = createBrowserRouter([
@@ -19,14 +20,6 @@ function App() {
       element: <Layout />,
       children: [
         { index: true, element: <Home /> },
-        {
-          path: "cart",
-          element: (
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute>
-          ),
-        },
         {
           path: "products",
           element: (
@@ -51,6 +44,15 @@ function App() {
             </ProtectedRoute>
           ),
         },
+        {
+          path: "cart",
+          element: (
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          ),
+        },
+        { path: "productdetails/:id", element: <ProductDetails /> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "*", element: <Notfound /> },

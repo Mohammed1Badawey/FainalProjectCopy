@@ -1,73 +1,77 @@
-  @import "tailwindcss";
+@import "tailwindcss";
 
-  @font-face {
-    font-family: EncodeSans-light;
-    font-style: light;
-    font-weight: 300;
-    font-display: swap;
-    src: url("../src/assets/Fonts/EncodeSans-Light.ttf") format("truetype");
-  }
+@font-face {
+  font-family: EncodeSans-light;
+  font-style: light;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../src/assets/Fonts/EncodeSans-Light.ttf") format("truetype");
+}
 
-  body {
-    font-family: EncodeSans-light;
-  }
+body {
+  font-family: EncodeSans-light;
+}
 
-  .loader {
-    position: relative;
-    width: 64px;
-    height: 84px;
-    
+.loader {
+  position: relative;
+  width: 64px;
+  height: 84px;
+}
+.loader::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: #cad5e2;
+  width: 64px;
+  height: 42px;
+  border-radius: 0 0 50px 50px;
+  animation: move 0.5s linear infinite alternate;
+}
+.loader::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  background: #0b774a;
+  width: 34px;
+  height: 34px;
+  transform: translateX(-50%) rotate(0deg);
+  animation: rotate 2s linear infinite;
+}
 
+@keyframes rotate {
+  100% {
+    transform: translateX(-50%) rotate(360deg);
   }
-  .loader::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    background: #CAD5E2;
-    width: 64px;
-    height: 42px;
-    border-radius: 0 0 50px 50px;
-    animation: move 0.5s linear infinite alternate;
+}
+@keyframes move {
+  0% {
+    transform: rotate(10deg);
   }
-  .loader::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0;
-    background: #0b774a;
-    width: 34px;
-    height: 34px;
-    transform: translateX(-50%) rotate(0deg);
-    animation: rotate 2s linear infinite;
+  100% {
+    transform: rotate(-10deg);
   }
-  
-  @keyframes rotate {
-    100% { transform: translateX(-50%) rotate(360deg)}
-  }
-  @keyframes move {
-    0% { transform: rotate(10deg)}
-    100% { transform: rotate(-10deg)}
-  }
+}
 
-  nav.mainNavbar ul li .active {
-    font-weight: bolder;
-  }
+nav.mainNavbar ul li .active {
+  font-weight: bolder;
+}
 
-  nav.mainNavbar ul li:hover :not(.active) {
-    font-weight: 600;
-    color: rgba(0, 0, 0, 0.6);
-  }
+nav.mainNavbar ul li:hover :not(.active) {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.6);
+}
 
+.btnProduct {
+  @apply mx-auto block w-3/4 min-w-36 rounded-2xl border-2 border-emerald-600 px-4 py-2 transition-all duration-500 hover:bg-emerald-600 hover:text-white;
+}
 
-  .btnProduct {
-    @apply mx-auto block min-w-36 w-3/4 rounded-2xl border border-emerald-600 px-4 py-2 transition-all duration-500 hover:bg-emerald-600 hover:text-white
-  }
+.btnCart {
+  @apply translate-y-full items-center py-2 opacity-0 transition-all duration-500 group-hover:-translate-y-0 group-hover:opacity-100;
+}
 
-  .btnCart {
-    @apply transition-all transform translate-y-full opacity-20 duration-1000 
-  }
+.productBorder {
+  @apply rounded-lg border-2 border-transparent  px-2 transition-all duration-500 group-hover:border-solid group-hover:scale-105 group-hover:border-emerald-600
+}
 
-
-        
-        
