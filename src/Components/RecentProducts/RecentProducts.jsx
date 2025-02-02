@@ -26,7 +26,7 @@ export default function RecentProducts() {
   return (
     <>
       {allProducts.length > 0 ? (
-        <div className="grid grid-cols-10 justify-items-center gap-x-4 gap-y-6 px-3 py-5">
+        <div className="grid grid-cols-10 justify-items-center gap-x-6 gap-y-6 px-3 py-5">
           {allProducts.map((product) => (
             <div key={product.id} className="group col-span-2">
               <div className="product productBorder">

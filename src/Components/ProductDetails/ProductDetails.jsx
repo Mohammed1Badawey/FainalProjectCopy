@@ -47,7 +47,7 @@ export default function ProductDetails() {
               </span>
             </div>
           </div>
-          <div className="flex justify-evenly py-8">
+          <div className="flex justify-evenly py-8 px-4">
             <button className="btnProduct">
               Add To Cart <TiShoppingCart className="inline" />
             </button>

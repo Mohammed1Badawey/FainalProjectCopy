@@ -130,5 +130,5 @@ nav.mainNavbar ul li:hover :not(.active) {
 }
 
 .productBorder {
-  @apply rounded-lg border-2 border-transparent px-2 transition-all duration-500 group-hover:scale-105 group-hover:border-solid group-hover:border-emerald-300 group-hover:shadow-lg group-hover:shadow-emerald-300;
+  @apply overflow-hidden rounded-lg border-2 border-transparent transition-all duration-500 group-hover:scale-105 group-hover:border-solid group-hover:border-emerald-300 group-hover:shadow-lg group-hover:shadow-emerald-300;
 }
