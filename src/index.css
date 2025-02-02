@@ -1,11 +1,67 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: EncodeSans-light;
-  font-style: light;
+  font-family: "EncodeSans";
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url("../src/assets/Fonts/EncodeSans-Thin.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "EncodeSans";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("../src/assets/Fonts/EncodeSans-ExtraLight.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "EncodeSans";
+  font-style: normal;
   font-weight: 300;
   font-display: swap;
   src: url("../src/assets/Fonts/EncodeSans-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "EncodeSans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../src/assets/Fonts/EncodeSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "EncodeSans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../src/assets/Fonts/EncodeSans-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "EncodeSans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../src/assets/Fonts/EncodeSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "EncodeSans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../src/assets/Fonts/EncodeSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "EncodeSans";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("../src/assets/Fonts/EncodeSans-ExtraBold.ttf") format("truetype");
 }
 
 body {
@@ -55,11 +111,13 @@ body {
 }
 
 nav.mainNavbar ul li .active {
-  font-weight: bolder;
+  font-family: "EncodeSans";
+  font-weight: 600;
 }
 
 nav.mainNavbar ul li:hover :not(.active) {
-  font-weight: 600;
+  font-family: "EncodeSans";
+  font-weight: 400;
   color: rgba(0, 0, 0, 0.6);
 }
 
@@ -72,6 +130,5 @@ nav.mainNavbar ul li:hover :not(.active) {
 }
 
 .productBorder {
-  @apply rounded-lg border-2 border-transparent  px-2 transition-all duration-500 group-hover:border-solid group-hover:scale-105 group-hover:border-emerald-600
+  @apply rounded-lg border-2 border-transparent px-2 transition-all duration-500 group-hover:scale-105 group-hover:border-solid group-hover:border-emerald-300 group-hover:shadow-lg group-hover:shadow-emerald-300;
 }
-

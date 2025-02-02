@@ -31,9 +31,9 @@ export default function RecentProducts() {
             <div key={product.id} className="group col-span-2">
               <div className="product productBorder">
                 <Link to={`productdetails/${product.id}`}>
-                <figure className="overflow-hidden">
-                  <img className="w-full" src={product.imageCover} alt="" />
-                </figure>
+                  <figure className="overflow-hidden">
+                    <img className="w-full" src={product.imageCover} alt="" />
+                  </figure>
                   <div className="p-2">
                     <h3 className="text-emerald-600">
                       {product.category.name}
@@ -51,7 +51,7 @@ export default function RecentProducts() {
 
                 <div>
                   <div className="btnCart flex justify-evenly">
-                    <button className="btnProduct">
+                    <button className="btnProduct my-2">
                       Add To Cart <TiShoppingCart className="inline" />
                     </button>
                     <FaRegHeart className="" />

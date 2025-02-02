@@ -67,7 +67,7 @@ export default function Navbar() {
   return (
     <>
       <div>
-        <nav className="mainNavbar fixed inset-x-0 top-0 z-[9999] min-h-18 border-gray-100 bg-slate-300">
+        <nav className="mainNavbar fixed inset-x-0 top-0 z-[9999] min-h-18 border-gray-100 bg-slate-300 font-[EncodeSans]">
           <div className="container mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between p-4">
             {/* Logo */}
 

@@ -8,7 +8,7 @@ import googlePlay from "../../assets/Payment_Methods/google-play-badge.svg";
 
 export default function Footer() {
   return (
-    <footer className="mx-auto min-w-full border-t border-gray-200/60 bg-gray-100 px-6 pt-5 pb-12">
+    <footer className="mx-auto min-w-full border-t border-gray-200/60 bg-gray-100 px-6 pt-5 pb-12 font-[EncodeSans]">
       <div className="">
         <div className="grid grid-cols-12 border-b-2 border-gray-300/90 px-8 py-4">
           <div className="col-span-12">
