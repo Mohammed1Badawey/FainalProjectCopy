@@ -52,7 +52,7 @@ function App() {
             </ProtectedRoute>
           ),
         },
-        { path: "productdetails/:id", element: <ProductDetails /> },
+        { path: "productdetails/:id/:category", element: <ProductDetails /> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "*", element: <Notfound /> },

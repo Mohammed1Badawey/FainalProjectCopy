@@ -16,7 +16,7 @@ export default function RecentProducts() {
         console.log(res.data.data);
         setAllProducts(res.data.data);
       })
-      .catch(() => {});
+      .catch((err) => {console.log(err)});
   }
 
   useEffect(() => {
@@ -26,15 +26,15 @@ export default function RecentProducts() {
   return (
     <>
       {allProducts.length > 0 ? (
-        <div className="grid grid-cols-10 justify-items-center gap-x-6 gap-y-6 px-3 py-5">
+        <div className="grid grid-cols-12 justify-items-center gap-x-6 gap-y-6 px-3 py-5 mt-6">
           {allProducts.map((product) => (
-            <div key={product.id} className="group col-span-2">
-              <div className="product productBorder">
-                <Link to={`productdetails/${product.id}`}>
-                  <figure className="overflow-hidden">
-                    <img className="w-full" src={product.imageCover} alt="" />
+            <div key={product.id} className="group col-span-3 px-5">
+              <div className="product productBorder ">
+                <Link to={`productdetails/${product.id}/${product.category.name}`}>
+                  <figure className="overflow-hidden ">
+                    <img className="w-full object-cover" src={product.imageCover} alt="" />
                   </figure>
-                  <div className="p-2">
+                  <div className="p-5">
                     <h3 className="text-emerald-600">
                       {product.category.name}
                     </h3>
@@ -50,11 +50,11 @@ export default function RecentProducts() {
                 </Link>
 
                 <div>
-                  <div className="btnCart flex justify-evenly">
+                  <div className="btnCart flex justify-center pe-3 items-baseline">
                     <button className="btnProduct my-2">
                       Add To Cart <TiShoppingCart className="inline" />
                     </button>
-                    <FaRegHeart className="" />
+                    <i class="fa-regular fa-heart fa-2xl"></i>
                   </div>
                 </div>
               </div>
