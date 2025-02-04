@@ -45,7 +45,7 @@ export default function Products() {
           <div key={product.id} className="group col-span-3 px-5">
             <div className="product productBorder">
               <Link
-                to={`productdetails/${product.id}/${product.category.name}`}
+                to={`/productdetails/${product.id}/${product.category.name}`}
               >
                 <figure className="overflow-hidden">
                   <img

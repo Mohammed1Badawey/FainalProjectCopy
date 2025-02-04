@@ -55,8 +55,15 @@ let routs = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      { path: "productdetails/:id/:category",
-        element: <ProtectedRoute> <ProductDetails /> </ProtectedRoute>  },
+      {
+        path: "/productdetails/:id/:category",
+        element: (
+          <ProtectedRoute>
+            {" "}
+            <ProductDetails />{" "}
+          </ProtectedRoute>
+        ),
+      },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
       { path: "*", element: <Notfound /> },

@@ -38,6 +38,7 @@ export default function RecentProducts() {
       </div>
     );
   }
+  
 
   return (
     <>
@@ -80,7 +81,6 @@ export default function RecentProducts() {
           </div>
         ))}
       </div>
-      {console.log(data) }
     </>
   );
 }
