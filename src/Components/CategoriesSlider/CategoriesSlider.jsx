@@ -1,10 +1,24 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
+import { useQuery } from "@tanstack/react-query";
 
 export default function CategoriesSlider() {
-  const [allCategories, setAllCategories] = useState([]);
+  function getCategories() {
+    return axios.get(`https://ecommerce.routemisr.com/api/v1/categories`);
+  }
 
+  let { data, isError, isLoading, isFetching, error } = useQuery({
+    queryKey: ["allCategories"],
+    queryFn: getCategories,
+    staleTime: 30000,
+    retry: 5,
+    retryDelay: 3000,
+    refetchInterval: 20000,
+    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: true,
+    gcTime: 10000,
+  });
   var settings = {
     dots: true,
     infinite: true,
@@ -34,29 +48,14 @@ export default function CategoriesSlider() {
     accessibility: true,
     autoplay: true,
   };
-  function getCategories() {
-    axios
-      .get(`https://ecommerce.routemisr.com/api/v1/categories`)
-      .then((res) => {
-        console.log(res.data.data);
-        setAllCategories(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  useEffect(() => {
-    getCategories();
-  }, []);
 
   return (
     <>
-    <h2 className="font-[400] text-3xl my-2"> Shop Popular Categories </h2>
+      <h2 className="my-2 text-3xl font-[400]"> Shop Popular Categories </h2>
       <Slider {...settings}>
-        {allCategories.map((category) => {
+        {data?.data?.data.map((category) => {
           return (
-            <div className="mt-4 mb-10">
+            <div key={category.name} className="mt-4 mb-10">
               <figure className="">
                 <img
                   src={category.image}

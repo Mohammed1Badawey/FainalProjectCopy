@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
@@ -6,7 +7,6 @@ import { Link, useParams } from "react-router-dom";
 import Slider from "react-slick";
 
 export default function ProductDetails() {
-  const [product, setProduct] = useState(null);
   const [relatedProduct, setRelatedProduct] = useState([]);
   let { id, category } = useParams();
 
@@ -22,61 +22,76 @@ export default function ProductDetails() {
   };
 
   function getProduct(id) {
-    axios
-      .get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
-      .then((res) => {
-        console.log(res);
-
-        setProduct(res.data.data);
-      })
-      .catch((err) => {
-        console.log(res);
-      });
-  }
+    return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
+    }
 
   function getAllProducts() {
-    axios
-      .get(`https://ecommerce.routemisr.com/api/v1/products`)
-      .then((res) => {
-        let Related = res.data.data.filter(
-          (product) => product.category.name == category,
-        );
-        setRelatedProduct(Related);
-      })
-      .catch((res) => {
-        console.log(res);
-      });
-  }
+      return axios.get(`https://ecommerce.routemisr.com/api/v1/products`)
+      }
+
+    let {data: productData , isLoading: productLoading  , isError: productIsError , error: productError} = useQuery({
+      queryKey : ["product" , id],
+      queryFn: () => getProduct(id),
+      staleTime: 30000,
+      retry: 5,
+      retryDelay: 3000,
+      refetchInterval: 20000,
+      refetchIntervalInBackground: true,
+      refetchOnWindowFocus: true,
+      gcTime: 20000,
+      select: (productData) => productData.data.data,
+    });
+
+
+    
+    
+    let {data: AllProductsData , isLoading: AllProductsLoading  , isError: AllProductsIsError , error: AllProductsError} = useQuery({
+      queryKey : ["allProducts"],
+      queryFn: () => getAllProducts(),
+      staleTime: 30000,
+      retry: 5,
+      retryDelay: 3000,
+      refetchInterval: 20000,
+      refetchIntervalInBackground: true,
+      refetchOnWindowFocus: true,
+      gcTime: 20000,
+    });
 
   useEffect(() => {
-    getProduct(id);
-    getAllProducts();
-  }, [id, category]);
+    let Related = AllProductsData?.data?.data.filter(
+      (product) => product.category.name == category,
+    );
+    setRelatedProduct(Related);    
+  }, [AllProductsData]);
+
   return (
     <>
       <div className="grid grid-cols-12 items-center gap-5">
+        
+        
         <section className="col-span-3 col-start-2">
           <div>
             <figure>
               <Slider {...settings}>
-                {product?.images.map((src) => (
-                  <img src={src} className="w-full" alt="" />
+                {productData?.images.map((src) => (
+                  <img key={productData?.id} src={src} className="w-full" alt="" />
                 ))}
               </Slider>
             </figure>
           </div>
         </section>
+
         <section className="col-span-6 col-start-5">
           <div className="flex flex-col gap-3">
-            <h3 className="text-2xl font-[600] text-black">{product?.title}</h3>
-            <p className="text-gray-600">{product?.description}</p>
+            <h3 className="text-2xl font-[600] text-black">{productData?.title}</h3>
+            <p className="text-gray-600">{productData?.description}</p>
             <h6 className="font-[400] text-emerald-600">
-              {product?.category.name}
+              {productData?.category.name}
             </h6>
             <div className="flex items-center justify-between">
-              <span className="font-[500]">{product?.price} EGP</span>
+              <span className="font-[500]">{productData?.price} EGP</span>
               <span className="flex items-center gap-0.5">
-                {product?.ratingsAverage} <FaStar className="text-yellow-400" />
+                {productData?.ratingsAverage} <FaStar className="text-yellow-400" />
               </span>
             </div>
           </div>
@@ -86,10 +101,10 @@ export default function ProductDetails() {
             </button>
           </div>
         </section>
+
         <section className="col-span-10 col-start-2">
-          {relatedProduct.length > 0 ? (
             <div className="grid grid-cols-12 justify-items-center gap-x-6 gap-y-6 px-3 py-5">
-              {relatedProduct.map((product) => (
+              {relatedProduct?.map((product) => (
                 <div key={product.id} className="group col-span-3 px-5">
                   <div className="product productBorder px-1">
                     <Link
@@ -131,12 +146,8 @@ export default function ProductDetails() {
                 </div>
               ))}
             </div>
-          ) : (
-            <div class="flex items-center justify-center">
-              <span class="loader"></span>
-            </div>
-          )}
         </section>
+
       </div>
     </>
   );

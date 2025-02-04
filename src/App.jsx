@@ -12,56 +12,65 @@ import Notfound from "./Components/Notfound/Notfound";
 import AuthContextProvider from "./Context/AuthContext";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import ProductDetails from "./Components/ProductDetails/ProductDetails";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devtools";
+
+let query = new QueryClient();
+
+let routs = createBrowserRouter([
+  {
+    path: "",
+    element: <Layout />,
+    children: [
+      { index: true, element: <Home /> },
+      {
+        path: "products",
+        element: (
+          <ProtectedRoute>
+            <Products />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "categories",
+        element: (
+          <ProtectedRoute>
+            <Categories />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "brands",
+        element: (
+          <ProtectedRoute>
+            <Brands />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "cart",
+        element: (
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        ),
+      },
+      { path: "productdetails/:id/:category",
+        element: <ProtectedRoute> <ProductDetails /> </ProtectedRoute>  },
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+      { path: "*", element: <Notfound /> },
+    ],
+  },
+]);
 
 function App() {
-  let routs = createBrowserRouter([
-    {
-      path: "",
-      element: <Layout />,
-      children: [
-        { index: true, element: <Home /> },
-        {
-          path: "products",
-          element: (
-            <ProtectedRoute>
-              <Products />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "categories",
-          element: (
-            <ProtectedRoute>
-              <Categories />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "brands",
-          element: (
-            <ProtectedRoute>
-              <Brands />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "cart",
-          element: (
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute>
-          ),
-        },
-        { path: "productdetails/:id/:category", element: <ProductDetails /> },
-        { path: "login", element: <Login /> },
-        { path: "register", element: <Register /> },
-        { path: "*", element: <Notfound /> },
-      ],
-    },
-  ]);
   return (
     <AuthContextProvider>
-      <RouterProvider router={routs}></RouterProvider>
+      <QueryClientProvider client={query}>
+        <RouterProvider router={routs}></RouterProvider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </AuthContextProvider>
   );
 }
