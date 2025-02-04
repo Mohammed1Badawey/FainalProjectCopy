@@ -1,27 +1,8 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { FaStar } from "react-icons/fa";
-import { TiShoppingCart } from "react-icons/ti";
-import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import React from "react";
+import useBrands from "../../Hooks/useBrands";
 
 export default function Brands() {
-  function getBrands() {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/brands`);
-  }
-
-  let { data, isError, isLoading, isFetching, error } = useQuery({
-    queryKey: ["brands"],
-    queryFn: getBrands,
-    staleTime: Infinity,
-    retry: 5,
-    retryDelay: 3000,
-    refetchInterval: 20000,
-    refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
-    gcTime: 10000,
-    select: (data) => data.data.data,
-  });
+  let { data, isError, isLoading, error } = useBrands();
 
   if (isError) {
     return (

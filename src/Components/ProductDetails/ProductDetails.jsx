@@ -1,13 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaStar } from "react-icons/fa6";
 import { TiShoppingCart } from "react-icons/ti";
 import { Link, useParams } from "react-router-dom";
 import Slider from "react-slick";
+import useSpecificProduct from "../../Hooks/useSpecificProduct";
+import useProducts from "../../Hooks/UseProducts";
+
 
 export default function ProductDetails() {
-  const [relatedProduct, setRelatedProduct] = useState([]);
   let { id, category } = useParams();
 
   var settings = {
@@ -21,31 +21,12 @@ export default function ProductDetails() {
     arrows: false,
   };
 
-  function getProduct(id) {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
-  }
-
-  function getAllProducts() {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/products`);
-  }
-
   let {
     data: productData,
     isLoading: productLoading,
     isError: productIsError,
     error: productError,
-  } = useQuery({
-    queryKey: ["product", id],
-    queryFn: () => getProduct(id),
-    staleTime: 30000,
-    retry: 5,
-    retryDelay: 3000,
-    refetchInterval: 20000,
-    refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
-    gcTime: 20000,
-    select: (productData) => productData.data.data,
-  });
+  } = useSpecificProduct();
 
 
   let {
@@ -53,23 +34,30 @@ export default function ProductDetails() {
     isLoading: AllProductsLoading,
     isError: AllProductsIsError,
     error: AllProductsError,
-  } = useQuery({
-    queryKey: ["allProducts"],
-    queryFn: () => getAllProducts(),
-    staleTime: 30000,
-    retry: 5,
-    retryDelay: 3000,
-    refetchInterval: 20000,
-    refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
-    gcTime: 20000,
-    select: (AllProductsData) => {
-      return AllProductsData?.data?.data.filter(
-        (product) => product.category.name === category &&  
-        product.id !== productData.id
-      );
-    }
-  });
+  } = useProducts();
+
+  const filteredProducts = AllProductsData?.filter(
+    (product) =>
+      product.category.name === category && product.id !== id,
+  );
+
+  // useQuery(
+  //   {
+  //   queryKey: ["allProducts"],
+  //   queryFn: () => getAllProducts(),
+  //   staleTime: 30000,
+  //   retry: 5,
+  //   retryDelay: 3000,
+  //   refetchIntervalInBackground: true,
+  //   refetchOnWindowFocus: true,
+  //   gcTime: 20000,
+  //   select: (AllProductsData) => {
+  //     return AllProductsData?.data?.data.filter(
+  //       (product) =>
+  //         product.category.name === category && product.id !== productData.id,
+  //     );
+  //   },
+  // });
 
   if (productIsError) {
     return (
@@ -102,8 +90,6 @@ export default function ProductDetails() {
       </div>
     );
   }
-
-
 
   return (
     <>
@@ -160,7 +146,7 @@ export default function ProductDetails() {
 
         <section className="col-span-10 col-start-2">
           <div className="grid grid-cols-12 justify-items-center gap-x-6 gap-y-6 px-3 py-5">
-            {AllProductsData?.map((product) => (
+            {filteredProducts?.map((product) => (
               <div key={product.id} className="group col-span-3 px-5">
                 <div className="product productBorder px-1">
                   <Link

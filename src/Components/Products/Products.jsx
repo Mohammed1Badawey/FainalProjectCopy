@@ -1,26 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaStar } from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import useProducts from "../../Hooks/UseProducts";
 
 export default function Products() {
-  function getAllProducts() {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/products`);
-  }
-
-  let { data, isError, isLoading, isFetching, error } = useQuery({
-    queryKey: ["allProducts"],
-    queryFn: getAllProducts,
-    staleTime: 30000,
-    retry: 5,
-    retryDelay: 3000,
-    refetchInterval: 20000,
-    refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
-    gcTime: 10000,
-  });
+  let { data, isLoading, isError, error } = useProducts();
 
   if (isError) {
     return (
@@ -41,7 +26,7 @@ export default function Products() {
   return (
     <>
       <div className="mt-18 grid grid-cols-12 justify-items-center gap-x-4 gap-y-12">
-        {data?.data?.data.map((product) => (
+        {data.map((product) => (
           <div key={product.id} className="group col-span-3 px-5">
             <div className="product productBorder">
               <Link

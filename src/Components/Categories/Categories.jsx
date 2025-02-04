@@ -1,24 +1,25 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
-import { useQuery } from "@tanstack/react-query";
+import React from "react";
+import useCategories from "../../Hooks/useCategories";
 
 export default function Categories() {
-  function getCategories() {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/categories`);
+
+  let { data, isError, isLoading, error } = useCategories();
+
+  if (isError) {
+    return (
+      <h3 className="my-12 text-center text-4xl font-[600] text-red-600">
+        {error.message}
+      </h3>
+    );
   }
 
-  let { data, isError, isLoading, isFetching, error } = useQuery({
-    queryKey: ["allCategories"],
-    queryFn: getCategories,
-    staleTime: 30000,
-    retry: 5,
-    retryDelay: 3000,
-    refetchInterval: 20000,
-    refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
-    gcTime: 10000,
-  });
+  if (isLoading) {
+    return (
+      <div className="mt-18 flex items-center justify-center">
+        <span className="loader"></span>
+      </div>
+    );
+  }
 
   return (
     <>
