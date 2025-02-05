@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaStar } from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import useAllProducts from "../../Hooks/UseProducts";
+import { useAddToCartFn } from "../../Hooks/useAddToCartFn";
 
 export default function RecentProducts() {
+  let { AddToCart } = useAddToCartFn();
   let { data, isLoading, isError, error } = useAllProducts();
 
   if (isError) {
@@ -54,10 +56,13 @@ export default function RecentProducts() {
 
               <div>
                 <div className="flex items-center justify-center p-3 pe-3">
-                  <button className="btn-add-product my-2">
+                  <button
+                    onClick={() => AddToCart(product.id)}
+                    className="btn-add-product my-2"
+                  >
                     Add To Cart <TiShoppingCart className="inline" />
                   </button>
-                  <i className="fa-regular cursor-pointer fa-heart fa-2xl"></i>
+                  <i className="fa-regular fa-heart fa-2xl cursor-pointer"></i>
                 </div>
               </div>
             </div>

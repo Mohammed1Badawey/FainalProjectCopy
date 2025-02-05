@@ -14,6 +14,8 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import ProductDetails from "./Components/ProductDetails/ProductDetails";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devtools";
+import CartContextProvider from "./Context/CartContext";
+import { Toaster } from 'react-hot-toast';
 
 let query = new QueryClient();
 
@@ -75,7 +77,10 @@ function App() {
   return (
     <AuthContextProvider>
       <QueryClientProvider client={query}>
-        <RouterProvider router={routs}></RouterProvider>
+        <CartContextProvider>
+          <RouterProvider router={routs}></RouterProvider>
+          <Toaster />
+        </CartContextProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>
     </AuthContextProvider>
