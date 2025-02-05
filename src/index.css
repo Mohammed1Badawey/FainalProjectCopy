@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+
+/* !WebSite Font */
 @font-face {
   font-family: "EncodeSans";
   font-style: normal;
@@ -64,10 +66,7 @@
   src: url("../src/assets/Fonts/EncodeSans-ExtraBold.ttf") format("truetype");
 }
 
-body {
-  font-family: EncodeSans-light;
-}
-
+/* !Loading */
 .loader {
   position: relative;
   width: 64px;
@@ -109,16 +108,14 @@ body {
     transform: rotate(-10deg);
   }
 }
-
-nav.mainNavbar ul li .active {
+/*  ?!======== Main Css ==========  */
+body {
   font-family: "EncodeSans";
-  font-weight: 600;
 }
 
-nav.mainNavbar ul li:hover :not(.active) {
+.active {
   font-family: "EncodeSans";
-  font-weight: 400;
-  color: rgba(0, 0, 0, 0.6);
+  font-weight: 700;
 }
 
 @layer utilities {
