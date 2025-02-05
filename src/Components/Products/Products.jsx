@@ -57,7 +57,7 @@ export default function Products() {
                   <button className="btn-add-product my-2">
                     Add To Cart <TiShoppingCart className="inline" />
                   </button>
-                  <i className="fa-regular cursor-pointer fa-heart fa-2xl"></i>
+                  <i className="fa-regular fa-heart fa-2xl cursor-pointer"></i>
                 </div>
               </div>
             </div>
