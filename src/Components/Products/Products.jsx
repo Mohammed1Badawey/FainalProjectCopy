@@ -28,7 +28,7 @@ export default function Products() {
       <div className="mt-18 grid grid-cols-12 justify-items-center gap-x-4 gap-y-12">
         {data.map((product) => (
           <div key={product.id} className="group col-span-3 px-5">
-            <div className="product productBorder">
+            <div className="productBorder my-main-hover">
               <Link
                 to={`/productdetails/${product.id}/${product.category.name}`}
               >
@@ -53,8 +53,8 @@ export default function Products() {
               </Link>
 
               <div>
-                <div className="btnCart flex items-baseline justify-center pe-3">
-                  <button className="btnProduct my-2">
+                <div className="flex items-baseline justify-center p-3 pe-3">
+                  <button className="btn-add-product my-2">
                     Add To Cart <TiShoppingCart className="inline" />
                   </button>
                   <i className="fa-regular fa-heart fa-2xl"></i>

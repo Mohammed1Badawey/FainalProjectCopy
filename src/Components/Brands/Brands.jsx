@@ -25,7 +25,7 @@ export default function Brands() {
       <div className="mt-18 grid grid-cols-12 justify-items-center gap-x-4 gap-y-12">
         {data?.map((brand) => (
           <div key={brand._id} className="group col-span-3 px-5">
-            <div className="product productBorder">
+            <div className="productBorder my-main-hover">
               <figure className="overflow-hidden">
                 <img className="w-full object-cover" src={brand.image} alt="" />
               </figure>

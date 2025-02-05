@@ -6,7 +6,6 @@ import Slider from "react-slick";
 import useSpecificProduct from "../../Hooks/useSpecificProduct";
 import useProducts from "../../Hooks/UseProducts";
 
-
 export default function ProductDetails() {
   let { id, category } = useParams();
 
@@ -28,7 +27,6 @@ export default function ProductDetails() {
     error: productError,
   } = useSpecificProduct();
 
-
   let {
     data: AllProductsData,
     isLoading: AllProductsLoading,
@@ -37,8 +35,7 @@ export default function ProductDetails() {
   } = useProducts();
 
   const filteredProducts = AllProductsData?.filter(
-    (product) =>
-      product.category.name === category && product.id !== id,
+    (product) => product.category.name === category && product.id !== id,
   );
 
   // useQuery(
@@ -138,7 +135,7 @@ export default function ProductDetails() {
             </div>
           </div>
           <div className="flex justify-evenly px-4 py-8">
-            <button className="btnProduct">
+            <button className="btn-add-product">
               Add To Cart <TiShoppingCart className="inline" />
             </button>
           </div>
@@ -148,7 +145,7 @@ export default function ProductDetails() {
           <div className="grid grid-cols-12 justify-items-center gap-x-6 gap-y-6 px-3 py-5">
             {filteredProducts?.map((product) => (
               <div key={product.id} className="group col-span-3 px-5">
-                <div className="product productBorder px-1">
+                <div className="productBorder my-main-hover px-1">
                   <Link
                     to={`/productdetails/${product.id}/${product.category.name}`}
                   >
@@ -171,8 +168,8 @@ export default function ProductDetails() {
                   </Link>
 
                   <div>
-                    <div className="btnCart flex justify-center pe-3">
-                      <button className="btnProduct my-2">
+                    <div className="flex justify-center p-3 pe-3">
+                      <button className="btn-add-product my-2">
                         Add To Cart <TiShoppingCart className="inline" />
                       </button>
                       <i className="fa-regular fa-heart fa-2xl"></i>
