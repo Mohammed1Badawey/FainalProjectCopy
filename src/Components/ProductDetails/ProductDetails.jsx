@@ -4,7 +4,7 @@ import { TiShoppingCart } from "react-icons/ti";
 import { Link, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import useSpecificProduct from "../../Hooks/useSpecificProduct";
-import useProducts from "../../Hooks/UseProducts";
+import useAllProducts from "../../Hooks/UseProducts";
 
 export default function ProductDetails() {
   let { id, category } = useParams();
@@ -32,29 +32,11 @@ export default function ProductDetails() {
     isLoading: AllProductsLoading,
     isError: AllProductsIsError,
     error: AllProductsError,
-  } = useProducts();
+  } = useAllProducts();
 
   const filteredProducts = AllProductsData?.filter(
     (product) => product.category.name === category && product.id !== id,
   );
-
-  // useQuery(
-  //   {
-  //   queryKey: ["allProducts"],
-  //   queryFn: () => getAllProducts(),
-  //   staleTime: 30000,
-  //   retry: 5,
-  //   retryDelay: 3000,
-  //   refetchIntervalInBackground: true,
-  //   refetchOnWindowFocus: true,
-  //   gcTime: 20000,
-  //   select: (AllProductsData) => {
-  //     return AllProductsData?.data?.data.filter(
-  //       (product) =>
-  //         product.category.name === category && product.id !== productData.id,
-  //     );
-  //   },
-  // });
 
   if (productIsError) {
     return (
@@ -168,11 +150,11 @@ export default function ProductDetails() {
                   </Link>
 
                   <div>
-                    <div className="flex justify-center p-3 pe-3">
+                    <div className="flex justify-center items-center p-3 pe-3">
                       <button className="btn-add-product my-2">
                         Add To Cart <TiShoppingCart className="inline" />
                       </button>
-                      <i className="fa-regular fa-heart fa-2xl"></i>
+                      <i className="fa-regular cursor-pointer fa-heart fa-2xl"></i>
                     </div>
                   </div>
                 </div>
