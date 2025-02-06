@@ -8,6 +8,7 @@ import { authContext } from "./../../Context/AuthContext";
 import { MdLogout, MdOutlineLogin } from "react-icons/md";
 import { HiMiniUserPlus } from "react-icons/hi2";
 import { VscSignIn } from "react-icons/vsc";
+import { CartContext } from "../../Context/CartContext";
 import {
   FaFacebook,
   FaTwitter,
@@ -19,6 +20,7 @@ import {
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { userToken, setuserToken } = useContext(authContext);
+  const { numCart, setNumCart } = useContext(CartContext);
   const navigate = useNavigate();
 
   const menuClass = classNames(
@@ -83,11 +85,28 @@ export default function Navbar() {
 
               {userToken && (
                 <ul className="hidden gap-3 text-slate-800 lg:flex">
-                  {navLinks.map((link) => (
-                    <li key={link.name}>
-                      <NavLink to={link.path}>{link.name}</NavLink>
-                    </li>
-                  ))}
+                  <li>
+                    <NavLink to="/"> Home </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/products"> Products </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/categories"> Categories </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/brands"> Brands </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/cart" className="relative">
+                      {" "}
+                      Cart
+                      <div className="absolute -top-4 -right-4 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center text-white">
+                      {numCart}
+                      </div>
+                    
+                    </NavLink>
+                  </li>
                 </ul>
               )}
             </div>

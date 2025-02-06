@@ -3,8 +3,11 @@ import { FaStar } from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import useAllProducts from "../../Hooks/UseProducts";
+import ProductButtons from "../ProductButtons/ProductButtons";
+import { useAddToCartFn } from "../../Hooks/useAddToCartFn";
 
 export default function Products() {
+    let { AddToCart } = useAddToCartFn();
   let { data, isLoading, isError, error } = useAllProducts();
 
   if (isError) {
@@ -52,14 +55,9 @@ export default function Products() {
                 </div>
               </Link>
 
-              <div>
-                <div className="flex items-center justify-center p-3 pe-3">
-                  <button className="btn-add-product my-2">
-                    Add To Cart <TiShoppingCart className="inline" />
-                  </button>
-                  <i className="fa-regular fa-heart fa-2xl cursor-pointer"></i>
-                </div>
-              </div>
+              <ProductButtons productId={product.id} onAddToCart={AddToCart} />
+
+
             </div>
           </div>
         ))}

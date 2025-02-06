@@ -5,8 +5,11 @@ import { Link, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import useSpecificProduct from "../../Hooks/useSpecificProduct";
 import useAllProducts from "../../Hooks/UseProducts";
+import ProductButtons from "../ProductButtons/ProductButtons";
+import { useAddToCartFn } from "../../Hooks/useAddToCartFn";
 
 export default function ProductDetails() {
+  let { AddToCart } = useAddToCartFn();
   let { id, category } = useParams();
 
   var settings = {
@@ -149,14 +152,9 @@ export default function ProductDetails() {
                     </div>
                   </Link>
 
-                  <div>
-                    <div className="flex justify-center items-center p-3 pe-3">
-                      <button className="btn-add-product my-2">
-                        Add To Cart <TiShoppingCart className="inline" />
-                      </button>
-                      <i className="fa-regular cursor-pointer fa-heart fa-2xl"></i>
-                    </div>
-                  </div>
+                  <ProductButtons productId={product.id} onAddToCart={AddToCart} />
+
+
                 </div>
               </div>
             ))}
