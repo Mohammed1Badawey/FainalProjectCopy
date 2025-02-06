@@ -21,8 +21,8 @@ export default function RecentProducts() {
         position: "top-center",
       });
       setLoading(false);
-      setNumCart(numCart+1)
-    } else {
+    }
+     else {
       toast.error(response.data.message);
       setLoading(false);
     }

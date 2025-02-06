@@ -48,7 +48,6 @@ export default function Cart() {
     if (response.data.status == "success") {
       setCartDetails(response.data.data);
       toast.success("Product Removed Successfully");
-      setNumCart(numCart - 1)
     } else {
       toast.error("Something wronge");
     }

@@ -17,7 +17,10 @@ export default function CartContextProvider({ children }) {
         { productId: productId },
         { headers },
       )
-      .then((res) => res)
+      .then((res) => {
+         setNumCart(res.data.numOfCartItems)
+        return res;
+      })
       .catch((err) => err);
   }
 
@@ -38,7 +41,10 @@ export default function CartContextProvider({ children }) {
         { count: newCount },
         { headers },
       )
-      .then((res) => res)
+      .then((res) => {
+        setNumCart(res.data.numOfCartItems);
+        return res;
+      })
       .catch((err) => err);
   }
 
@@ -47,7 +53,10 @@ export default function CartContextProvider({ children }) {
       .delete(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
         headers,
       })
-      .then((res) => res)
+      .then((res) => {
+        setNumCart(res.data.numOfCartItems);
+        return res;
+      })
       .catch((err) => err);
   }
 

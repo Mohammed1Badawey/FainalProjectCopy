@@ -101,10 +101,11 @@ export default function Navbar() {
                     <NavLink to="/cart" className="relative">
                       {" "}
                       Cart
-                      <div className="absolute -top-4 -right-4 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center text-white">
-                      {numCart}
-                      </div>
-                    
+                      {numCart > 0 && (
+                        <div className="absolute -top-4 -right-4 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
+                          {numCart}
+                        </div>
+                      )}
                     </NavLink>
                   </li>
                 </ul>
