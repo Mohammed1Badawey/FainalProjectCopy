@@ -33,7 +33,7 @@ export default function Login() {
           console.log(forgettnEmail);
           setTimeout(() => {
             navigate("/verifycode");
-          }, 2000);
+          }, 3000);
         }
       })
       .catch((err) => {
@@ -93,7 +93,7 @@ export default function Login() {
                   {ApiSuccess}
                 </div>
                 <p className="text-center font-[500]">
-                  You will be automatically transferred after 2 seconds
+                  You will be automatically transferred after 3 seconds
                 </p>
               </>
             )

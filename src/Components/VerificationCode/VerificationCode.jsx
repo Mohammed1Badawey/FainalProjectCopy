@@ -29,20 +29,18 @@ export default function Login() {
           setApiSuccess(res.data.status);
           setTimeout(() => {
             navigate("/resetpassword");
-          }, 2000);
+          }, 3000);
         }
       })
       .catch((err) => {
         console.log(err);
         setApiError(err.response.data.message);
         setIsLoading(false);
-        
       });
   }
 
   let validationSchema = yup.object().shape({
-    resetCode: yup.number()
-    .required("resetCode is required"),
+    resetCode: yup.number().required("resetCode is required"),
   });
 
   let formik = useFormik({
@@ -88,7 +86,7 @@ export default function Login() {
                   {ApiSuccess}
                 </div>
                 <p className="text-center font-[500]">
-                  You will be automatically transferred after 2 seconds
+                  You will be automatically transferred after 3 seconds
                 </p>
               </>
             )
@@ -105,11 +103,7 @@ export default function Login() {
           type="submit"
           className="m-auto mx-auto my-2 block w-full rounded-lg bg-emerald-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-emerald-600 focus:ring-4 focus:ring-emerald-300 focus:outline-none sm:w-sm"
         >
-          {IsLoading ? (
-            <i className="fas fa-spinner fa-spin"></i>
-          ) : (
-            "Submit"
-          )}
+          {IsLoading ? <i className="fas fa-spinner fa-spin"></i> : "Submit"}
         </button>
 
         <div className="mx-auto">

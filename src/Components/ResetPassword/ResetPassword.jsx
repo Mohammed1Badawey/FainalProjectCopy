@@ -11,8 +11,8 @@ export default function ResetPassword({}) {
   let { forgettnEmail } = useContext(ForgettenEmailContext);
   let { userToken, setuserToken } = useContext(authContext);
   const [ApiError, setApiError] = useState("");
+  const [ApiSuccess, setApiSuccess] = useState(false);
   const [IsLoading, setIsLoading] = useState(false);
-  const [ApiSuccess, setApiSuccess] = useState("");
   function setErrorNull() {
     setApiError("");
   }
@@ -30,9 +30,8 @@ export default function ResetPassword({}) {
         setIsLoading(false);
         if (res.status === 200) {
           setuserToken(res.data.token);
-          localStorage.setItem("userToken", userToken);
+          setApiSuccess(true);
           console.log(userToken);
-          ApiSuccess(true);
           setTimeout(() => {
             window.location.href = "http://localhost:5173/";
           }, 4000);
@@ -45,7 +44,11 @@ export default function ResetPassword({}) {
       });
   }
 
-  useEffect(() => {}, [userToken]);
+  useEffect(() => {
+    if (userToken != null) {
+      localStorage.setItem("userToken", userToken);
+    }
+  }, [userToken]);
 
   let validationSchema = yup.object().shape({
     email: yup.string().email("Invalid Email").required("Email is required"),
@@ -127,7 +130,7 @@ export default function ResetPassword({}) {
                   {ApiSuccess}
                 </div>
                 <p className="text-center font-[500]">
-                  You will be automatically transferred after 2 seconds
+                  You will be automatically transferred after 4 seconds
                 </p>
               </>
             )
