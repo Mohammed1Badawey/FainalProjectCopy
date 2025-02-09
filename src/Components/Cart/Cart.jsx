@@ -57,12 +57,15 @@ export default function Cart() {
   }
 
   async function ClearItemsFromCart() {
+    setLoadingQty(true);
     let response = await clearItemsFromCart();
     if (response.data.message == "success") {
       setCartDetails(null);
       toast.success("Products Removed Successfully");
+      setLoadingQty(false);
     } else {
       toast.error("Something wronge");
+      setLoadingQty(false);
     }
   }
 
@@ -175,10 +178,11 @@ export default function Cart() {
                   ClearItemsFromCart();
                 }}
               >
-                {" "}
+                
                 Clear Cart
               </button>
-              <h2 className="p-8 text-end font-[900]">
+
+              <h2 className="p-4 text-end font-[900]">
                 <span className="font-[600]">Total Price: </span>
                 {cartDetails?.totalCartPrice
                   ? cartDetails.totalCartPrice.toLocaleString("en-US", {
@@ -195,13 +199,7 @@ export default function Cart() {
             <Link to={"/checkout"}>
               <button
                 className="btn-specific-product"
-                // onClick={}
               >
-                {/* {loading && currentIdBtn == productData.id ? (
-                  <i className="fas fa-spinner fa-spin"></i>
-                  ) : (
-                    `Add To Cart`
-                    )} */}
                 CheckOut
               </button>
             </Link>

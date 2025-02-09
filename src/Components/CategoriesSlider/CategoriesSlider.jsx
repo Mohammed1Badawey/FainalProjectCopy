@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-import useCategoriesSllider from "../../Hooks/useCategoriesSllider";
+import useCategoriesSllider from "../../Hooks/CategoriesHooks/useCategoriesSllider";
 
 export default function CategoriesSlider() {
   let { data, isError, isLoading, error } = useCategoriesSllider();

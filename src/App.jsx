@@ -4,7 +4,7 @@ import Layout from "./Components/Layout/Layout";
 import Home from "./Components/Home/Home";
 import Cart from "./Components/Cart/Cart";
 import Products from "./Components/Products/Products";
-import Categories from "./Components/Categories/Categories";
+import Categories from "./Components/CategoriesComponents/Categories/Categories";
 import Brands from "./Components/Brands/Brands";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
@@ -16,13 +16,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devtools";
 import CartContextProvider from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
-import Checkout from './Components/Checkout/Checkout';
-import AllOrders from './Components/AllOrders/AllOrders';
-import OrdersContextProvider, { ordersContext } from './Context/OrdersContext';
+import Checkout from "./Components/Checkout/Checkout";
+import AllOrders from "./Components/AllOrders/AllOrders";
+import OrdersContextProvider, { ordersContext } from "./Context/OrdersContext";
+import CategoryDetails from "./Components/CategoriesComponents/CategoryDetails/CategoryDetails";
 
 let query = new QueryClient();
 
-let routs = createBrowserRouter([
+let routes = createBrowserRouter([
   {
     path: "",
     element: <Layout />,
@@ -44,6 +45,15 @@ let routs = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      // أضف هذا المسار الجديد لتفاصيل الفئة
+      {
+        path: "category/:categoryId",
+        element: (
+          <ProtectedRoute>
+            <CategoryDetails />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "brands",
         element: (
@@ -59,14 +69,12 @@ let routs = createBrowserRouter([
             <Cart />
           </ProtectedRoute>
         ),
-        
       },
-      { 
+      {
         path: "/productdetails/:id/:category",
         element: (
           <ProtectedRoute>
-            {" "}
-            <ProductDetails />{" "}
+            <ProductDetails />
           </ProtectedRoute>
         ),
       },
@@ -76,7 +84,7 @@ let routs = createBrowserRouter([
           <ProtectedRoute>
             <Checkout />
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: "allorders",
@@ -84,7 +92,7 @@ let routs = createBrowserRouter([
           <ProtectedRoute>
             <AllOrders />
           </ProtectedRoute>
-        )
+        ),
       },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
@@ -99,7 +107,7 @@ function App() {
       <QueryClientProvider client={query}>
         <CartContextProvider>
           <OrdersContextProvider>
-          <RouterProvider router={routs}></RouterProvider>
+            <RouterProvider router={routes}></RouterProvider>
           </OrdersContextProvider>
           <Toaster />
         </CartContextProvider>
