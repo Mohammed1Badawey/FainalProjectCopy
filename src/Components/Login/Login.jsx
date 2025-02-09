@@ -20,6 +20,8 @@ export default function Login() {
     await axios
       .post(`https://ecommerce.routemisr.com/api/v1/auth/signin`, loginObj)
       .then((res) => {
+        console.log(res);
+        
         setIsLoading(false);
         if (res.data.message) {
         }

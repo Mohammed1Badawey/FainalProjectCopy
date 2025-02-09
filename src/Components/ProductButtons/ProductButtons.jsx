@@ -1,5 +1,4 @@
 import { TiShoppingCart } from "react-icons/ti";
-import { useAddToCartFn } from "../../Hooks/useAddToCartFn";
 import { useContext } from "react";
 
 

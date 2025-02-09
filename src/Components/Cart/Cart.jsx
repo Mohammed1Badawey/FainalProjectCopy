@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useAddToCartFn } from "../../Hooks/useAddToCartFn";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
-import ProductDetails from "./../ProductDetails/ProductDetails";
 import { Link } from "react-router-dom";
 
 export default function Cart() {
@@ -10,8 +8,7 @@ export default function Cart() {
     getUserCart,
     updateCartQuantity,
     removeItemFromCart,
-    numCart,
-    setNumCart,
+    clearItemsFromCart,
   } = useContext(CartContext);
   const [cartDetails, setCartDetails] = useState(null);
   const [loadingQty, setLoadingQty] = useState(false);
@@ -25,8 +22,6 @@ export default function Cart() {
     if (response.data.status == "success") {
       setCartDetails(response.data.data);
       setLoadingCart(false);
-      console.log(response.data.data);
-      
     } else {
       setLoadingCart(false);
       return (
@@ -56,6 +51,16 @@ export default function Cart() {
     if (response.data.status == "success") {
       setCartDetails(response.data.data);
       toast.success("Product Removed Successfully");
+    } else {
+      toast.error("Something wronge");
+    }
+  }
+
+  async function ClearItemsFromCart() {
+    let response = await clearItemsFromCart();
+    if (response.data.message == "success") {
+      setCartDetails(null);
+      toast.success("Products Removed Successfully");
     } else {
       toast.error("Something wronge");
     }
@@ -162,7 +167,17 @@ export default function Cart() {
                 ))}
               </tbody>
             </table>
-            <div>
+
+            <div className="flex justify-between">
+              <button
+                className="btn-clear-cart"
+                onClick={() => {
+                  ClearItemsFromCart();
+                }}
+              >
+                {" "}
+                Clear Cart
+              </button>
               <h2 className="p-8 text-end font-[900]">
                 <span className="font-[600]">Total Price: </span>
                 {cartDetails?.totalCartPrice
@@ -178,18 +193,18 @@ export default function Cart() {
 
           <div className="">
             <Link to={"/checkout"}>
-            <button
-              className="btn-specific-product"
-              // onClick={}
+              <button
+                className="btn-specific-product"
+                // onClick={}
               >
-              {/* {loading && currentIdBtn == productData.id ? (
+                {/* {loading && currentIdBtn == productData.id ? (
                   <i className="fas fa-spinner fa-spin"></i>
                   ) : (
                     `Add To Cart`
                     )} */}
-              CheckOut
-            </button>
-                    </Link>
+                CheckOut
+              </button>
+            </Link>
           </div>
         </>
       ) : (

@@ -19,18 +19,18 @@ export default function CartContextProvider({ children }) {
         { headers },
       )
       .then((res) => {
-         setNumCart(res.data.numOfCartItems)
+        setNumCart(res.data.numOfCartItems);
         return res;
       })
       .catch((err) => err);
   }
 
-  function getUserCart(productId) {
+  function getUserCart() {
     return axios
       .get(`https://ecommerce.routemisr.com/api/v1/cart`, { headers })
       .then((res) => {
         setNumCart(res.data.numOfCartItems);
-        setCartId(res.data.cartId)
+        setCartId(res.data.cartId);
         return res;
       })
       .catch((err) => err);
@@ -62,22 +62,19 @@ export default function CartContextProvider({ children }) {
       .catch((err) => err);
   }
 
-  function checkoutCart(cartId, url , formData) {
+  function clearItemsFromCart() {
     return axios
-      .post(`https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${url}`, 
-        {
-        shippingAddress: formData
-      },
-      {
+      .delete(`https://ecommerce.routemisr.com/api/v1/cart`, {
         headers,
-      }
-    )
+      })
       .then((res) => {
         setNumCart(res.data.numOfCartItems);
         return res;
       })
       .catch((err) => err);
   }
+
+
 
   return (
     <CartContext.Provider
@@ -88,8 +85,8 @@ export default function CartContextProvider({ children }) {
         removeItemFromCart,
         setNumCart,
         numCart,
-        checkoutCart,
         cartId,
+        clearItemsFromCart,
       }}
     >
       {children}

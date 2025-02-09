@@ -18,6 +18,7 @@ import CartContextProvider from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
 import Checkout from './Components/Checkout/Checkout';
 import AllOrders from './Components/AllOrders/AllOrders';
+import OrdersContextProvider, { ordersContext } from './Context/OrdersContext';
 
 let query = new QueryClient();
 
@@ -97,7 +98,9 @@ function App() {
     <AuthContextProvider>
       <QueryClientProvider client={query}>
         <CartContextProvider>
+          <OrdersContextProvider>
           <RouterProvider router={routs}></RouterProvider>
+          </OrdersContextProvider>
           <Toaster />
         </CartContextProvider>
         <ReactQueryDevtools />

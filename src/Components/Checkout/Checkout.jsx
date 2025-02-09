@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
-import axios from "axios";
 import { CartContext } from "../../Context/CartContext";
+import { ordersContext } from './../../Context/OrdersContext';
 
 export default function Checkout() {
-  let { checkoutCart, cartId } = useContext(CartContext);
-
+  let { checkoutCart } = useContext(ordersContext);
+  let { cartId } = useContext(CartContext);
+  
   let formik = useFormik({
     initialValues: {
       details: "",
@@ -23,7 +24,6 @@ export default function Checkout() {
   async function submitCheckout(cartId, url) {
    let {data} = await checkoutCart(cartId, url, formik.values);
    window.location.href = data.session.url;
-   
   }
 
   return (
@@ -99,5 +99,3 @@ export default function Checkout() {
     </>
   );
 }
-
-//  && formik.values.phone.trim() !== ""
