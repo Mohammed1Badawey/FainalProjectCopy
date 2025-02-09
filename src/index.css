@@ -142,3 +142,7 @@ body {
 .productBorder {
   @apply overflow-hidden rounded-md;
 }
+
+.header-component {
+  @apply text-2xl font-[600] text-emerald-600 text-center
+}

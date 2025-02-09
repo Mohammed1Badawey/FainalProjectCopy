@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { FaStar } from "react-icons/fa";
-import { TiShoppingCart } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import useAllProducts from "../../Hooks/UseProducts";
 import { CartContext } from "../../Context/CartContext";
@@ -8,7 +7,7 @@ import toast from "react-hot-toast";
 
 export default function Products() {
 
- let { addToCart } = useContext(CartContext);
+let { addToCart } = useContext(CartContext);
   let { data, isLoading, isError, error } = useAllProducts();
     const [loading, setLoading] = useState(false);
   const [currentIdBtn, setCurrentIdBtn] = useState("");
@@ -17,7 +16,7 @@ export default function Products() {
     setCurrentIdBtn(id);
     setLoading(true);
     let response = await addToCart(id);
-    if (response.data.status == "success") {
+    if (response?.data?.status == "success") {
       setLoading(false);
       toast.success(response.data.message, {
         duration: 2000,
@@ -25,8 +24,8 @@ export default function Products() {
       });
       setLoading(false);
     }
-     else {
-       setLoading(false);
+    else {
+      setLoading(false);
       toast.error(response.data.message);
     }
     setLoading(false);

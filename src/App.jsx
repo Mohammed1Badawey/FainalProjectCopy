@@ -17,9 +17,12 @@ import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devt
 import CartContextProvider from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
 import Checkout from "./Components/Checkout/Checkout";
-import AllOrders from "./Components/AllOrders/AllOrders";
-import OrdersContextProvider, { ordersContext } from "./Context/OrdersContext";
+import OrdersContextProvider from "./Context/OrdersContext";
 import CategoryDetails from "./Components/CategoriesComponents/CategoryDetails/CategoryDetails";
+import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
+import VerificationCode from './Components/VerificationCode/VerificationCode';
+import ResetPassword from './Components/ResetPassword/ResetPassword';
+import { ForgettenEmailContextProvider } from "./Context/ForgettenMailContext";
 
 let query = new QueryClient();
 
@@ -45,7 +48,6 @@ let routes = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      // أضف هذا المسار الجديد لتفاصيل الفئة
       {
         path: "category/:categoryId",
         element: (
@@ -90,8 +92,26 @@ let routes = createBrowserRouter([
         path: "allorders",
         element: (
           <ProtectedRoute>
-            <AllOrders />
+            <Home />
           </ProtectedRoute>
+        ),
+      },
+      {
+        path: "forgetpassword",
+        element: (
+            <ForgetPassword />
+        ),
+      },
+      {
+        path: "verifycode",
+        element: (
+            <VerificationCode />
+        ),
+      },
+      {
+        path: "resetpassword",
+        element: (
+            <ResetPassword />
         ),
       },
       { path: "login", element: <Login /> },
@@ -107,7 +127,9 @@ function App() {
       <QueryClientProvider client={query}>
         <CartContextProvider>
           <OrdersContextProvider>
+          <ForgettenEmailContextProvider>
             <RouterProvider router={routes}></RouterProvider>
+          </ForgettenEmailContextProvider>
           </OrdersContextProvider>
           <Toaster />
         </CartContextProvider>

@@ -12,6 +12,7 @@ export default function Cart() {
   } = useContext(CartContext);
   const [cartDetails, setCartDetails] = useState(null);
   const [loadingQty, setLoadingQty] = useState(false);
+  const [loadingRemove, setLoadingRemove] = useState(false);
   const [loadingCart, setLoadingCart] = useState(false);
   const [currentIdQty, setCurrentIdQty] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,25 +48,29 @@ export default function Cart() {
   }
 
   async function RemoveItemFromCart(id) {
+    setCurrentIdQty(id);
+    setLoadingRemove(true);
     let response = await removeItemFromCart(id);
     if (response.data.status == "success") {
       setCartDetails(response.data.data);
       toast.success("Product Removed Successfully");
+      setLoadingRemove(false);
     } else {
       toast.error("Something wronge");
+      setLoadingRemove(false);
     }
   }
 
   async function ClearItemsFromCart() {
-    setLoadingQty(true);
+    setLoading(true);
     let response = await clearItemsFromCart();
     if (response.data.message == "success") {
       setCartDetails(null);
       toast.success("Products Removed Successfully");
-      setLoadingQty(false);
+      setLoading(false);
     } else {
       toast.error("Something wronge");
-      setLoadingQty(false);
+      setLoading(false);
     }
   }
 
@@ -132,6 +137,7 @@ export default function Cart() {
                         >
                           <i className="fa-solid fa-minus"></i>
                         </button>
+
                         <div>
                           {loadingQty && currentIdQty == product.product.id ? (
                             <i className="fas fa-spinner fa-spin"></i>
@@ -156,6 +162,7 @@ export default function Cart() {
                     <td className="px-6 py-4 font-semibold text-gray-900">
                       EGP {product.price}
                     </td>
+
                     <td className="px-6 py-4">
                       <button
                         className="cursor-pointer font-medium text-red-600 hover:underline"
@@ -163,7 +170,14 @@ export default function Cart() {
                           RemoveItemFromCart(product.product.id);
                         }}
                       >
-                        Remove
+                        <div>
+                          {loadingRemove &&
+                          currentIdQty == product.product.id ? (
+                            <i className="fas fa-spinner fa-spin"></i>
+                          ) : (
+                            <span>remove</span>
+                          )}
+                        </div>
                       </button>
                     </td>
                   </tr>
@@ -178,8 +192,11 @@ export default function Cart() {
                   ClearItemsFromCart();
                 }}
               >
-                
-                Clear Cart
+                {loading ? (
+                  <i className="fas fa-spinner fa-spin"></i>
+                ) : (
+                  <span>Clear Cart</span>
+                )}
               </button>
 
               <h2 className="p-4 text-end font-[900]">
@@ -197,11 +214,7 @@ export default function Cart() {
 
           <div className="">
             <Link to={"/checkout"}>
-              <button
-                className="btn-specific-product"
-              >
-                CheckOut
-              </button>
+              <button className="btn-specific-product">CheckOut</button>
             </Link>
           </div>
         </>
