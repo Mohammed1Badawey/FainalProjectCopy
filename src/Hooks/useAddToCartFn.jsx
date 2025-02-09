@@ -8,5 +8,5 @@ export function useAddToCartFn() {
 
 
 
-  return { AddToCart };
+  return {  };
 }

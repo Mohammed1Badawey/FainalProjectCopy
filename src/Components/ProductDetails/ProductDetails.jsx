@@ -1,16 +1,39 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import { TiShoppingCart } from "react-icons/ti";
 import { Link, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import useSpecificProduct from "../../Hooks/useSpecificProduct";
 import useAllProducts from "../../Hooks/UseProducts";
-import ProductButtons from "../ProductButtons/ProductButtons";
-import { useAddToCartFn } from "../../Hooks/useAddToCartFn";
+import { CartContext } from "../../Context/CartContext";
+import toast from "react-hot-toast";
 
 export default function ProductDetails() {
-  let { AddToCart } = useAddToCartFn();
   let { id, category } = useParams();
+  const [loading, setLoading] = useState(false);
+
+  let { addToCart } = useContext(CartContext);
+
+  const [currentIdBtn, setCurrentIdBtn] = useState("");
+
+
+  async function AddToCart(id) {
+    setCurrentIdBtn(id);
+    setLoading(true);
+    let response = await addToCart(id);
+    if (response.data.status == "success") {
+      toast.success(response.data.message, {
+        duration: 2000,
+        position: "top-center",
+      });
+      setLoading(false);
+    }
+     else {
+      toast.error(response.data.message);
+      setLoading(false);
+    }
+    setLoading(false);
+  }
 
   var settings = {
     dots: true,
@@ -119,11 +142,22 @@ export default function ProductDetails() {
               </span>
             </div>
           </div>
+
           <div className="flex justify-evenly px-4 py-8">
-            <button className="btn-add-product">
-              Add To Cart <TiShoppingCart className="inline" />
-            </button>
+
+          <button
+                  onClick={() => AddToCart(productData.id)}
+                  className="btn-specific-product my-2"
+                >
+                  {loading && currentIdBtn == productData.id ? (
+                    <i className="fas fa-spinner fa-spin"></i>
+                  ) : (
+                    `Add To Cart`
+                  )}
+                </button>
           </div>
+
+
         </section>
 
         <section className="col-span-10 col-start-2">
@@ -152,7 +186,19 @@ export default function ProductDetails() {
                     </div>
                   </Link>
 
-                  <ProductButtons productId={product.id} onAddToCart={AddToCart} />
+                  <div className="flex items-center justify-center p-3 pe-3">
+                <button
+                  onClick={() => AddToCart(product.id)}
+                  className="btn-add-product my-2"
+                >
+                  {loading && currentIdBtn == product.id ? (
+                    <i className="fas fa-spinner fa-spin"></i>
+                  ) : (
+                    `Add To Cart`
+                  )}
+                </button>
+                <i className="fa-regular fa-heart fa-2xl cursor-pointer"></i>
+              </div>
 
 
                 </div>

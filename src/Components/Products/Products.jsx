@@ -1,14 +1,36 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import useAllProducts from "../../Hooks/UseProducts";
-import ProductButtons from "../ProductButtons/ProductButtons";
-import { useAddToCartFn } from "../../Hooks/useAddToCartFn";
+import { CartContext } from "../../Context/CartContext";
+import toast from "react-hot-toast";
 
 export default function Products() {
-    let { AddToCart } = useAddToCartFn();
+
+ let { addToCart } = useContext(CartContext);
   let { data, isLoading, isError, error } = useAllProducts();
+    const [loading, setLoading] = useState(false);
+  const [currentIdBtn, setCurrentIdBtn] = useState("");
+  
+  async function AddToCart(id) {
+    setCurrentIdBtn(id);
+    setLoading(true);
+    let response = await addToCart(id);
+    if (response.data.status == "success") {
+      setLoading(false);
+      toast.success(response.data.message, {
+        duration: 2000,
+        position: "top-center",
+      });
+      setLoading(false);
+    }
+     else {
+       setLoading(false);
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  }
 
   if (isError) {
     return (
@@ -55,7 +77,19 @@ export default function Products() {
                 </div>
               </Link>
 
-              <ProductButtons productId={product.id} onAddToCart={AddToCart} />
+              <div className="flex items-center justify-center p-3 pe-3">
+                <button
+                  onClick={() => AddToCart(product.id)}
+                  className="btn-add-product my-2"
+                >
+                  {loading && currentIdBtn == product.id ? (
+                    <i className="fas fa-spinner fa-spin"></i>
+                  ) : (
+                    `Add To Cart`
+                  )}
+                </button>
+                <i className="fa-regular fa-heart fa-2xl cursor-pointer"></i>
+              </div>
 
 
             </div>

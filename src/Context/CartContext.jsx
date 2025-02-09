@@ -5,6 +5,7 @@ export let CartContext = createContext();
 
 export default function CartContextProvider({ children }) {
   const [numCart, setNumCart] = useState(0);
+  const [cartId, setCartId] = useState(0);
 
   let headers = {
     token: localStorage.getItem("userToken"),
@@ -29,6 +30,7 @@ export default function CartContextProvider({ children }) {
       .get(`https://ecommerce.routemisr.com/api/v1/cart`, { headers })
       .then((res) => {
         setNumCart(res.data.numOfCartItems);
+        setCartId(res.data.cartId)
         return res;
       })
       .catch((err) => err);
@@ -60,6 +62,23 @@ export default function CartContextProvider({ children }) {
       .catch((err) => err);
   }
 
+  function checkoutCart(cartId, url , formData) {
+    return axios
+      .post(`https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${url}`, 
+        {
+        shippingAddress: formData
+      },
+      {
+        headers,
+      }
+    )
+      .then((res) => {
+        setNumCart(res.data.numOfCartItems);
+        return res;
+      })
+      .catch((err) => err);
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -69,6 +88,8 @@ export default function CartContextProvider({ children }) {
         removeItemFromCart,
         setNumCart,
         numCart,
+        checkoutCart,
+        cartId,
       }}
     >
       {children}

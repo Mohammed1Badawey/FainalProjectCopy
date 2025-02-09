@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 export default function RecentProducts() {
   let { data, isLoading, isError, error } = useAllProducts();
   const [loading, setLoading] = useState(false);
-  let { addToCart,numCart, setNumCart } = useContext(CartContext);
+  let { addToCart } = useContext(CartContext);
   const [currentIdBtn, setCurrentIdBtn] = useState("");
 
   async function AddToCart(id) {
@@ -73,6 +73,7 @@ export default function RecentProducts() {
                   </div>
                 </div>
               </Link>
+              
               <div className="flex items-center justify-center p-3 pe-3">
                 <button
                   onClick={() => AddToCart(product.id)}
