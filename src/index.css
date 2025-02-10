@@ -128,11 +128,15 @@ body {
 }
 
 .btn-add-product {
-  @apply mx-auto block w-3/4 min-w-36 translate-y-full cursor-pointer items-center rounded-2xl border-2 border-emerald-600 px-4 py-2 opacity-0 duration-500 group-hover:-translate-y-0 group-hover:opacity-100 hover:bg-emerald-600 hover:text-white;
+  @apply mx-auto block w-3/4 translate-y-full cursor-pointer items-center rounded-2xl border-2 border-emerald-600 px-4 py-2 opacity-0 duration-500 group-hover:-translate-y-0 group-hover:opacity-100 hover:bg-emerald-600 hover:text-white;
+}
+
+.btn-add-product-sm {
+  @apply mx-auto block w-3/4 cursor-pointer items-center rounded-2xl border-2 border-emerald-600 py-1  duration-500  hover:bg-emerald-600 hover:text-white;
 }
 
 .btn-specific-product {
-  @apply mx-auto block w-3/4 min-w-36 translate-y-full cursor-pointer items-center rounded-2xl border-2 border-emerald-600 bg-emerald-600 px-4 py-2 text-white duration-500 hover:border-emerald-700 hover:bg-emerald-700;
+  @apply mx-auto block w-3/4  cursor-pointer items-center rounded-2xl border-2 border-emerald-600 bg-emerald-600 px-4 py-2 text-white duration-500 hover:border-emerald-700 hover:bg-emerald-700;
 }
 
 .btn-clear-cart {

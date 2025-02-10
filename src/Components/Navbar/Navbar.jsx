@@ -42,6 +42,7 @@ export default function Navbar() {
     { name: "Categories", path: "categories" },
     { name: "Brands", path: "brands" },
     { name: "Cart", path: "cart" },
+    { name: "WishList", path: "wishlist" },
   ];
 
   const authLinks = [
@@ -171,18 +172,45 @@ export default function Navbar() {
           <div>
             {isMenuOpen && (
               <div className="mobileNavbar bg-slate-300 lg:hidden">
-                <ul className="flex flex-col items-start space-y-5 px-4">
-                  {userToken &&
-                    navLinks.map((link) => (
-                      <li key={link.name}>
-                        <NavLink
-                          to={link.path}
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          {link.name}
-                        </NavLink>
-                      </li>
-                    ))}
+                <ul onClick={() => setIsMenuOpen(false)} className="flex flex-col items-start space-y-5 px-4">
+
+                  
+                        
+                  <li>
+                    <NavLink to="/"> Home </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/products"> Products </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/categories"> Categories </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/brands"> Brands </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/cart" className="relative">
+                      Cart
+                      {numCart > 0 && (
+                        <div className="absolute -top-1 -right-6 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
+                          {numCart}
+                        </div>
+                      )}
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/wishlist" className="relative">
+                      Wishlist
+                      {numWishList > 0 && (
+                        <div className="absolute -top-1 -right-6 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
+                          {numWishList}
+                        </div>
+                      )}
+                    </NavLink>
+                  </li>
+                      
+
+
                   <div className="w-full border-t py-2">
                     {userToken && (
                       <div

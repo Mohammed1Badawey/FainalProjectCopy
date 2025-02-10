@@ -33,14 +33,14 @@ export default function MainBanner() {
   return (
     <>
       <div className="grid grid-cols-12 grid-rows-2 py-8">
-        <div className="col-span-8 row-span-2">
+        <div className="col-span-12 lg:col-span-8 row-span-2">
           <Slider {...settings}>
             <img className="h-[400px] w-full" src={slide1} alt="" />
             <img className="h-[400px] w-full" src={slide2} alt="" />
           </Slider>
         </div>
 
-        <div className="col-span-4 row-span-2">
+        <div className="col-span-12 lg:col-span-4 row-span-2">
           <Slider {...settings2}>
             <figure>
               <img

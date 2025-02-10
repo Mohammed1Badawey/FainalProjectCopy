@@ -10,6 +10,7 @@ export default function Cart() {
     removeItemFromCart,
     clearItemsFromCart,
   } = useContext(CartContext);
+
   const [cartDetails, setCartDetails] = useState(null);
   const [loadingQty, setLoadingQty] = useState(false);
   const [loadingRemove, setLoadingRemove] = useState(false);
@@ -25,11 +26,6 @@ export default function Cart() {
       setLoadingCart(false);
     } else {
       setLoadingCart(false);
-      return (
-        <h3 className="my-12 text-center text-4xl font-[600] text-red-600">
-          Something wronge
-        </h3>
-      );
     }
   }
 
@@ -90,19 +86,19 @@ export default function Cart() {
             <table className="w-full text-left text-sm text-gray-500 rtl:text-right">
               <thead className="bg-gray-50 text-xs text-gray-700 uppercase">
                 <tr>
-                  <th scope="col" className="px-16 py-3">
-                    <span className="">Image</span>
+                  <th scope="col" className="px-2 py-3 md:px-6 md:py-4">
+                    Image
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-2 py-3 md:px-6 md:py-4">
                     Product
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-2 py-3 md:px-6 md:py-4">
                     Qty
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-2 py-3 md:px-6 md:py-4">
                     Price
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-2 py-3 md:px-6 md:py-4">
                     Action
                   </th>
                 </tr>
@@ -113,31 +109,30 @@ export default function Cart() {
                     key={product._id}
                     className="border-b border-gray-200 bg-white hover:bg-gray-50"
                   >
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 md:px-6 md:py-4">
                       <img
                         src={product.product.imageCover}
-                        className="max-h-full w-16 max-w-full md:w-32"
+                        className="h-16 w-16 object-cover md:h-24 md:w-24"
                         alt={product.product.title}
                       />
                     </td>
-                    <td className="px-6 py-4 font-semibold text-gray-900">
+                    <td className="px-4 py-2 font-semibold text-gray-900 md:px-6 md:py-4">
                       {product.product.title}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-2 md:px-6 md:py-4">
                       <div className="flex items-center">
                         <button
-                          className="me-3 inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-3 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 focus:outline-none"
+                          className="me-2 inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 focus:outline-none"
                           type="button"
-                          onClick={() => {
+                          onClick={() =>
                             UpdateCartQuantity(
                               product.product.id,
                               product.count - 1,
-                            );
-                          }}
+                            )
+                          }
                         >
                           <i className="fa-solid fa-minus"></i>
                         </button>
-
                         <div>
                           {loadingQty && currentIdQty == product.product.id ? (
                             <i className="fas fa-spinner fa-spin"></i>
@@ -146,38 +141,32 @@ export default function Cart() {
                           )}
                         </div>
                         <button
-                          className="ms-3 inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-3 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 focus:outline-none"
+                          className="ms-2 inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 focus:outline-none"
                           type="button"
-                          onClick={() => {
+                          onClick={() =>
                             UpdateCartQuantity(
                               product.product.id,
                               product.count + 1,
-                            );
-                          }}
+                            )
+                          }
                         >
                           <i className="fa-solid fa-plus"></i>
                         </button>
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-semibold text-gray-900">
+                    <td className="px-4 py-2 font-semibold text-gray-900 md:px-6 md:py-4">
                       EGP {product.price}
                     </td>
-
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-2 md:px-6 md:py-4">
                       <button
                         className="cursor-pointer font-medium text-red-600 hover:underline"
-                        onClick={() => {
-                          RemoveItemFromCart(product.product.id);
-                        }}
+                        onClick={() => RemoveItemFromCart(product.product.id)}
                       >
-                        <div>
-                          {loadingRemove &&
-                          currentIdQty == product.product.id ? (
-                            <i className="fas fa-spinner fa-spin"></i>
-                          ) : (
-                            <span>remove</span>
-                          )}
-                        </div>
+                        {loadingRemove && currentIdQty == product.product.id ? (
+                          <i className="fas fa-spinner fa-spin"></i>
+                        ) : (
+                          <span>remove</span>
+                        )}
                       </button>
                     </td>
                   </tr>
@@ -185,12 +174,10 @@ export default function Cart() {
               </tbody>
             </table>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:items-center">
               <button
-                className="btn-clear-cart"
-                onClick={() => {
-                  ClearItemsFromCart();
-                }}
+                className="btn-clear-cart rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700 md:px-6 md:py-3"
+                onClick={ClearItemsFromCart}
               >
                 {loading ? (
                   <i className="fas fa-spinner fa-spin"></i>
@@ -198,8 +185,7 @@ export default function Cart() {
                   <span>Clear Cart</span>
                 )}
               </button>
-
-              <h2 className="p-4 text-end font-[900]">
+              <h2 className="p-4 text-center font-[900] md:text-end">
                 <span className="font-[600]">Total Price: </span>
                 {cartDetails?.totalCartPrice
                   ? cartDetails.totalCartPrice.toLocaleString("en-US", {
@@ -212,15 +198,17 @@ export default function Cart() {
             </div>
           </div>
 
-          <div className="">
+          <div className="mt-4">
             <Link to={"/checkout"}>
-              <button className="btn-specific-product">CheckOut</button>
+              <button className="btn-specific-product md:px-6 md:py-3">
+                CheckOut
+              </button>
             </Link>
           </div>
         </>
       ) : (
-        <div className="mt-4 flex justify-center rounded bg-emerald-600 bg-linear-to-r to-emerald-500 to-45% p-8">
-          <h2 className="text-2xl font-[600]">Your cart is empty</h2>
+        <div className="mt-4 flex items-center justify-center rounded bg-emerald-600 bg-linear-to-r to-emerald-500 to-45% p-8">
+          <h2 className="text-2xl font-[600] text-white">Your cart is empty</h2>
         </div>
       )}
     </>

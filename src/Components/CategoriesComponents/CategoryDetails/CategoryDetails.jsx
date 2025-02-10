@@ -25,21 +25,25 @@ export default function CategoryDetails() {
     select: (data) => data.data.data,
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p className="text-red-500">{error.message}</p>;
+  if (isLoading) return <p className="text-center text-gray-600">Loading...</p>;
+  if (isError)
+    return <p className="text-center text-red-500">{error.message}</p>;
 
   return (
     <div className="p-6">
       <h2 className="mb-6 text-center text-3xl font-bold text-emerald-700">
-        Subcategories {}
+        Subcategories
       </h2>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+      <div className="grid grid-cols-1 mx-auto justify-center gap-6 sm:grid-cols-2 md:grid-cols-3">
         {data.map((sub) => (
           <div
             key={sub._id}
-            className="rounded-lg border border-gray-200 p-4 text-center shadow-md"
+            className="rounded-lg border border-gray-200 p-4 text-center shadow-md transition-transform hover:scale-105"
           >
-            <h3 className="text-xl font-semibold text-gray-800">{sub.name}</h3>
+            <h3 className="text-xl md:text-2xl font-semibold text-gray-800">
+              {sub.name}
+            </h3>
           </div>
         ))}
       </div>

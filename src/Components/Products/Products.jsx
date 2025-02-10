@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useAllProducts from "../../Hooks/UseProducts";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
@@ -75,7 +75,10 @@ export default function Products() {
     <>
       <div className="mt-18 grid grid-cols-12 justify-items-center gap-x-4 gap-y-12">
         {data.map((product) => (
-          <div key={product.id} className="group col-span-3 px-5">
+          <div
+            key={product.id}
+            className="group col-span-6 md:col-span-6 md:px-5 lg:col-span-3"
+          >
             <div className="productBorder my-main-hover">
               <Link
                 to={`/productdetails/${product.id}/${product.category.name}`}
@@ -87,7 +90,7 @@ export default function Products() {
                     alt=""
                   />
                 </figure>
-                <div className="p-5">
+                <div className="p-2 md:p-5">
                   <h3 className="text-emerald-600">{product.category.name}</h3>
                   <h3>{product.title.split(" ").slice(0, 2).join(" ")}</h3>
                   <div className="flex items-center justify-between">
@@ -103,7 +106,7 @@ export default function Products() {
               <div className="flex items-center justify-center p-3 pe-3">
                 <button
                   onClick={() => AddToCart(product.id)}
-                  className="btn-add-product my-2"
+                  className="btn-add-product-sm md:btn-add-product my-2"
                 >
                   {loading && currentIdBtn == product.id ? (
                     <i className="fas fa-spinner fa-spin"></i>
@@ -114,15 +117,29 @@ export default function Products() {
 
                 <button onClick={() => handleWishListToggle(product.id)}>
                   {wishlistdetails?.some((item) => item.id === product.id) ? (
-                    <i className="fa-solid fa-heart fa-2xl cursor-pointer text-emerald-700"></i>
+                    <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-700"></i>
                   ) : (
-                    <i className="fa-regular fa-heart fa-2xl cursor-pointer"></i>
+                    <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
                   )}
                 </button>
               </div>
             </div>
           </div>
         ))}
+      </div>
+      <div className="m-auto mt-8 hidden justify-center gap-6 text-center">
+        <NavLink to="/">
+          {" "}
+          <button className="cursor-pointer border border-emerald-600 px-2">
+            1
+          </button>
+        </NavLink>
+        <NavLink to="/">
+          {" "}
+          <button className="cursor-pointer border border-emerald-600 px-2">
+            2
+          </button>
+        </NavLink>
       </div>
     </>
   );

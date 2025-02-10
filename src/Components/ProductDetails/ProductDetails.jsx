@@ -7,13 +7,21 @@ import useSpecificProduct from "../../Hooks/useSpecificProduct";
 import useAllProducts from "../../Hooks/UseProducts";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
+import { WishListContext } from "../../Context/WishListContext";
 
 export default function ProductDetails() {
   let { id, category } = useParams();
   const [loading, setLoading] = useState(false);
+    const [loadingWish, setLoadingWish] = useState(false);
+  
 
   let { addToCart } = useContext(CartContext);
-
+  let {
+    addToWishList,
+    wishlistdetails,
+    getUserWishList,
+    removeItemFromWishList,
+  } = useContext(WishListContext);
   const [currentIdBtn, setCurrentIdBtn] = useState("");
 
   async function AddToCart(id) {
@@ -31,6 +39,27 @@ export default function ProductDetails() {
       setLoading(false);
     }
     setLoading(false);
+  }
+
+  async function handleWishListToggle(id) {
+    setCurrentIdBtn(id);
+    setLoadingWish(true);
+    if (wishlistdetails?.some((item) => item.id === id)) {
+      let response = await removeItemFromWishList(id);
+      if (response?.data?.status === "success") {
+        await getUserWishList();
+        toast.success(response.data.message);
+        setLoadingWish(false);
+      }
+    }
+    if (!wishlistdetails?.some((item) => item.id === id)) {
+      let response = await addToWishList(id);
+      if (response?.data?.status === "success") {
+        await getUserWishList();
+        toast.success(response.data.message);
+        setLoadingWish(false);
+      }
+    }
   }
 
   var settings = {
@@ -96,8 +125,9 @@ export default function ProductDetails() {
 
   return (
     <>
-      <div className="grid grid-cols-12 items-center gap-5">
-        <section className="col-span-3 col-start-2">
+      <div className="grid grid-cols-12 gap-5 md:items-center">
+        {/* col-span-6 col-start-4 */}
+        <section className="col-span-4 md:col-span-3 md:col-start-2">
           <div>
             <figure>
               {productData?.images?.length > 1 ? (
@@ -123,7 +153,7 @@ export default function ProductDetails() {
           </div>
         </section>
 
-        <section className="col-span-6 col-start-5">
+        <section className="col-span-8 md:col-span-6 md:col-start-5">
           <div className="flex flex-col gap-4">
             <h3 className="text-2xl font-[600] text-black">
               {productData?.title}
@@ -141,10 +171,10 @@ export default function ProductDetails() {
             </div>
           </div>
 
-          <div className="flex justify-evenly px-4 py-8">
+          <div className="flex  items-center mt-6 justify-between p-3 pe-3">
             <button
               onClick={() => AddToCart(productData.id)}
-              className="btn-specific-product my-2"
+              className="btn-specific-product"
             >
               {loading && currentIdBtn == productData.id ? (
                 <i className="fas fa-spinner fa-spin"></i>
@@ -152,49 +182,86 @@ export default function ProductDetails() {
                 `Add To Cart`
               )}
             </button>
+            
+            <button
+                  onClick={() => handleWishListToggle(productData.id)}
+                  className="text-gray-500 transition-colors duration-300 hover:text-emerald-600"
+                >
+                  
+                  {loadingWish && currentIdBtn === productData.id ? (
+                    <i className="fas fa-spinner fa-spin"></i>
+                  ) : wishlistdetails?.some(
+                      (item) => item.id === productData.id,
+                    ) ? (
+                    <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-600"></i>
+                  ) : (
+                    <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
+                  )}
+                </button>
+
           </div>
         </section>
 
-        <section className="col-span-10 col-start-2">
-          <div className="grid grid-cols-12 justify-items-center gap-x-6 gap-y-6 px-3 py-5">
+        <section className="col-span-12 ">
+          <div className="mt-18 grid grid-cols-12 justify-items-center gap-x-4 gap-y-12">
             {filteredProducts?.map((product) => (
-              <div key={product.id} className="group col-span-3 px-5">
-                <div className="productBorder my-main-hover px-1">
-                  <Link
-                    to={`/productdetails/${product.id}/${product.category.name}`}
-                  >
-                    <figure className="overflow-hidden">
-                      <img className="w-full" src={product.imageCover} alt="" />
-                    </figure>
-                    <div className="p-5">
-                      <h3 className="text-emerald-600">
-                        {product.category.name}
-                      </h3>
-                      <h3>{product.title.split(" ").slice(0, 2).join(" ")}</h3>
-                      <div className="flex items-center justify-between">
-                        <span>{product.price} EGP</span>
-                        <span className="flex items-center gap-0.5">
-                          {product.ratingsAverage}{" "}
-                          <FaStar className="text-yellow-400" />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
+              <div key={product.id} className="group col-span-6 md:col-span-6 md:px-5 lg:col-span-3">
 
-                  <div className="flex items-center justify-center p-3 pe-3">
-                    <button
-                      onClick={() => AddToCart(product.id)}
-                      className="btn-add-product my-2"
-                    >
-                      {loading && currentIdBtn == product.id ? (
-                        <i className="fas fa-spinner fa-spin"></i>
-                      ) : (
-                        `Add To Cart`
-                      )}
-                    </button>
-                    <i className="fa-regular fa-heart fa-2xl cursor-pointer"></i>
-                  </div>
-                </div>
+                           <div className="productBorder my-main-hover">
+                             <Link
+                               to={`productdetails/${product.id}/${product.category.name}`}
+                             >
+                               <figure className="overflow-hidden">
+                                 <img
+                                   className="w-full object-cover"
+                                   src={product.imageCover}
+                                   alt=""
+                                 />
+                               </figure>
+                               <div className="p-2 md:p-5">
+                                 <h3 className="text-emerald-600">{product.category.name}</h3>
+                                 <h3>{product.title.split(" ").slice(0, 2).join(" ")}</h3>
+                                 <div className="flex items-center justify-between">
+                                   <span>{product.price} EGP</span>
+                                   <span className="flex items-center gap-0.5">
+                                     {product.ratingsAverage}{" "}
+                                     <FaStar className="text-yellow-400" />
+                                   </span>
+                                 </div>
+                               </div>
+                             </Link>
+               
+                             <div className="flex items-center justify-center p-3 pe-3">
+                               <button
+                                 onClick={() => AddToCart(product.id)}
+                                 className="btn-add-product-sm md:btn-add-product my-2"
+                               >
+                                 {loading && currentIdBtn == product.id ? (
+                                   <i className="fas fa-spinner fa-spin"></i>
+                                 ) : (
+                                   `Add To Cart`
+                                 )}
+                               </button>
+               
+                               <button
+                  onClick={() => handleWishListToggle(product.id)}
+                  className="text-gray-500 transition-colors duration-300 hover:text-emerald-600"
+                >
+                  
+                  {loadingWish && currentIdBtn === product.id ? (
+                    <i className="fas fa-spinner fa-spin"></i>
+                  ) : wishlistdetails?.some(
+                      (item) => item.id === product.id,
+                    ) ? (
+                    <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-600"></i>
+                  ) : (
+                    <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
+                  )}
+                </button>
+                             </div>
+                           </div>
+
+
               </div>
             ))}
           </div>

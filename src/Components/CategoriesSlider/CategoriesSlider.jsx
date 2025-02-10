@@ -1,6 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 import useCategoriesSllider from "../../Hooks/CategoriesHooks/useCategoriesSllider";
+import { Link } from "react-router-dom";
 
 export default function CategoriesSlider() {
   let { data, isError, isLoading, error } = useCategoriesSllider();
@@ -57,7 +58,8 @@ export default function CategoriesSlider() {
       <Slider {...settings}>
         {data?.data?.data.map((category) => {
           return (
-            <div key={category.name} className="mt-4 mb-10">
+            <Link to={`/category/${category._id}`}> 
+          <div key={category.name} className="mt-4 mb-10">
               <figure className="">
                 <img
                   src={category.image}
@@ -65,8 +67,9 @@ export default function CategoriesSlider() {
                   className="h-[200px] w-full object-cover"
                 />
               </figure>
-              <h4 className="ps-2 pt-1 font-[500]">{category.name}</h4>
+              <h4 className="ps-2 pt-2 font-[600]">{category.name}</h4>
             </div>
+            </Link> 
           );
         })}
       </Slider>
