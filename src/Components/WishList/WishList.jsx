@@ -10,9 +10,8 @@ export default function WishList() {
   const [loadingWishlist, setLoadingWishlist] = useState(false);
   const [currentIdQty, setCurrentIdQty] = useState("");
   let { addToCart } = useContext(CartContext);
-    const [currentIdBtn, setCurrentIdBtn] = useState("");
-    const [loading, setLoading] = useState(false);
-  
+  const [currentIdBtn, setCurrentIdBtn] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function GetUserWishList() {
     setLoadingWishlist(true);
@@ -42,7 +41,7 @@ export default function WishList() {
       await getUserWishList();
       toast.success(response.data.message);
       setWishlistDetails((prevWishlist) =>
-        prevWishlist.filter((item) => item.id !== id)
+        prevWishlist.filter((item) => item.id !== id),
       );
       setLoadingRemove(false);
     } else {

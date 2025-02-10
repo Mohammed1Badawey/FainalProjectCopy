@@ -20,7 +20,6 @@ export default function Login() {
     await axios
       .post(`https://ecommerce.routemisr.com/api/v1/auth/signin`, loginObj)
       .then((res) => {
-        
         setIsLoading(false);
         if (res.data.message) {
         }
@@ -130,7 +129,7 @@ export default function Login() {
           </h6>
 
           <h6 className="text-center">
-            Forget Password? {" "}
+            Forget Password?{" "}
             <Link to={"/forgetpassword"}>
               {" "}
               <span className="font-semibold underline">Forget Password</span>

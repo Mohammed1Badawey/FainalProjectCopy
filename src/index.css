@@ -136,7 +136,7 @@ body {
 }
 
 .btn-clear-cart {
-  @apply px-6 py-2 m-4 rounded-2xl bg-red-700 text-white font-[500] cursor-pointer hover:bg-red-600
+  @apply m-4 cursor-pointer rounded-2xl bg-red-700 px-6 py-2 font-[500] text-white hover:bg-red-600;
 }
 
 .productBorder {
@@ -144,5 +144,5 @@ body {
 }
 
 .header-component {
-  @apply text-2xl font-[600] text-emerald-600 text-center
+  @apply text-center text-2xl font-[600] text-emerald-600;
 }

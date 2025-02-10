@@ -28,12 +28,11 @@ export default function MainBanner() {
     fade: true,
     autoplay: true,
     arrows: false,
-
   };
 
   return (
     <>
-      <div className="grid grid-cols-12 grid-rows-2  py-8">
+      <div className="grid grid-cols-12 grid-rows-2 py-8">
         <div className="col-span-8 row-span-2">
           <Slider {...settings}>
             <img className="h-[400px] w-full" src={slide1} alt="" />
@@ -41,23 +40,34 @@ export default function MainBanner() {
           </Slider>
         </div>
 
-
         <div className="col-span-4 row-span-2">
-        <Slider {...settings2}>
-          <figure>
-
-          <img className="h-[200px] w-full object-cover" src={slide3} alt="" />
-          <img className="h-[200px] w-full object-cover" src={slide5} alt="" />
-          </figure>
-          <figure>
-
-          <img className="h-[200px] w-full object-cover" src={slide4} alt="" />
-          <img className="h-[200px] w-full object-cover" src={slide6} alt="" />
-          </figure>
+          <Slider {...settings2}>
+            <figure>
+              <img
+                className="h-[200px] w-full object-cover"
+                src={slide3}
+                alt=""
+              />
+              <img
+                className="h-[200px] w-full object-cover"
+                src={slide5}
+                alt=""
+              />
+            </figure>
+            <figure>
+              <img
+                className="h-[200px] w-full object-cover"
+                src={slide4}
+                alt=""
+              />
+              <img
+                className="h-[200px] w-full object-cover"
+                src={slide6}
+                alt=""
+              />
+            </figure>
           </Slider>
         </div>
-
-
       </div>
     </>
   );

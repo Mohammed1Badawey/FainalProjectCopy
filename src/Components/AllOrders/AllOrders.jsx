@@ -3,17 +3,17 @@ import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 export default function AllOrders() {
-    let {
-      getUserCart,
-      updateCartQuantity,
-      removeItemFromCart,
-      clearItemsFromCart,
-    } = useContext(CartContext);
-    const [cartDetails, setCartDetails] = useState(null);
-    const [loadingQty, setLoadingQty] = useState(false);
-    const [loadingCart, setLoadingCart] = useState(false);
-    const [currentIdQty, setCurrentIdQty] = useState("");
-    const [loading, setLoading] = useState(false);
+  let {
+    getUserCart,
+    updateCartQuantity,
+    removeItemFromCart,
+    clearItemsFromCart,
+  } = useContext(CartContext);
+  const [cartDetails, setCartDetails] = useState(null);
+  const [loadingQty, setLoadingQty] = useState(false);
+  const [loadingCart, setLoadingCart] = useState(false);
+  const [currentIdQty, setCurrentIdQty] = useState("");
+  const [loading, setLoading] = useState(false);
   return (
     <>
       {loadingCart ? (

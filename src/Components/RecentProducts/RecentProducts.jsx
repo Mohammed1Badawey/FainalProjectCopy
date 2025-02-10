@@ -10,8 +10,13 @@ export default function RecentProducts() {
   let { data, isLoading, isError, error } = useAllProducts();
   const [loading, setLoading] = useState(false);
   let { addToCart } = useContext(CartContext);
-    let { addToWishList, wishlistdetails , numWishList, getUserWishList, removeItemFromWishList } =
-    useContext(WishListContext);
+  let {
+    addToWishList,
+    wishlistdetails,
+    numWishList,
+    getUserWishList,
+    removeItemFromWishList,
+  } = useContext(WishListContext);
   const [currentIdBtn, setCurrentIdBtn] = useState("");
 
   async function AddToCart(id) {
@@ -24,8 +29,7 @@ export default function RecentProducts() {
         position: "top-center",
       });
       setLoading(false);
-    }
-     else {
+    } else {
       toast.error(response.data.message);
       setLoading(false);
     }
@@ -33,26 +37,21 @@ export default function RecentProducts() {
   }
 
   async function handleWishListToggle(id) {
-
     if (wishlistdetails?.some((item) => item.id === id)) {
       let response = await removeItemFromWishList(id);
       if (response?.data?.status === "success") {
         await getUserWishList();
-        toast.success(response.data.message)
+        toast.success(response.data.message);
       }
     }
-    if(!wishlistdetails?.some((item) => item.id === id)) {
+    if (!wishlistdetails?.some((item) => item.id === id)) {
       let response = await addToWishList(id);
       if (response?.data?.status === "success") {
         await getUserWishList();
         toast.success(response.data.message);
-        
-      } 
+      }
     }
   }
-
-
-
 
   if (isError) {
     return (
@@ -98,7 +97,7 @@ export default function RecentProducts() {
                   </div>
                 </div>
               </Link>
-              
+
               <div className="flex items-center justify-center p-3 pe-3">
                 <button
                   onClick={() => AddToCart(product.id)}

@@ -111,7 +111,7 @@ export default function Products() {
                     `Add To Cart`
                   )}
                 </button>
-                
+
                 <button onClick={() => handleWishListToggle(product.id)}>
                   {wishlistdetails?.some((item) => item.id === product.id) ? (
                     <i className="fa-solid fa-heart fa-2xl cursor-pointer text-emerald-700"></i>

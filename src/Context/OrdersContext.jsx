@@ -5,7 +5,7 @@ import axios from "axios";
 export const ordersContext = createContext();
 
 export default function OrdersContextProvider({ children }) {
-  let {setNumCart, cartId } = useContext(CartContext);
+  let { setNumCart, cartId } = useContext(CartContext);
   let headers = {
     token: localStorage.getItem("userToken"),
   };
@@ -28,12 +28,8 @@ export default function OrdersContextProvider({ children }) {
       .catch((err) => err);
   }
 
-  
-
   return (
-    <ordersContext.Provider
-      value={ {checkoutCart} }
-    >
+    <ordersContext.Provider value={{ checkoutCart }}>
       {children}
     </ordersContext.Provider>
   );
