@@ -23,7 +23,6 @@ export default function CategoryDetails() {
     select: (data)=>data.data.data
   });
 
-  console.log(data);
   
 
   if (isLoading) return <p>Loading...</p>;

@@ -16,11 +16,13 @@ import {
   FaTiktok,
   FaYoutube,
 } from "react-icons/fa";
+import { WishListContext } from "../../Context/WishListContext";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { userToken, setuserToken } = useContext(authContext);
-  const { numCart, setNumCart } = useContext(CartContext);
+  const { numCart } = useContext(CartContext);
+  const { numWishList } = useContext(WishListContext);
   const navigate = useNavigate();
 
   const menuClass = classNames(
@@ -99,11 +101,20 @@ export default function Navbar() {
                   </li>
                   <li>
                     <NavLink to="/cart" className="relative">
-                      {" "}
                       Cart
                       {numCart > 0 && (
                         <div className="absolute -top-4 -right-4 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
                           {numCart}
+                        </div>
+                      )}
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/wishlist" className="relative">
+                      Wishlist
+                      {numWishList > 0 && (
+                        <div className="absolute -top-4 -right-4 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
+                          {numWishList}
                         </div>
                       )}
                     </NavLink>

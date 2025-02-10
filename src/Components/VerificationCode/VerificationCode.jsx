@@ -23,7 +23,6 @@ export default function Login() {
       )
       .then((res) => {
         setErrorNull();
-        console.log(res);
         setIsLoading(false);
         if (res.data.status) {
           setApiSuccess(res.data.status);
@@ -33,7 +32,6 @@ export default function Login() {
         }
       })
       .catch((err) => {
-        console.log(err);
         setApiError(err.response.data.message);
         setIsLoading(false);
       });

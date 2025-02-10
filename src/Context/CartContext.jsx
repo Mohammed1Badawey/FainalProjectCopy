@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export let CartContext = createContext();
 
@@ -74,7 +74,9 @@ export default function CartContextProvider({ children }) {
       .catch((err) => err);
   }
 
-
+  useEffect(() => {
+    getUserCart();
+  }, []);
 
   return (
     <CartContext.Provider

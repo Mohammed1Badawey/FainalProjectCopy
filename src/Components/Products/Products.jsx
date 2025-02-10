@@ -1,17 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useAllProducts from "../../Hooks/UseProducts";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
+import { WishListContext } from "../../Context/WishListContext";
 
 export default function Products() {
-
-let { addToCart } = useContext(CartContext);
+  let { addToCart } = useContext(CartContext);
+  let {
+    addToWishList,
+    wishlistdetails,
+    numWishList,
+    getUserWishList,
+    removeItemFromWishList,
+  } = useContext(WishListContext);
   let { data, isLoading, isError, error } = useAllProducts();
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [currentIdBtn, setCurrentIdBtn] = useState("");
-  
+  const [wishL, setWishL] = useState();
+
   async function AddToCart(id) {
     setCurrentIdBtn(id);
     setLoading(true);
@@ -23,12 +31,28 @@ let { addToCart } = useContext(CartContext);
         position: "top-center",
       });
       setLoading(false);
-    }
-    else {
+    } else {
       setLoading(false);
       toast.error(response.data.message);
     }
     setLoading(false);
+  }
+
+  async function handleWishListToggle(id) {
+    if (wishlistdetails?.some((item) => item.id === id)) {
+      let response = await removeItemFromWishList(id);
+      if (response?.data?.status === "success") {
+        await getUserWishList();
+        toast.success(response.data.message);
+      }
+    }
+    if (!wishlistdetails?.some((item) => item.id === id)) {
+      let response = await addToWishList(id);
+      if (response?.data?.status === "success") {
+        await getUserWishList();
+        toast.success(response.data.message);
+      }
+    }
   }
 
   if (isError) {
@@ -87,10 +111,15 @@ let { addToCart } = useContext(CartContext);
                     `Add To Cart`
                   )}
                 </button>
-                <i className="fa-regular fa-heart fa-2xl cursor-pointer"></i>
+                
+                <button onClick={() => handleWishListToggle(product.id)}>
+                  {wishlistdetails?.some((item) => item.id === product.id) ? (
+                    <i className="fa-solid fa-heart fa-2xl cursor-pointer text-emerald-700"></i>
+                  ) : (
+                    <i className="fa-regular fa-heart fa-2xl cursor-pointer"></i>
+                  )}
+                </button>
               </div>
-
-
             </div>
           </div>
         ))}

@@ -24,13 +24,11 @@ export default function Login() {
         ForgetObj,
       )
       .then((res) => {
-        console.log(res);
         setIsLoading(false);
         if (res.data.statusMsg) {
           setErrorNull();
           setApiSuccess(res.data.message);
           setForgettnEmail(formik.values.email);
-          console.log(forgettnEmail);
           setTimeout(() => {
             navigate("/verifycode");
           }, 3000);
@@ -53,10 +51,6 @@ export default function Login() {
     validationSchema,
     onSubmit: submitData,
   });
-
-  // useEffect(() => {
-  //   console.log("Updated forgettenMail:", forgettnEmail);
-  // }, [forgettnEmail]);
 
   return (
     <>

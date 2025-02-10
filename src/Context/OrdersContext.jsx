@@ -11,7 +11,6 @@ export default function OrdersContextProvider({ children }) {
   };
 
   function checkoutCart(cartId, url, formData) {
-    console.log("Cart ID before checkout:", cartId);
     return axios
       .post(
         `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${url}`,

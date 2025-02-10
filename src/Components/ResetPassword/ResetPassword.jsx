@@ -26,19 +26,16 @@ export default function ResetPassword({}) {
       )
       .then((res) => {
         setErrorNull();
-        console.log(res);
         setIsLoading(false);
         if (res.status === 200) {
           setuserToken(res.data.token);
           setApiSuccess(true);
-          console.log(userToken);
           setTimeout(() => {
             window.location.href = "http://localhost:5173/";
           }, 4000);
         }
       })
       .catch((err) => {
-        console.log(err);
         setApiError(err.response.data.message);
         setIsLoading(false);
       });

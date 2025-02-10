@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import useAllProducts from "../../Hooks/UseProducts";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
+import { WishListContext } from "../../Context/WishListContext";
 
 export default function RecentProducts() {
   let { data, isLoading, isError, error } = useAllProducts();
   const [loading, setLoading] = useState(false);
   let { addToCart } = useContext(CartContext);
+    let { addToWishList, wishlistdetails , numWishList, getUserWishList, removeItemFromWishList } =
+    useContext(WishListContext);
   const [currentIdBtn, setCurrentIdBtn] = useState("");
 
   async function AddToCart(id) {
@@ -28,6 +31,28 @@ export default function RecentProducts() {
     }
     setLoading(false);
   }
+
+  async function handleWishListToggle(id) {
+
+    if (wishlistdetails?.some((item) => item.id === id)) {
+      let response = await removeItemFromWishList(id);
+      if (response?.data?.status === "success") {
+        await getUserWishList();
+        toast.success(response.data.message)
+      }
+    }
+    if(!wishlistdetails?.some((item) => item.id === id)) {
+      let response = await addToWishList(id);
+      if (response?.data?.status === "success") {
+        await getUserWishList();
+        toast.success(response.data.message);
+        
+      } 
+    }
+  }
+
+
+
 
   if (isError) {
     return (
@@ -85,7 +110,14 @@ export default function RecentProducts() {
                     `Add To Cart`
                   )}
                 </button>
-                <i className="fa-regular fa-heart fa-2xl cursor-pointer"></i>
+
+                <button onClick={() => handleWishListToggle(product.id)}>
+                  {wishlistdetails?.some((item) => item.id === product.id) ? (
+                    <i className="fa-solid fa-heart fa-2xl cursor-pointer text-emerald-700"></i>
+                  ) : (
+                    <i className="fa-regular fa-heart fa-2xl cursor-pointer"></i>
+                  )}
+                </button>
               </div>
             </div>
           </div>

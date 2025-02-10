@@ -19,10 +19,12 @@ import { Toaster } from "react-hot-toast";
 import Checkout from "./Components/Checkout/Checkout";
 import OrdersContextProvider from "./Context/OrdersContext";
 import CategoryDetails from "./Components/CategoriesComponents/CategoryDetails/CategoryDetails";
-import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
-import VerificationCode from './Components/VerificationCode/VerificationCode';
-import ResetPassword from './Components/ResetPassword/ResetPassword';
+import ForgetPassword from "./Components/ForgetPassword/ForgetPassword";
+import VerificationCode from "./Components/VerificationCode/VerificationCode";
+import ResetPassword from "./Components/ResetPassword/ResetPassword";
 import { ForgettenEmailContextProvider } from "./Context/ForgettenMailContext";
+import WishListContextProvider from "./Context/WishListContext";
+import WishList from "./Components/WishList/WishList";
 
 let query = new QueryClient();
 
@@ -73,6 +75,14 @@ let routes = createBrowserRouter([
         ),
       },
       {
+        path: "wishlist",
+        element: (
+          <ProtectedRoute>
+            <WishList />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/productdetails/:id/:category",
         element: (
           <ProtectedRoute>
@@ -98,21 +108,15 @@ let routes = createBrowserRouter([
       },
       {
         path: "forgetpassword",
-        element: (
-            <ForgetPassword />
-        ),
+        element: <ForgetPassword />,
       },
       {
         path: "verifycode",
-        element: (
-            <VerificationCode />
-        ),
+        element: <VerificationCode />,
       },
       {
         path: "resetpassword",
-        element: (
-            <ResetPassword />
-        ),
+        element: <ResetPassword />,
       },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
@@ -127,9 +131,11 @@ function App() {
       <QueryClientProvider client={query}>
         <CartContextProvider>
           <OrdersContextProvider>
-          <ForgettenEmailContextProvider>
-            <RouterProvider router={routes}></RouterProvider>
-          </ForgettenEmailContextProvider>
+            <ForgettenEmailContextProvider>
+              <WishListContextProvider>
+                <RouterProvider router={routes}></RouterProvider>
+              </WishListContextProvider>
+            </ForgettenEmailContextProvider>
           </OrdersContextProvider>
           <Toaster />
         </CartContextProvider>
