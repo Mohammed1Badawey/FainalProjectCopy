@@ -17,11 +17,14 @@ export default function Cart() {
   const [loadingCart, setLoadingCart] = useState(false);
   const [currentIdQty, setCurrentIdQty] = useState("");
   const [loading, setLoading] = useState(false);
+  const [cartOwnerId, setCartOwnerId] = useState();
 
   async function GetUserCart(id) {
     setLoadingCart(true);
     let response = await getUserCart(id);
     if (response.data.status == "success") {
+      setCartOwnerId(response.data.cartOwner)
+      console.log(cartOwnerId);
       setCartDetails(response.data.data);
       setLoadingCart(false);
     } else {

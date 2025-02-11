@@ -25,6 +25,7 @@ import ResetPassword from "./Components/ResetPassword/ResetPassword";
 import { ForgettenEmailContextProvider } from "./Context/ForgettenMailContext";
 import WishListContextProvider from "./Context/WishListContext";
 import WishList from "./Components/WishList/WishList";
+import UserOrders from "./Components/UserOrders/UserOrders";
 
 let query = new QueryClient();
 
@@ -102,7 +103,7 @@ let routes = createBrowserRouter([
         path: "allorders",
         element: (
           <ProtectedRoute>
-            <Home />
+            <UserOrders />
           </ProtectedRoute>
         ),
       },

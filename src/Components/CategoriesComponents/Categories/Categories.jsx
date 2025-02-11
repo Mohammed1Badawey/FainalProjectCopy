@@ -1,27 +1,14 @@
 import React from "react";
-import useCategories from "../../../Hooks/CategoriesHooks/useCategories";
 import { Link } from "react-router-dom";
+import useCategories from "../../../Hooks/CategoriesHooks/useCategories";
+import LoadingAndErrorHandler from "../../LoadingAndErrorHandler/LoadingAndErrorHandler";
 
 export default function Categories() {
-  let { data, isError, isLoading, error } = useCategories();
-
-  if (isError) {
-    return (
-      <h3 className="my-12 text-center text-2xl font-bold text-red-600">
-        {error.message}
-      </h3>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className="mt-18 flex items-center justify-center">
-        <span className="loader"></span>
-      </div>
-    );
-  }
+  const {allCategories} = useCategories();
+  const { data, isError, isLoading, error } = allCategories
 
   return (
+    <LoadingAndErrorHandler isLoading={isLoading} isError={isError} error={error}>
     <div className="grid grid-cols-12 gap-4 md:gap-6 lg:gap-9">
       <div className="col-span-12 md:col-span-12 md:col-start-1 md:col-end-12 lg:col-span-12 lg:col-start-1 lg:col-end-12">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-6 lg:gap-9 xl:grid-cols-4">
@@ -49,5 +36,6 @@ export default function Categories() {
         </div>
       </div>
     </div>
+    </LoadingAndErrorHandler>
   );
 }
