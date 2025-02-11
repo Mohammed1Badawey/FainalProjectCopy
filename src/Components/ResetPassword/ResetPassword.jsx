@@ -76,10 +76,9 @@ export default function ResetPassword({}) {
           <input
             type="email"
             name="email"
-            value={forgettnEmail}
+            value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            disabled
             id="email"
             className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
             placeholder=" "

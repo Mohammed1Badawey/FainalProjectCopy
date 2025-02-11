@@ -12,6 +12,9 @@ export default function CartContextProvider({ children }) {
   };
 
   function addToCart(productId) {
+    headers = {
+      token: localStorage.getItem("userToken"),
+    };
     return axios
       .post(
         `https://ecommerce.routemisr.com/api/v1/cart`,
@@ -26,11 +29,18 @@ export default function CartContextProvider({ children }) {
   }
 
   function getUserCart() {
+    headers = {
+      token: localStorage.getItem("userToken"),
+    };
+
     return axios
       .get(`https://ecommerce.routemisr.com/api/v1/cart`, { headers })
       .then((res) => {
         setNumCart(res.data.numOfCartItems);
         setCartId(res.data.cartId);
+        headers = {
+          token: localStorage.getItem("userToken"),
+        };
         return res;
       })
       .catch((err) => err);
@@ -74,8 +84,10 @@ export default function CartContextProvider({ children }) {
       .catch((err) => err);
   }
   useEffect(() => {
-    getUserCart();
-  }, []);
+    if (localStorage.getItem("userToken")) {
+      getUserCart();
+    }
+  }, [headers]);
 
   return (
     <CartContext.Provider

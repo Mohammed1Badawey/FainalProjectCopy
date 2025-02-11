@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "./../Navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import Footer from "./../Footer/Footer";
+import { authContext } from "../../Context/AuthContext";
 
 export default function Layout() {
+  let {userToken} = useContext(authContext);
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
@@ -14,15 +16,3 @@ export default function Layout() {
     </div>
   );
 }
-
-// export default function Layout() {
-//   return (
-//     <>
-//       <Navbar />
-//       <main className="container h-[2000px] mx-auto py-26 md:py-24 ">
-//         <Outlet />
-//       </main>
-//       <Footer />
-//     </>
-//   );
-// }

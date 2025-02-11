@@ -4,6 +4,9 @@ import React from "react";
 
 export default function useAllProducts() {
   function getAllProducts() {
+    let headers = {
+      token: localStorage.getItem("userToken"),
+    };
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products`);
   }
 

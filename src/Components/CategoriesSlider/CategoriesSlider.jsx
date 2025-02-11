@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import useCategoriesSllider from "../../Hooks/CategoriesHooks/useCategoriesSllider";
 import { Link } from "react-router-dom";
 import LoadingAndErrorHandler from "../LoadingAndErrorHandler/LoadingAndErrorHandler";
+import MyProfile from "../MyProfile/MyProfile";
 
 export default function CategoriesSlider() {
   let { data, isError, isLoading, error } = useCategoriesSllider();

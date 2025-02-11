@@ -6,6 +6,7 @@ import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { WishListContext } from "../../Context/WishListContext";
 import LoadingAndErrorHandler from "../LoadingAndErrorHandler/LoadingAndErrorHandler";
+import ProductButtons from "../ProductButtons/ProductButtons";
 
 export default function RecentProducts() {
   let { data, isLoading, isError, error } = useAllProducts();
@@ -96,33 +97,15 @@ export default function RecentProducts() {
                   </div>
                 </Link>
 
-                <div className="flex items-center justify-center p-3 pe-3">
-                  <button
-                    onClick={() => AddToCart(product.id)}
-                    className="btn-add-product-sm my-2"
-                  >
-                    {loading && currentIdBtn == product.id ? (
-                      <i className="fas fa-spinner fa-spin"></i>
-                    ) : (
-                      `Add To Cart`
-                    )}
-                  </button>
-
-                  <button
-                    onClick={() => handleWishListToggle(product.id)}
-                    className="text-gray-500 transition-colors duration-300 hover:text-emerald-600"
-                  >
-                    {loadingWish && currentIdBtn === product.id ? (
-                      <i className="fas fa-spinner fa-spin"></i>
-                    ) : wishlistdetails?.some(
-                        (item) => item.id === product.id,
-                      ) ? (
-                      <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-600"></i>
-                    ) : (
-                      <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
-                    )}
-                  </button>
-                </div>
+              <ProductButtons
+                product={product}
+                AddToCart={AddToCart}
+                loading={loading}
+                currentIdBtn={currentIdBtn}
+                handleWishListToggle={handleWishListToggle}
+                loadingWish={loadingWish}
+                wishlistdetails={wishlistdetails}
+              />
               </div>
             </div>
           ))}

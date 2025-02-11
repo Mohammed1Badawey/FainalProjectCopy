@@ -12,6 +12,9 @@ export default function WishListContextProvider({ children }) {
   };
 
   function addToWishList(productId) {
+    headers = {
+      token: localStorage.getItem("userToken"),
+    };
     return axios
       .post(
         `https://ecommerce.routemisr.com/api/v1/wishlist`,
@@ -38,6 +41,9 @@ export default function WishListContextProvider({ children }) {
   }
 
   function getUserWishList() {
+    headers = {
+      token: localStorage.getItem("userToken"),
+    };
     return axios
       .get(`https://ecommerce.routemisr.com/api/v1/wishlist`, { headers })
       .then((res) => {
@@ -48,8 +54,11 @@ export default function WishListContextProvider({ children }) {
       .catch((err) => err);
   }
   useEffect(() => {
-    getUserWishList();
-  }, []);
+    if (localStorage.getItem("userToken")) {
+      getUserWishList();
+    }
+  }, [headers]);
+
   return (
     <WishListContext.Provider
       value={{

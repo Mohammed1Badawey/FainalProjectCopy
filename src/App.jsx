@@ -26,8 +26,13 @@ import { ForgettenEmailContextProvider } from "./Context/ForgettenMailContext";
 import WishListContextProvider from "./Context/WishListContext";
 import WishList from "./Components/WishList/WishList";
 import UserOrders from "./Components/UserOrders/UserOrders";
+import MyProfile from "./Components/MyProfile/MyProfile";
 
 let query = new QueryClient();
+
+let headers = {
+  token: localStorage.getItem("userToken"),
+};
 
 let routes = createBrowserRouter([
   {
@@ -108,6 +113,14 @@ let routes = createBrowserRouter([
         ),
       },
       {
+        path: "myprofile",
+        element: (
+          <ProtectedRoute>
+            <MyProfile />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "forgetpassword",
         element: <ForgetPassword />,
       },
@@ -125,6 +138,7 @@ let routes = createBrowserRouter([
     ],
   },
 ]);
+
 
 function App() {
   return (

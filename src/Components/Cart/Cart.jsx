@@ -71,7 +71,9 @@ export default function Cart() {
   }
 
   useEffect(() => {
-    GetUserCart();
+    if (localStorage.getItem("userToken")) {
+      GetUserCart();
+    }
   }, []);
 
   return (

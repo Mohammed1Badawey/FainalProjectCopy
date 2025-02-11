@@ -50,18 +50,6 @@ export default function Navbar() {
     { name: "Register", path: "register" },
   ];
 
-  const iconClass = "text-xl text-gray-900 hover:text-gray-950";
-
-  const socialIcons = {
-    facebook: <FaFacebook className={iconClass} />,
-    twitter: <FaTwitter className={iconClass} />,
-    linkedin: <FaLinkedin className={iconClass} />,
-    tiktok: <FaTiktok className={iconClass} />,
-    youtube: <FaYoutube className={iconClass} />,
-  };
-
-  const socialLinks = ["facebook", "twitter", "linkedin", "tiktok", "youtube"];
-
   function hundelLogout() {
     localStorage.removeItem("userToken");
     setuserToken(null);
@@ -126,23 +114,22 @@ export default function Navbar() {
 
             {/* SocialMedia and Login for large Screens */}
             <div className="hidden items-center space-x-6 lg:flex rtl:space-x-reverse">
-              <ul className="flex gap-3">
-                {socialLinks.map((platform) => (
-                  <li key={platform}>{socialIcons[platform]}</li>
-                ))}
-              </ul>
-
-              <ul className="hidden gap-1 lg:flex">
+              <ul className="hidden gap-3 lg:flex">
                 {userToken ? (
-                  <li>
-                    <span
-                      className="cursor-pointer"
-                      onClick={hundelLogout}
-                      to=""
-                    >
-                      Logout
-                    </span>
-                  </li>
+                  <>
+                    <li>
+                      <NavLink to="/myprofile">MyProfile</NavLink>
+                    </li>
+                    <li>
+                      <span
+                        className="cursor-pointer"
+                        onClick={hundelLogout}
+                        to=""
+                      >
+                        Logout
+                      </span>
+                    </li>
+                  </>
                 ) : (
                   <>
                     <li className="underline underline-offset-2">
@@ -209,26 +196,33 @@ export default function Navbar() {
                     </NavLink>
                   </li>
 
+                  <li>
+                    <NavLink to="/myprofile">My Profile</NavLink>
+                  </li>
+
                   <div className="w-full border-t py-2">
                     {userToken && (
-                      <div
-                        className="group flex w-[120px] cursor-pointer items-center justify-center gap-2 rounded-full border-1 border-red-400 px-2 py-1.5 transition-all duration-300 hover:bg-red-400"
-                        onClick={hundelLogout}
-                        to=""
-                      >
-                        <span
-                          className="font-normal"
-                          onClick={hundelLogout}
-                          to=""
-                        >
-                          Logout
-                        </span>
-                        <VscSignIn className="" />
+                      <div>
+                        <li>
+                          <div
+                            className="group flex w-[120px] cursor-pointer items-center justify-center gap-2 rounded-full border-1 border-red-400 px-2 py-1.5 transition-all duration-300 hover:bg-red-400"
+                            onClick={hundelLogout}
+                            to=""
+                          >
+                            <span
+                              className="font-normal"
+                              onClick={hundelLogout}
+                              to=""
+                            >
+                              Logout
+                            </span>
+                            <VscSignIn className="" />
+                          </div>
+                        </li>
                       </div>
                     )}
                   </div>
                 </ul>
-
                 <ul className="flex flex-col justify-center gap-3 px-4 font-semibold">
                   {!userToken && (
                     <>
@@ -251,13 +245,7 @@ export default function Navbar() {
                 </ul>
 
                 <div className="socialMobileNavbar mx-auto min-h-18 bg-slate-400">
-                  <ul className="flex min-h-18 items-center justify-center gap-3">
-                    {socialLinks.map((platform) => (
-                      <li key={platform} onClick={() => setIsMenuOpen(false)}>
-                        {socialIcons[platform]}
-                      </li>
-                    ))}
-                  </ul>
+                  <ul className="flex min-h-18 items-center justify-center gap-3"></ul>
                 </div>
               </div>
             )}

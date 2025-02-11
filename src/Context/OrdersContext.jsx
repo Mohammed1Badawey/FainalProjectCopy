@@ -10,6 +10,9 @@ export default function OrdersContextProvider({ children }) {
   };
 
   function checkoutCart(cartId, url, formData) {
+    headers = {
+      token: localStorage.getItem("userToken"),
+    };
     return axios
       .post(
         `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${url}`,
