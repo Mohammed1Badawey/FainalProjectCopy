@@ -1,7 +1,6 @@
 import React, { createContext, useContext } from "react";
 import { CartContext } from "./CartContext";
 import axios from "axios";
-
 export const ordersContext = createContext();
 
 export default function OrdersContextProvider({ children }) {

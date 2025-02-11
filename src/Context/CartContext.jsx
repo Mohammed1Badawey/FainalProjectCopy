@@ -73,7 +73,6 @@ export default function CartContextProvider({ children }) {
       })
       .catch((err) => err);
   }
-
   useEffect(() => {
     getUserCart();
   }, []);

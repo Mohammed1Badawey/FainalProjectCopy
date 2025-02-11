@@ -12,8 +12,7 @@ import { WishListContext } from "../../Context/WishListContext";
 export default function ProductDetails() {
   let { id, category } = useParams();
   const [loading, setLoading] = useState(false);
-    const [loadingWish, setLoadingWish] = useState(false);
-  
+  const [loadingWish, setLoadingWish] = useState(false);
 
   let { addToCart } = useContext(CartContext);
   let {
@@ -171,7 +170,7 @@ export default function ProductDetails() {
             </div>
           </div>
 
-          <div className="flex  items-center mt-6 justify-between p-3 pe-3">
+          <div className="mt-6 flex items-center justify-between p-3 pe-3">
             <button
               onClick={() => AddToCart(productData.id)}
               className="btn-specific-product"
@@ -182,86 +181,85 @@ export default function ProductDetails() {
                 `Add To Cart`
               )}
             </button>
-            
-            <button
-                  onClick={() => handleWishListToggle(productData.id)}
-                  className="text-gray-500 transition-colors duration-300 hover:text-emerald-600"
-                >
-                  
-                  {loadingWish && currentIdBtn === productData.id ? (
-                    <i className="fas fa-spinner fa-spin"></i>
-                  ) : wishlistdetails?.some(
-                      (item) => item.id === productData.id,
-                    ) ? (
-                    <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-600"></i>
-                  ) : (
-                    <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
-                  )}
-                </button>
 
+            <button
+              onClick={() => handleWishListToggle(productData.id)}
+              className="text-gray-500 transition-colors duration-300 hover:text-emerald-600"
+            >
+              {loadingWish && currentIdBtn === productData.id ? (
+                <i className="fas fa-spinner fa-spin"></i>
+              ) : wishlistdetails?.some(
+                  (item) => item.id === productData.id,
+                ) ? (
+                <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-600"></i>
+              ) : (
+                <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
+              )}
+            </button>
           </div>
         </section>
 
-        <section className="col-span-12 ">
+        <section className="col-span-12">
           <div className="mt-18 grid grid-cols-12 justify-items-center gap-x-4 gap-y-12">
             {filteredProducts?.map((product) => (
-              <div key={product.id} className="group col-span-6 md:col-span-6 md:px-5 lg:col-span-3">
+              <div
+                key={product.id}
+                className="group col-span-6 md:col-span-6 md:px-5 lg:col-span-3"
+              >
+                <div className="productBorder my-main-hover">
+                  <Link
+                    to={`productdetails/${product.id}/${product.category.name}`}
+                  >
+                    <figure className="overflow-hidden">
+                      <img
+                        className="w-full object-cover"
+                        src={product.imageCover}
+                        alt=""
+                      />
+                    </figure>
+                    <div className="p-2 md:p-5">
+                      <h3 className="text-emerald-600">
+                        {product.category.name}
+                      </h3>
+                      <h3>{product.title.split(" ").slice(0, 2).join(" ")}</h3>
+                      <div className="flex items-center justify-between">
+                        <span>{product.price} EGP</span>
+                        <span className="flex items-center gap-0.5">
+                          {product.ratingsAverage}{" "}
+                          <FaStar className="text-yellow-400" />
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
 
-                           <div className="productBorder my-main-hover">
-                             <Link
-                               to={`productdetails/${product.id}/${product.category.name}`}
-                             >
-                               <figure className="overflow-hidden">
-                                 <img
-                                   className="w-full object-cover"
-                                   src={product.imageCover}
-                                   alt=""
-                                 />
-                               </figure>
-                               <div className="p-2 md:p-5">
-                                 <h3 className="text-emerald-600">{product.category.name}</h3>
-                                 <h3>{product.title.split(" ").slice(0, 2).join(" ")}</h3>
-                                 <div className="flex items-center justify-between">
-                                   <span>{product.price} EGP</span>
-                                   <span className="flex items-center gap-0.5">
-                                     {product.ratingsAverage}{" "}
-                                     <FaStar className="text-yellow-400" />
-                                   </span>
-                                 </div>
-                               </div>
-                             </Link>
-               
-                             <div className="flex items-center justify-center p-3 pe-3">
-                               <button
-                                 onClick={() => AddToCart(product.id)}
-                                 className="btn-add-product-sm md:btn-add-product my-2"
-                               >
-                                 {loading && currentIdBtn == product.id ? (
-                                   <i className="fas fa-spinner fa-spin"></i>
-                                 ) : (
-                                   `Add To Cart`
-                                 )}
-                               </button>
-               
-                               <button
-                  onClick={() => handleWishListToggle(product.id)}
-                  className="text-gray-500 transition-colors duration-300 hover:text-emerald-600"
-                >
-                  
-                  {loadingWish && currentIdBtn === product.id ? (
-                    <i className="fas fa-spinner fa-spin"></i>
-                  ) : wishlistdetails?.some(
-                      (item) => item.id === product.id,
-                    ) ? (
-                    <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-600"></i>
-                  ) : (
-                    <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
-                  )}
-                </button>
-                             </div>
-                           </div>
+                  <div className="flex items-center justify-center p-3 pe-3">
+                    <button
+                      onClick={() => AddToCart(product.id)}
+                      className="btn-add-product-sm md:btn-add-product my-2"
+                    >
+                      {loading && currentIdBtn == product.id ? (
+                        <i className="fas fa-spinner fa-spin"></i>
+                      ) : (
+                        `Add To Cart`
+                      )}
+                    </button>
 
-
+                    <button
+                      onClick={() => handleWishListToggle(product.id)}
+                      className="text-gray-500 transition-colors duration-300 hover:text-emerald-600"
+                    >
+                      {loadingWish && currentIdBtn === product.id ? (
+                        <i className="fas fa-spinner fa-spin"></i>
+                      ) : wishlistdetails?.some(
+                          (item) => item.id === product.id,
+                        ) ? (
+                        <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-600"></i>
+                      ) : (
+                        <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
+                      )}
+                    </button>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

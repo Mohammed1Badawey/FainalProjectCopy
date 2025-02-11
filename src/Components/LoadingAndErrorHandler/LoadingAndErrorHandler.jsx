@@ -1,6 +1,11 @@
 import React from "react";
 
-export default function LoadingAndErrorHandler({ isLoading, isError, error, children }) {
+export default function LoadingAndErrorHandler({
+  isLoading,
+  isError,
+  error,
+  children,
+}) {
   if (isError) {
     return (
       <h3 className="my-12 text-center text-2xl font-bold text-red-600">
@@ -19,4 +24,3 @@ export default function LoadingAndErrorHandler({ isLoading, isError, error, chil
 
   return children;
 }
-

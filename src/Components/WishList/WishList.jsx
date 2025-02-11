@@ -146,7 +146,9 @@ export default function WishList() {
         </div>
       ) : (
         <div className="mt-4 flex items-center justify-center rounded bg-emerald-600 bg-linear-to-r to-emerald-500 to-45% p-8">
-          <h2 className="text-2xl font-[600] text-white">Your Wishlist is empty</h2>
+          <h2 className="text-2xl font-[600] text-white">
+            Your Wishlist is empty
+          </h2>
         </div>
       )}
     </>

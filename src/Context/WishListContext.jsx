@@ -43,17 +43,13 @@ export default function WishListContextProvider({ children }) {
       .then((res) => {
         setNumWishList(res.data.count);
         setWishlistDetails(res.data.data);
-        console.log(res.data.data);
-
         return res;
       })
       .catch((err) => err);
   }
-
   useEffect(() => {
     getUserWishList();
   }, []);
-
   return (
     <WishListContext.Provider
       value={{

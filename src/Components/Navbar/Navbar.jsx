@@ -172,10 +172,10 @@ export default function Navbar() {
           <div>
             {isMenuOpen && (
               <div className="mobileNavbar bg-slate-300 lg:hidden">
-                <ul onClick={() => setIsMenuOpen(false)} className="flex flex-col items-start space-y-5 px-4">
-
-                  
-                        
+                <ul
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex flex-col items-start space-y-5 px-4"
+                >
                   <li>
                     <NavLink to="/"> Home </NavLink>
                   </li>
@@ -208,8 +208,6 @@ export default function Navbar() {
                       )}
                     </NavLink>
                   </li>
-                      
-
 
                   <div className="w-full border-t py-2">
                     {userToken && (

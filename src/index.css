@@ -132,11 +132,11 @@ body {
 }
 
 .btn-add-product-sm {
-  @apply mx-auto block w-3/4 cursor-pointer items-center rounded-2xl border-2 border-emerald-600 py-1  duration-500  hover:bg-emerald-600 hover:text-white;
+  @apply mx-auto block w-3/4 cursor-pointer items-center rounded-2xl border-2 border-emerald-600 py-1 duration-500 hover:bg-emerald-600 hover:text-white;
 }
 
 .btn-specific-product {
-  @apply mx-auto block w-3/4  cursor-pointer items-center rounded-2xl border-2 border-emerald-600 bg-emerald-600 px-4 py-2 text-white duration-500 hover:border-emerald-700 hover:bg-emerald-700;
+  @apply mx-auto block w-3/4 cursor-pointer items-center rounded-2xl border-2 border-emerald-600 bg-emerald-600 px-4 py-2 text-white duration-500 hover:border-emerald-700 hover:bg-emerald-700;
 }
 
 .btn-clear-cart {

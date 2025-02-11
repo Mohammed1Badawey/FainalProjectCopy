@@ -18,7 +18,7 @@ export default function Products() {
   let { data, isLoading, isError, error } = useAllProducts();
   const [loading, setLoading] = useState(false);
   const [currentIdBtn, setCurrentIdBtn] = useState("");
-  const [wishL, setWishL] = useState();
+  const [loadingWish, setLoadingWish] = useState(false);
 
   async function AddToCart(id) {
     setCurrentIdBtn(id);
@@ -39,11 +39,14 @@ export default function Products() {
   }
 
   async function handleWishListToggle(id) {
+    setCurrentIdBtn(id);
+    setLoadingWish(true);
     if (wishlistdetails?.some((item) => item.id === id)) {
       let response = await removeItemFromWishList(id);
       if (response?.data?.status === "success") {
         await getUserWishList();
         toast.success(response.data.message);
+        setLoadingWish(false);
       }
     }
     if (!wishlistdetails?.some((item) => item.id === id)) {
@@ -51,6 +54,7 @@ export default function Products() {
       if (response?.data?.status === "success") {
         await getUserWishList();
         toast.success(response.data.message);
+        setLoadingWish(false);
       }
     }
   }
@@ -115,13 +119,20 @@ export default function Products() {
                   )}
                 </button>
 
-                <button onClick={() => handleWishListToggle(product.id)}>
-                  {wishlistdetails?.some((item) => item.id === product.id) ? (
-                    <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-700"></i>
-                  ) : (
-                    <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
-                  )}
-                </button>
+                <button
+                    onClick={() => handleWishListToggle(product.id)}
+                    className="text-gray-500 transition-colors duration-300 hover:text-emerald-600"
+                  >
+                    {loadingWish && currentIdBtn === product.id ? (
+                      <i className="fas fa-spinner fa-spin"></i>
+                    ) : wishlistdetails?.some(
+                        (item) => item.id === product.id,
+                      ) ? (
+                      <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-600"></i>
+                    ) : (
+                      <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
+                    )}
+                  </button>
               </div>
             </div>
           </div>

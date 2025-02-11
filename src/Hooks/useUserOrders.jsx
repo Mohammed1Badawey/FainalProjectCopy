@@ -1,24 +1,47 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
 
 export default function useUserOrders() {
-  async function getUserOrders() {
+  let headers = {
+    token: localStorage.getItem("userToken"),
+  };
+
+  async function checkToken() {
     const response = await axios.get(
-      `https://ecommerce.routemisr.com/api/v1/orders/user/6796bf044e3f2254d6a00dbb`
+      `https://ecommerce.routemisr.com/api/v1/auth/verifyToken`,
+      { headers },
     );
-    console.log(response);
-    
-    return  (response.data );
+    return response.data.decoded.id;
   }
 
-  return useQuery({
-    queryKey: ["userOrders"],
-    queryFn: getUserOrders,
+  async function getUserOrders(ownerId) {
+    const response = await axios.get(
+      `https://ecommerce.routemisr.com/api/v1/orders/user/${ownerId}`,
+    );
+    return response.data;
+  }
+
+  const {
+    data: ownerId,
+    isLoading: isOwnerLoading,
+    error: ownerError,
+  } = useQuery({
+    queryKey: ["ownerId"],
+    queryFn: checkToken,
+    staleTime: Infinity,
+    retry: 3,
+    retryDelay: 3000,
+  });
+
+  const ordersQuery = useQuery({
+    queryKey: ["userOrders", ownerId],
+    queryFn: () => getUserOrders(ownerId),
+    enabled: !!ownerId,
     staleTime: Infinity,
     retry: 3,
     retryDelay: 3000,
     refetchOnWindowFocus: true,
-    select: (data) => data || [],
   });
+
+  return ordersQuery;
 }
