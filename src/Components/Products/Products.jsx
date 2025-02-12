@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import useAllProducts from "../../Hooks/UseProducts";

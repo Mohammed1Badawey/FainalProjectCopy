@@ -45,7 +45,7 @@ export default function ResetPassword({}) {
     if (userToken != null) {
       localStorage.setItem("userToken", userToken);
     }
-  }, [userToken]);
+  }, []);
 
   let validationSchema = yup.object().shape({
     email: yup.string().email("Invalid Email").required("Email is required"),

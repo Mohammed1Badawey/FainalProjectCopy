@@ -1,28 +1,24 @@
 import React, { useContext, useState } from "react";
 import Logo from "../../assets/freshcart-logo.svg";
-import NavbarCss from "./Navbar.module.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import HumburgerBotton from "../../assets/NavBar/burger-menu.svg";
 import classNames from "classnames";
 import { authContext } from "./../../Context/AuthContext";
-import { MdLogout, MdOutlineLogin } from "react-icons/md";
+import { MdOutlineLogin } from "react-icons/md";
 import { HiMiniUserPlus } from "react-icons/hi2";
 import { VscSignIn } from "react-icons/vsc";
 import { CartContext } from "../../Context/CartContext";
-import {
-  FaFacebook,
-  FaTwitter,
-  FaLinkedin,
-  FaTiktok,
-  FaYoutube,
-} from "react-icons/fa";
 import { WishListContext } from "../../Context/WishListContext";
+import { JwtContext } from "../../Context/JwtContext";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { userToken, setuserToken } = useContext(authContext);
   const { numCart } = useContext(CartContext);
   const { numWishList } = useContext(WishListContext);
+  const [accountBtn, setAccountBtn] = useState(false);
+  let { userName, setUserName } = useContext(JwtContext);
+  
   const navigate = useNavigate();
 
   const menuClass = classNames(
@@ -36,19 +32,21 @@ export default function Navbar() {
     { "bg-slate-400": isMenuOpen },
   );
 
-  const navLinks = [
-    { name: "Home", path: "" },
-    { name: "Products", path: "products" },
-    { name: "Categories", path: "categories" },
-    { name: "Brands", path: "brands" },
-    { name: "Cart", path: "cart" },
-    { name: "WishList", path: "wishlist" },
-  ];
-
-  const authLinks = [
-    { name: "Login", path: "login" },
-    { name: "Register", path: "register" },
-  ];
+  const accountClass = classNames(
+    "inline-flex",
+    "items-center",
+    "rounded-lg",
+    "bg-emerald-700",
+    "px-5",
+    "py-2.5",
+    "text-center",
+    "text-sm",
+    "font-medium",
+    "text-white",
+    "hover:bg-emerald-800",
+    "cursor-pointer",
+    { "bg-emerald-800": accountBtn },
+  );
 
   function hundelLogout() {
     localStorage.removeItem("userToken");
@@ -63,7 +61,6 @@ export default function Navbar() {
         <nav className="mainNavbar fixed inset-x-0 top-0 z-[9999] min-h-18 border-gray-100 bg-slate-300 font-[EncodeSans]">
           <div className="container mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between p-4">
             {/* Logo */}
-
             <div className="flex items-center gap-5">
               <NavLink
                 to=""
@@ -112,36 +109,56 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* SocialMedia and Login for large Screens */}
             <div className="hidden items-center space-x-6 lg:flex rtl:space-x-reverse">
-              <ul className="hidden gap-3 lg:flex">
-                {userToken ? (
-                  <>
-                    <li>
-                      <NavLink to="/myprofile">MyProfile</NavLink>
-                    </li>
-                    <li>
-                      <span
-                        className="cursor-pointer"
-                        onClick={hundelLogout}
-                        to=""
+              {userToken ? (
+                <div className="relative flex flex-col items-center justify-center pe-10">
+                  <button
+                    onClick={() => setAccountBtn(!accountBtn)}
+                    className={accountClass}
+                    type="button"
+                  >
+                    Account
+                    <i className="fa-solid fa-angle-down ps-2"></i>
+                  </button>
+                  {accountBtn && (
+                    <div
+                      id="dropdownInformation"
+                      className="absolute top-12 z-10 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow-sm"
+                    >
+                      <div className="px-4 py-3 text-center text-sm text-gray-900">
+                        <span>Account</span>
+                      </div>
+                      <ul
+                        onClick={() => setAccountBtn(!accountBtn)}
+                        className="p-4 text-start"
                       >
-                        Logout
-                      </span>
-                    </li>
-                  </>
-                ) : (
-                  <>
-                    <li className="underline underline-offset-2">
-                      <Link to="/login"> Login </Link>
-                    </li>
-                    <span className="font-semibold">/</span>
-                    <li className="underline underline-offset-2">
-                      <Link to="/register"> Register </Link>
-                    </li>
-                  </>
-                )}
-              </ul>
+                        <li className="p-1">
+                          <NavLink to="/myprofile">MyProfile</NavLink>
+                        </li>
+                        <li className="p-1">
+                          <span
+                            className="cursor-pointer"
+                            onClick={hundelLogout}
+                            to=""
+                          >
+                            Logout
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <ul className="flex gap-1">
+                  <li className="underline underline-offset-2">
+                    <Link to="/login"> Login </Link>
+                  </li>
+                  <span className="font-semibold">/</span>
+                  <li className="underline underline-offset-2">
+                    <Link to="/register"> Register </Link>
+                  </li>
+                </ul>
+              )}
             </div>
 
             <div className="lg:hidden">
@@ -155,7 +172,6 @@ export default function Navbar() {
               </button>
             </div>
           </div>
-
           <div>
             {isMenuOpen && (
               <div className="mobileNavbar bg-slate-300 lg:hidden">
@@ -195,12 +211,10 @@ export default function Navbar() {
                       )}
                     </NavLink>
                   </li>
-
                   <li>
                     <NavLink to="/myprofile">My Profile</NavLink>
                   </li>
-
-                  <div className="w-full border-t py-2">
+                  <div className="w-full border-t py-4">
                     {userToken && (
                       <div>
                         <li>
@@ -243,10 +257,6 @@ export default function Navbar() {
                     </>
                   )}
                 </ul>
-
-                <div className="socialMobileNavbar mx-auto min-h-18 bg-slate-400">
-                  <ul className="flex min-h-18 items-center justify-center gap-3"></ul>
-                </div>
               </div>
             )}
           </div>

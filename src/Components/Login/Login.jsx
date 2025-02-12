@@ -140,5 +140,3 @@ export default function Login() {
     </>
   );
 }
-
-//  && formik.values.phone.trim() !== ""

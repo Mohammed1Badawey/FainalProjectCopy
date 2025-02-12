@@ -27,6 +27,9 @@ import WishListContextProvider from "./Context/WishListContext";
 import WishList from "./Components/WishList/WishList";
 import UserOrders from "./Components/UserOrders/UserOrders";
 import MyProfile from "./Components/MyProfile/MyProfile";
+import AccountDetails from "./Components/AccountDetails/AccountDetails";
+import Adresses from "./Components/Adresses/Adresses";
+import JwtContextProvider from "./Context/JwtContext";
 
 let query = new QueryClient();
 
@@ -105,6 +108,14 @@ let routes = createBrowserRouter([
         ),
       },
       {
+        path: "myprofile",
+        element: (
+          <ProtectedRoute>
+            <MyProfile />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "allorders",
         element: (
           <ProtectedRoute>
@@ -113,11 +124,19 @@ let routes = createBrowserRouter([
         ),
       },
       {
-        path: "myprofile",
+        path: "accountdetails",
         element: (
-          <ProtectedRoute>
-            <MyProfile />
-          </ProtectedRoute>
+          <AccountDetails>
+            <UserOrders />
+          </AccountDetails>
+        ),
+      },
+      {
+        path: "adresses",
+        element: (
+          <Adresses>
+            <UserOrders />
+          </Adresses>
         ),
       },
       {
@@ -139,7 +158,6 @@ let routes = createBrowserRouter([
   },
 ]);
 
-
 function App() {
   return (
     <AuthContextProvider>
@@ -148,7 +166,9 @@ function App() {
           <OrdersContextProvider>
             <ForgettenEmailContextProvider>
               <WishListContextProvider>
+              <JwtContextProvider>
                 <RouterProvider router={routes}></RouterProvider>
+              </JwtContextProvider>
               </WishListContextProvider>
             </ForgettenEmailContextProvider>
           </OrdersContextProvider>
