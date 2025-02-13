@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 
 export default function WishList() {
   let { getUserWishList, removeItemFromWishList } = useContext(WishListContext);
+  let { addToCart } = useContext(CartContext);
   const [wishlistdetails, setWishlistDetails] = useState(null);
   const [loadingRemove, setLoadingRemove] = useState(false);
   const [loadingWishlist, setLoadingWishlist] = useState(false);
   const [currentIdQty, setCurrentIdQty] = useState("");
-  let { addToCart } = useContext(CartContext);
   const [currentIdBtn, setCurrentIdBtn] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -30,7 +30,6 @@ export default function WishList() {
     setLoadingRemove(true);
     let response = await removeItemFromWishList(id);
     if (response.data.status == "success") {
-      await GetUserWishList();
       toast.success(response.data.message);
       setWishlistDetails((prevWishlist) =>
         prevWishlist.filter((item) => item.id !== id),
