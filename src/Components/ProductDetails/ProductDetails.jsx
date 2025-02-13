@@ -1,13 +1,12 @@
 import React, { useContext, useState } from "react";
 import { FaStar } from "react-icons/fa6";
-import { TiShoppingCart } from "react-icons/ti";
 import { Link, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import useSpecificProduct from "../../Hooks/useSpecificProduct";
-import useAllProducts from "../../Hooks/UseProducts";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { WishListContext } from "../../Context/WishListContext";
+import useAllProducts from "../../Hooks/useAllProducts";
 
 export default function ProductDetails() {
   let { id, category } = useParams();

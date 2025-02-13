@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
-import useAllProducts from "../../Hooks/UseProducts";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { WishListContext } from "../../Context/WishListContext";
 import ProductButtons from "../ProductButtons/ProductButtons";
 import LoadingAndErrorHandler from "../LoadingAndErrorHandler/LoadingAndErrorHandler";
+import useAllProducts from './../../Hooks/useAllProducts';
 
 export default function Products() {
   let { addToCart } = useContext(CartContext);
