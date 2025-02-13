@@ -30,16 +30,16 @@ export default function Checkout() {
     },
     validationSchema,
     onSubmit: () => {
-      return submitCheckout(cartId, "http://localhost:5173");
+      return submitCheckout(cartId);
     },
   });
 
-  async function submitCheckout(cartId, url) {
+  async function submitCheckout(cartId) {
     try {
       setLoading(true);
-      let { data } = await checkoutCart(cartId, url, formik.values);
+      let { data } = await checkoutCart(cartId, window.location.origin, formik.values);
       setLoading(false);
-        window.location.href = data.session.url;
+      window.location.href = data.session.url;
     }
     finally {
       setLoading(false);
