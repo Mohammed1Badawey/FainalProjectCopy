@@ -19,9 +19,7 @@ export default function WishList() {
     let response = await getUserWishList();
     if (response.data.status == "success") {
       setWishlistDetails(response.data.data);
-      setLoadingWishlist(false);
-      console.log(response.data.data);
-      
+      setLoadingWishlist(false);      
     } else {
       setLoadingWishlist(false);
     }

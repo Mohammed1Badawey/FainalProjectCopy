@@ -30,7 +30,6 @@ export default function AddressManager() {
         return res;
       })
       .catch((err) => {
-        console.log(err);
         setIsLoading(false);
         return err;
       });
@@ -44,7 +43,6 @@ export default function AddressManager() {
         return res;
       })
       .catch((err) => {
-        console.log(err);
         return err
       });
   }
@@ -62,7 +60,6 @@ export default function AddressManager() {
     })
     .catch((err) => {
       setIsLoadingDel(false);
-      console.log(err);
       return err 
     })
   };
