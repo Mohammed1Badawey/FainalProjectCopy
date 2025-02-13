@@ -82,7 +82,7 @@ export default function Cart() {
         <div className="mt-18 flex items-center justify-center">
           <span className="loader"></span>
         </div>
-      ) : cartDetails?.products.length > 0 ? (
+      ) : cartDetails?.products?.length > 0 ? (
         <>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-left text-sm text-gray-500 rtl:text-right">
@@ -119,8 +119,10 @@ export default function Cart() {
                       />
                     </td>
                     <td className="px-4 py-2 font-semibold text-gray-900 md:px-6 md:py-4">
-                      {product.product.title}
-                    </td>
+                                        <Link to={`/productdetails/${product.product._id}/${product.product.category.name}`}>
+                                        <span className="hover:underline">{product.product.title}</span>
+                                        </Link>
+                                      </td>
                     <td className="px-4 py-2 md:px-6 md:py-4">
                       <div className="flex items-center">
                         <button

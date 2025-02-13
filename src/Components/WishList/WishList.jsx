@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { WishListContext } from "../../Context/WishListContext";
 import { CartContext } from "../../Context/CartContext";
+import { Link } from 'react-router-dom';
 
 export default function WishList() {
   let { getUserWishList, removeItemFromWishList } = useContext(WishListContext);
@@ -19,6 +20,8 @@ export default function WishList() {
     if (response.data.status == "success") {
       setWishlistDetails(response.data.data);
       setLoadingWishlist(false);
+      console.log(response.data.data);
+      
     } else {
       setLoadingWishlist(false);
     }
@@ -68,7 +71,6 @@ export default function WishList() {
         </div>
       ) : wishlistdetails?.length > 0 ? (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          {/* جدول قائمة الأمنيات */}
           <table className="w-full text-left text-sm text-gray-500 rtl:text-right">
             <thead className="bg-gray-50 text-xs text-gray-700 uppercase">
               <tr>
@@ -92,7 +94,6 @@ export default function WishList() {
                   key={product._id}
                   className="border-b border-gray-200 bg-white hover:bg-gray-50"
                 >
-                  {/* صورة المنتج */}
                   <td className="px-4 py-2 md:px-6 md:py-4">
                     <img
                       src={product.imageCover}
@@ -101,20 +102,18 @@ export default function WishList() {
                     />
                   </td>
 
-                  {/* اسم المنتج */}
                   <td className="px-4 py-2 font-semibold text-gray-900 md:px-6 md:py-4">
-                    {product.title}
+                    <Link to={`/productdetails/${product._id}/${product.category.name}`}>
+                    <span className="hover:underline">{product.title}</span>
+                    </Link>
                   </td>
 
-                  {/* سعر المنتج */}
                   <td className="px-4 py-2 font-semibold text-gray-900 md:px-6 md:py-4">
                     EGP {product.price}
                   </td>
 
-                  {/* أزرار الإجراءات */}
                   <td className="px-4 py-2 md:px-6 md:py-4">
                     <div className="flex flex-col gap-2">
-                      {/* زر إضافة إلى السلة */}
                       <button
                         className="cursor-pointer font-medium text-emerald-600 hover:underline"
                         onClick={() => AddToCart(product.id)}
@@ -126,7 +125,6 @@ export default function WishList() {
                         )}
                       </button>
 
-                      {/* زر إزالة من قائمة الأمنيات */}
                       <button
                         className="cursor-pointer font-medium text-red-600 hover:underline"
                         onClick={() => RemoveItemFromWishList(product.id)}
