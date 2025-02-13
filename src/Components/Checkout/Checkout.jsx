@@ -4,22 +4,24 @@ import { CartContext } from "../../Context/CartContext";
 import { ordersContext } from "./../../Context/OrdersContext";
 import * as yup from "yup";
 
-
 export default function Checkout() {
   let { checkoutCart } = useContext(ordersContext);
   let { cartId } = useContext(CartContext);
   const [loading, setLoading] = useState(false);
-  
 
   let validationSchema = yup.object().shape({
-    details: yup.string().min(12,"min length is 12 letter").max(30,"max length is 30 letter").required("details required"),
+    details: yup
+      .string()
+      .min(12, "min length is 12 letter")
+      .max(30, "max length is 30 letter")
+      .required("details required"),
 
     phone: yup
       .string()
       .required()
       .matches(/^01[0125][0-9]{8}$/, "Please Enter Egyption Number"),
 
-      city: yup.string().min(3).max(12).required("city Name required"),
+    city: yup.string().min(3).max(12).required("city Name required"),
   });
 
   let formik = useFormik({
@@ -36,16 +38,15 @@ export default function Checkout() {
 
   async function submitCheckout(cartId) {
     try {
+      let BaseURL = window.location.origin;
       setLoading(true);
-      let { data } = await checkoutCart(cartId, window.location.origin, formik.values);
+      let { data } = await checkoutCart(cartId, BaseURL, formik.values);
       setLoading(false);
-      window.location.href = data.session.url;
-    }
-    finally {
+      window.location.href = data.session.BaseURL;
+    } finally {
       setLoading(false);
     }
   }
-
 
   return (
     <>
@@ -132,15 +133,8 @@ export default function Checkout() {
           type="submit"
           className="m-auto mx-auto my-2 block w-full rounded-lg bg-emerald-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-emerald-600 focus:ring-4 focus:ring-emerald-300 focus:outline-none sm:w-sm"
         >
-          {loading? (
-          <i className="fas fa-spinner fa-spin"></i>
-        ) : (
-          `Checkout`
-        )}
-        
+          {loading ? <i className="fas fa-spinner fa-spin"></i> : `Checkout`}
         </button>
-
-        
       </form>
     </>
   );
