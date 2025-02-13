@@ -200,12 +200,18 @@ export default function Cart() {
             </div>
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 flex justify-around">
+              <button className="btn-specific-product md:px-6 md:py-3 max-w-1/3">
             <Link to={"/checkout"}>
-              <button className="btn-specific-product md:px-6 md:py-3">
-                CheckOut
-              </button>
+                Visa
             </Link>
+              </button>
+
+              <button className="btn-specific-product md:px-6 md:py-3 max-w-1/3">
+            <Link to={"/cashorder"}>
+                Cash
+            </Link>
+              </button> 
           </div>
         </>
       ) : (

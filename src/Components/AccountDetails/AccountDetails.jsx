@@ -3,13 +3,11 @@ import { JwtContext } from "./../../Context/JwtContext";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
 
 export default function AccountDetails() {
-  let { userName, setUserName } = useContext(JwtContext);
-  let { userToken, setuserToken } = useContext(authContext);
-  let navigate = useNavigate();
+  let { userName } = useContext(JwtContext);
+  let { setuserToken } = useContext(authContext);
   const [ApiError, setApiError] = useState("");
   const [ApiErrorPass, setApiErrorPass] = useState("");
   const [ApiSuccess, setApiSuccess] = useState(false);
@@ -132,7 +130,7 @@ export default function AccountDetails() {
       <section className="m-auto flex w-5/6 flex-col border border-gray-200 shadow lg:w-1/2">
         <div className="flex flex-col items-center justify-center">
           <h2 className="p-4 text-center text-3xl font-bold text-emerald-700">
-            Welcome {userName}
+            Edit Info
           </h2>
         </div>
 

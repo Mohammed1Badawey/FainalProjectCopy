@@ -30,6 +30,7 @@ import MyProfile from "./Components/MyProfile/MyProfile";
 import AccountDetails from "./Components/AccountDetails/AccountDetails";
 import Adresses from "./Components/Adresses/Adresses";
 import JwtContextProvider from "./Context/JwtContext";
+import CashOrder from "./Components/CashOrder/CashOrder";
 
 let query = new QueryClient();
 
@@ -105,6 +106,14 @@ let routes = createBrowserRouter([
           <ProtectedRoute>
             <Checkout />
           </ProtectedRoute>
+        ),
+      },
+      {
+        path: "cashorder",
+        element: (
+          <CashOrder>
+            <Checkout />
+          </CashOrder>
         ),
       },
       {

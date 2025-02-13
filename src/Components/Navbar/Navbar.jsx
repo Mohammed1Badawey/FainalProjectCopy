@@ -36,7 +36,7 @@ export default function Navbar() {
     "inline-flex",
     "items-center",
     "rounded-lg",
-    "bg-emerald-700",
+    "bg-emerald-600",
     "px-5",
     "py-2.5",
     "text-center",

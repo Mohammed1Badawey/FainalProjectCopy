@@ -3,23 +3,27 @@ import { useFormik } from "formik";
 import { CartContext } from "../../Context/CartContext";
 import { ordersContext } from "./../../Context/OrdersContext";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 
-
-export default function Checkout() {
-  let { checkoutCart } = useContext(ordersContext);
+export default function CashOrder() {
+  let { cashOrderCart } = useContext(ordersContext);
   let { cartId } = useContext(CartContext);
+  let navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  
 
   let validationSchema = yup.object().shape({
-    details: yup.string().min(12,"min length is 12 letter").max(30,"max length is 30 letter").required("details required"),
+    details: yup
+      .string()
+      .min(12, "min length is 12 letter")
+      .max(30, "max length is 30 letter")
+      .required("details required"),
 
     phone: yup
       .string()
       .required()
       .matches(/^01[0125][0-9]{8}$/, "Please Enter Egyption Number"),
 
-      city: yup.string().min(3).max(12).required("city Name required"),
+    city: yup.string().min(3).max(12).required("city Name required"),
   });
 
   let formik = useFormik({
@@ -30,22 +34,19 @@ export default function Checkout() {
     },
     validationSchema,
     onSubmit: () => {
-      return submitCheckout(cartId, "http://localhost:5173");
+      submitCashOrder(cartId);
     },
   });
 
-  async function submitCheckout(cartId, url) {
+  async function submitCashOrder(cartId) {
+    setLoading(true);
     try {
-      setLoading(true);
-      let { data } = await checkoutCart(cartId, url, formik.values);
+      await cashOrderCart(cartId, formik.values);
+    } finally {
       setLoading(false);
-        window.location.href = data.session.url;
-    }
-    finally {
-      setLoading(false);
+      navigate("/allorders");
     }
   }
-
 
   return (
     <>
@@ -132,15 +133,8 @@ export default function Checkout() {
           type="submit"
           className="m-auto mx-auto my-2 block w-full rounded-lg bg-emerald-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-emerald-600 focus:ring-4 focus:ring-emerald-300 focus:outline-none sm:w-sm"
         >
-          {loading? (
-          <i className="fas fa-spinner fa-spin"></i>
-        ) : (
-          `Checkout`
-        )}
-        
+          {loading ? <i className="fas fa-spinner fa-spin"></i> : `CashOrder`}
         </button>
-
-        
       </form>
     </>
   );

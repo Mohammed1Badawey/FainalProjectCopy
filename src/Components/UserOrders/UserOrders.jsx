@@ -20,12 +20,12 @@ export default function UserOrders() {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="mb-4 text-2xl font-bold">Your Orders</h1>
-      <div className="space-y-6">
+    <div className="p-4 ">
+      <h1 className="mb-4 text-2xl font-bold text-center">Your Orders</h1>
+      <div className="flex flex-col-reverse items-center">
         {orders?.map((order) => (
-          <div key={order._id} className="rounded-lg border p-4 shadow-sm">
-            <div className="mb-4 flex items-center justify-between">
+          <div key={order._id} className="rounded-lg border p-4 shadow-sm my-3 md:max-w-[800px] md:min-w-[600px] min-w-[420px]">
+            <div className="mb-4 flex md:flex-row flex-col items-center justify-between">
               <div>
                 <p className="font-semibold">Order ID: {order._id}</p>
                 <p className="text-sm text-gray-500">
@@ -33,7 +33,7 @@ export default function UserOrders() {
                   {new Date(order.createdAt).toLocaleDateString("en-EG")}
                 </p>
               </div>
-              <div>
+              <div className="pt-3 md:pt-0">
                 <span
                   className={`rounded-full px-3 py-1 text-sm ${
                     order.isPaid
