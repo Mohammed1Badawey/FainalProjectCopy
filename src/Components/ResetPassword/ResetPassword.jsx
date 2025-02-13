@@ -18,6 +18,7 @@ export default function ResetPassword({}) {
   }
 
   async function submitData(resetObj) {
+    let BaseURL = window.location.origin;
     setIsLoading(true);
     await axios
       .put(
@@ -31,7 +32,7 @@ export default function ResetPassword({}) {
           setuserToken(res.data.token);
           setApiSuccess(true);
           setTimeout(() => {
-            window.location.href = "http://localhost:5173/";
+            window.location.href = BaseURL;
           }, 4000);
         }
       })
