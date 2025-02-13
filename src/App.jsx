@@ -43,7 +43,14 @@ let routes = createBrowserRouter([
     path: "",
     element: <Layout />,
     children: [
-      { index: true, element: <Home /> },
+      {
+        index: true,
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "products",
         element: (
@@ -175,9 +182,9 @@ function App() {
           <OrdersContextProvider>
             <ForgettenEmailContextProvider>
               <WishListContextProvider>
-              <JwtContextProvider>
-                <RouterProvider router={routes}></RouterProvider>
-              </JwtContextProvider>
+                <JwtContextProvider>
+                  <RouterProvider router={routes}></RouterProvider>
+                </JwtContextProvider>
               </WishListContextProvider>
             </ForgettenEmailContextProvider>
           </OrdersContextProvider>
