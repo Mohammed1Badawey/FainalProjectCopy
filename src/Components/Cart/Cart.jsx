@@ -119,10 +119,14 @@ export default function Cart() {
                       />
                     </td>
                     <td className="px-4 py-2 font-semibold text-gray-900 md:px-6 md:py-4">
-                                        <Link to={`/productdetails/${product.product._id}/${product.product.category.name}`}>
-                                        <span className="hover:underline">{product.product.title}</span>
-                                        </Link>
-                                      </td>
+                      <Link
+                        to={`/productdetails/${product.product._id}/${product.product.category.name}`}
+                      >
+                        <span className="hover:underline">
+                          {product.product.title}
+                        </span>
+                      </Link>
+                    </td>
                     <td className="px-4 py-2 md:px-6 md:py-4">
                       <div className="flex items-center">
                         <button
@@ -202,18 +206,24 @@ export default function Cart() {
             </div>
           </div>
 
-          <div className="mt-4 flex justify-around">
-              <button className="btn-specific-product md:px-6 md:py-3 max-w-1/3">
-            <Link to={"/checkout"}>
+          <div className="mt-6 gap-8 flex justify-center">
+            <button className="max-w-fit">
+              <Link
+                className="cursor-pointer rounded-2xl bg-emerald-600 px-16 py-3 text-white duration-500 hover:bg-emerald-700"
+                to={"/checkout"}
+              >
                 Visa
-            </Link>
-              </button>
+              </Link>
+            </button>
 
-              <button className="btn-specific-product md:px-6 md:py-3 max-w-1/3">
-            <Link to={"/cashorder"}>
+            <button className="max-w-fit">
+              <Link
+                className="cursor-pointer rounded-2xl bg-emerald-600 px-16 py-3 text-white duration-500 hover:bg-emerald-700"
+                to={"/cashorder"}
+              >
                 Cash
-            </Link>
-              </button> 
+              </Link>
+            </button>
           </div>
         </>
       ) : (
