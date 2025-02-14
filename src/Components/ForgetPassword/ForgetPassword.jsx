@@ -4,6 +4,7 @@ import * as yup from "yup";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { ForgettenEmailContext } from "../../Context/ForgettenMailContext";
+import { publicAxios } from "../../../API/AxiosConig";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -12,32 +13,27 @@ export default function Login() {
   const [ApiSuccess, setApiSuccess] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
 
-  function setErrorNull() {
-    setApiError("");
-  }
 
   async function submitData(ForgetObj) {
     setIsLoading(true);
-    await axios
-      .post(
-        `https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords`,
-        ForgetObj,
-      )
-      .then((res) => {
-        setIsLoading(false);
+    try {
+      await publicAxios.post(`/auth/forgotPasswords`,
+        ForgetObj)
         if (res.data.statusMsg) {
-          setErrorNull();
+          setApiError("");
           setApiSuccess(res.data.message);
           setForgettnEmail(formik.values.email);
           setTimeout(() => {
             navigate("/verifycode");
           }, 3000);
         }
-      })
-      .catch((err) => {
+    }
+      catch(err) {
         setApiError(err.response.data.message);
+      }
+      finally {
         setIsLoading(false);
-      });
+      }
   }
 
   let validationSchema = yup.object().shape({

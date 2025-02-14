@@ -1,58 +1,7 @@
-import React, { useContext, useState } from "react";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
-import { authContext } from "../../Context/AuthContext";
-import LoadingAndErrorHandler from "../LoadingAndErrorHandler/LoadingAndErrorHandler";
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default function MyProfile() {
-  const { userToken, setuserToken } = useContext(authContext);
-  const [accountBtn, setAccountBtn] = useState(false);
-  const [ApiError, setApiError] = useState("");
-  const [IsLoading, setIsLoading] = useState(false);
-  let navigate = useNavigate();
-
-  function setErrorNull() {
-    setApiError("");
-  }
-
-  async function submitData(loginObj) {
-    setIsLoading(true);
-    await axios
-      .post(`https://ecommerce.routemisr.com/api/v1/auth/signin`, loginObj)
-      .then((res) => {
-        setIsLoading(false);
-        if (res.data.message) {
-        }
-        setErrorNull();
-        localStorage.setItem("userToken", res.data.token);
-        setuserToken(res.data.token);
-        navigate("/");
-      })
-      .catch((res) => {
-        setApiError(res.response.data.message);
-        setIsLoading(false);
-      });
-  }
-
-  let validationSchema = yup.object().shape({
-    email: yup.string().email("Invalid Email").required("Email is required"),
-
-    password: yup
-      .string()
-      .min(6, "Min Length is 6")
-      .required("Password is required"),
-  });
-
-  let formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema,
-    onSubmit: submitData,
-  });
 
   return (
     <div className="p-6">

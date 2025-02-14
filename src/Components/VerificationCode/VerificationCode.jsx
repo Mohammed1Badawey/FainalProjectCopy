@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { publicAxios } from "../../../API/AxiosConig";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -10,31 +11,24 @@ export default function Login() {
   const [ApiSuccess, setApiSuccess] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
 
-  function setErrorNull() {
-    setApiError("");
-  }
-
   async function submitData(VerifyObj) {
     setIsLoading(true);
-    await axios
-      .post(
-        `https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode`,
-        VerifyObj,
-      )
-      .then((res) => {
-        setErrorNull();
-        setIsLoading(false);
+    try {
+        const res = await publicAxios.post(`/auth/verifyResetCode`,VerifyObj)
+        setApiError("");
         if (res.data.status) {
           setApiSuccess(res.data.status);
           setTimeout(() => {
             navigate("/resetpassword");
           }, 3000);
         }
-      })
-      .catch((err) => {
+      }
+      catch (err) {
         setApiError(err.response.data.message);
+      }
+      finally {
         setIsLoading(false);
-      });
+      }
   }
 
   let validationSchema = yup.object().shape({

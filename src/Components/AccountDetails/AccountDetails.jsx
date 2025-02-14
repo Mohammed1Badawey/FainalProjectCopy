@@ -6,7 +6,6 @@ import axios from "axios";
 import { authContext } from "../../Context/AuthContext";
 
 export default function AccountDetails() {
-  let { userName } = useContext(JwtContext);
   let { setuserToken } = useContext(authContext);
   const [ApiError, setApiError] = useState("");
   const [ApiErrorPass, setApiErrorPass] = useState("");

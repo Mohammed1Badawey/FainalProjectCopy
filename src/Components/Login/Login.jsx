@@ -4,6 +4,7 @@ import * as yup from "yup";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
+import { publicAxios } from "../../../API/AxiosConig";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -11,27 +12,23 @@ export default function Login() {
   const [IsLoading, setIsLoading] = useState(false);
   const { setuserToken } = useContext(authContext);
 
-  function setErrorNull() {
-    setApiError("");
-  }
-
   async function submitData(loginObj) {
     setIsLoading(true);
-    await axios
-      .post(`https://ecommerce.routemisr.com/api/v1/auth/signin`, loginObj)
-      .then((res) => {
-        setIsLoading(false);
+    try {
+        const res = await publicAxios.post(`/auth/signin`, loginObj)
         if (res.data.message) {
         }
-        setErrorNull();
+        setApiError("");
         localStorage.setItem("userToken", res.data.token);
         setuserToken(res.data.token);
         navigate("/");
-      })
-      .catch((res) => {
-        setApiError(res.response.data.message);
+      }
+      catch(err) {
+        setApiError(err.response.data.message);
+      }
+      finally {
         setIsLoading(false);
-      });
+      }
   }
 
   let validationSchema = yup.object().shape({

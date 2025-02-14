@@ -3,6 +3,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
+import { authAxios } from "../../../API/AxiosConig";
 
 export default function AddressManager() {
   const [addresses, setAddresses] = useState([]);
@@ -11,74 +12,57 @@ export default function AddressManager() {
   const [IsLoadingDel, setIsLoadingDel] = useState(false);
   const [currentIdBtn, setCurrentIdBtn] = useState("");
 
-  let headers = {
-    token: localStorage.getItem("userToken"),
-  };
-
-  const baseAPI = "https://ecommerce.routemisr.com/api/v1/addresses";
-
-  function addAddress(addressData) {
+  async function addAddress(addressData) {
     setIsLoading(true);
-    axios
-      .post(baseAPI, addressData, { headers })
-      .then((res) => {
-        setCurrentIdBtn()
-        setApiError("");
-        setIsLoading(false);
-        toast.success(res.data.message);
-        allAddresses();
-        return res;
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        return err;
-      });
-  }
-  function allAddresses() {
-    axios
-      .get(baseAPI, { headers })
-      .then((res) => {
-        setApiError("");
-        setAddresses(res.data.data);
-        return res;
-      })
-      .catch((err) => {
-        return err
-      });
+    try {
+      const res = await authAxios.post("/addresses", addressData);
+      setApiError("");
+      toast.success(res.data.message);
+      allAddresses();
+    } catch (err) {
+      setApiError(err.response.data.statusMsg);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
-  function deleteAddress (id)  {
-    setCurrentIdBtn(id)
+  async function allAddresses() {
+    try {
+      const res = await authAxios.get("/addresses");
+      setApiError("");
+      setAddresses(res.data.data);
+    } catch (err) {
+      return err;
+    }
+  }
+
+  async function deleteAddress(id) {
+    setCurrentIdBtn(id);
     setIsLoadingDel(true);
-    axios.delete(`${baseAPI}/${id}`, { headers })
-    .then((res) => {
+    try {
+      const res = await authAxios.delete(`/addresses/${id}`);
       toast.success(res.data.message);
-      setIsLoadingDel(false);
       setApiError("");
       allAddresses();
-      return res;
-    })
-    .catch((err) => {
+    } catch (err) {
+      return err;
+    } finally {
       setIsLoadingDel(false);
-      return err 
-    })
-  };
+    }
+  }
 
   useEffect(() => {
-    if (localStorage.getItem("userToken")) {
-      allAddresses();
-    }
+    allAddresses();
   }, []);
 
-
-  let validationSchema =  Yup.object().shape({
+  let validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     details: Yup.string().required("Details are required"),
     phone: Yup.string()
       .matches(/^(01)[0-9]{9}$/, "Invalid phone number")
       .required("Phone is required"),
     city: Yup.string().required("City is required"),
-  })
+  });
 
   const formik = useFormik({
     initialValues: { name: "", details: "", phone: "", city: "" },
@@ -91,7 +75,7 @@ export default function AddressManager() {
 
   return (
     <div>
-      <h1 className="text-center font-[700] text-2xl">Manage Addresses</h1>
+      <h1 className="text-center text-2xl font-[700]">Manage Addresses</h1>
 
       <form
         onSubmit={formik.handleSubmit}
@@ -176,31 +160,41 @@ export default function AddressManager() {
       </form>
 
       <ul className="space-y-4 p-6">
-        {addresses?.length > 0 ? 
-        <>
-        {addresses?.map((address) => (
-          <li
-            key={address._id}
-            className="flex items-center justify-between rounded-lg bg-gray-50 p-4 shadow-sm"
-          >
-            <div>
-              <p className="font-semibold">{address.name}</p>
-              <p className="text-gray-600"><span className="font-[600]">Details:</span> {address.details}</p>
-              <p className="text-gray-600">{address.city}</p>
-              <p className="text-gray-600">{address.phone}</p>
-            </div>
-            <button
-              onClick={() => deleteAddress(address._id)}
-              className="rounded-lg bg-emerald-500 px-3 py-1 text-sm font-medium text-white transition duration-300 hover:bg-emerald-600"
-            >
-              {IsLoadingDel && currentIdBtn == address._id ? <i className="fas fa-spinner fa-spin"></i> : "Delete"}
-              
-            </button>
-          </li>
-        ))}
-        </> : 
-        <p className="p-8 font-bold text-2xl text-center"> Your List Empty.. </p>
-        }
+        {addresses?.length > 0 ? (
+          <>
+            {addresses?.map((address) => (
+              <li
+                key={address._id}
+                className="flex items-center justify-between rounded-lg bg-gray-50 p-4 shadow-sm"
+              >
+                <div>
+                  <p className="font-semibold">{address.name}</p>
+                  <p className="text-gray-600">
+                    <span className="font-[600]">Details:</span>{" "}
+                    {address.details}
+                  </p>
+                  <p className="text-gray-600">{address.city}</p>
+                  <p className="text-gray-600">{address.phone}</p>
+                </div>
+                <button
+                  onClick={() => deleteAddress(address._id)}
+                  className="rounded-lg bg-emerald-500 px-3 py-1 text-sm font-medium text-white transition duration-300 hover:bg-emerald-600"
+                >
+                  {IsLoadingDel && currentIdBtn == address._id ? (
+                    <i className="fas fa-spinner fa-spin"></i>
+                  ) : (
+                    "Delete"
+                  )}
+                </button>
+              </li>
+            ))}
+          </>
+        ) : (
+          <p className="p-8 text-center text-2xl font-bold">
+            {" "}
+            Your List Empty..{" "}
+          </p>
+        )}
       </ul>
     </div>
   );

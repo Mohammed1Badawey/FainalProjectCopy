@@ -1,34 +1,30 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { publicAxios } from "../../../API/AxiosConig";
 
 export default function Register() {
   let navigate = useNavigate();
   const [ApiError, setApiError] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
 
-  function setErrorNull() {
-    setApiError("");
-  }
 
   async function submitData(registerObj) {
     setIsLoading(true);
-    await axios
-      .post(`https://ecommerce.routemisr.com/api/v1/auth/signup`, registerObj)
-      .then((res) => {
-        setIsLoading(false);
-        if (res.data.message) {
-        }
-        setErrorNull();
+
+    try {
+        const res = await publicAxios.post(`/auth/signup`, registerObj)
+        setApiError("");
         localStorage.setItem("userToken", res.data.token);
         navigate("/login");
-      })
-      .catch((res) => {
+      }
+      catch(res) {
         setApiError(res.response.data.message);
+      }
+      finally {
         setIsLoading(false);
-      });
+      }
   }
 
   let validationSchema = yup.object().shape({
@@ -223,5 +219,3 @@ export default function Register() {
     </>
   );
 }
-
-//  && formik.values.phone.trim() !== ""

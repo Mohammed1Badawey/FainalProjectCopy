@@ -1,46 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { authAxios, publicAxios } from "../../API/AxiosConig";
+import { useContext } from "react";
+import { JwtContext } from "../Context/JwtContext";
 
 export default function useUserOrders() {
-  let headers = {
-    token: localStorage.getItem("userToken"),
-  };
+  
+  const {userId}  = useContext(JwtContext);
 
   async function checkToken() {
-    const response = await axios.get(
-      `https://ecommerce.routemisr.com/api/v1/auth/verifyToken`,
-      { headers },
-    );
-    return response.data.decoded.id;
+      const response = await authAxios.get(`/auth/verifyToken`);
+      return response.data.decoded.id;
   }
 
-  async function getUserOrders(ownerId) {
-    const response = await axios.get(
-      `https://ecommerce.routemisr.com/api/v1/orders/user/${ownerId}`,
-    );
+  async function getUserOrders() {
+    const response = await publicAxios.get(`/orders/user/${userId}`);
     return response.data;
   }
 
-  const {
-    data: ownerId,
-    isLoading: isOwnerLoading,
-    error: ownerError,
-  } = useQuery({
-    queryKey: ["ownerId"],
-    queryFn: checkToken,
-    staleTime: Infinity,
-    retry: 3,
-    retryDelay: 3000,
-  });
-
   const ordersQuery = useQuery({
-    queryKey: ["userOrders", ownerId],
-    queryFn: () => getUserOrders(ownerId),
-    enabled: !!ownerId,
+    queryKey: ["userOrders", userId],
+    queryFn: () => getUserOrders(),
+    enabled: !!userId,
     staleTime: Infinity,
     retry: 3,
     retryDelay: 3000,
-    refetchOnWindowFocus: true,
   });
 
   return ordersQuery;

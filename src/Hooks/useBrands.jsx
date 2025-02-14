@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import React from "react";
+import { publicAxios } from "../../API/AxiosConig";
 
 export default function useBrands() {
   function getBrands() {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/brands`);
+    return publicAxios.get(`/brands`);
   }
 
   let allBrands = useQuery({

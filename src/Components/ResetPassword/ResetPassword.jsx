@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { ForgettenEmailContext } from "../../Context/ForgettenMailContext";
 import { authContext } from "../../Context/AuthContext";
+import { publicAxios } from "../../../API/AxiosConig";
 
 export default function ResetPassword({}) {
   let navigate = useNavigate();
@@ -13,21 +14,14 @@ export default function ResetPassword({}) {
   const [ApiError, setApiError] = useState("");
   const [ApiSuccess, setApiSuccess] = useState(false);
   const [IsLoading, setIsLoading] = useState(false);
-  function setErrorNull() {
-    setApiError("");
-  }
+
 
   async function submitData(resetObj) {
     let BaseURL = window.location.origin;
     setIsLoading(true);
-    await axios
-      .put(
-        `https://ecommerce.routemisr.com/api/v1/auth/resetPassword`,
-        resetObj,
-      )
-      .then((res) => {
-        setErrorNull();
-        setIsLoading(false);
+    try {
+        const res = await publicAxios.put(`/auth/resetPassword`, resetObj)
+        setApiError("");
         if (res.status === 200) {
           setuserToken(res.data.token);
           setApiSuccess(true);
@@ -35,11 +29,13 @@ export default function ResetPassword({}) {
             window.location.href = BaseURL;
           }, 4000);
         }
-      })
-      .catch((err) => {
+      }
+      catch(err) {
         setApiError(err.response.data.message);
+      }
+      finally {
         setIsLoading(false);
-      });
+      }
   }
 
   useEffect(() => {

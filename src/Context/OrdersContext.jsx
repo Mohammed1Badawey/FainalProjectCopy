@@ -2,55 +2,30 @@ import React, { createContext, useContext } from "react";
 import { CartContext } from "./CartContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { authAxios } from "../../API/AxiosConig";
 export const ordersContext = createContext();
 
 export default function OrdersContextProvider({ children }) {
-  let { setNumCart, cartId } = useContext(CartContext);
-  let headers = {
-    token: localStorage.getItem("userToken"),
-  };
+  let { setNumCart } = useContext(CartContext);
 
-  function checkoutCart(cartId, url, formData) {
-    headers = {
-      token: localStorage.getItem("userToken"),
-    };
-    return axios
-      .post(
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${url}`,
-        {
-          shippingAddress: formData,
-        },
-        {
-          headers,
-        },
-      )
-      .then((res) => {
+
+  async function checkoutCart(cartId, url, formData) {
+    try {
+        const res = await authAxios.post(`/orders/checkout-session/${cartId}?url=${url}`, {shippingAddress: formData})
         setNumCart(res.data.numOfCartItems);
         return res;
-      })
-      .catch((err) => err);
+      }
+      catch(err) { return err }
   }
 
-  function cashOrderCart(cartId, formData) {
-    headers = {
-      token: localStorage.getItem("userToken"),
-    };
-    return axios
-      .post(
-        `https://ecommerce.routemisr.com/api/v1/orders/${cartId}`,
-        {
-          shippingAddress: formData,
-        },
-        {
-          headers,
-        },
-      )
-      .then((res) => {
+  async function cashOrderCart(cartId, formData) {
+    try {
+        const res = await authAxios.post(`/orders/${cartId}`, {shippingAddress: formData})
         toast.success(res.data.status);
         setNumCart(0);
         return res;
-      })
-      .catch((err) => err);
+      }
+      catch(err) { return err }
   }
 
   return (

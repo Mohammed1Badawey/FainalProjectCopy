@@ -46,7 +46,6 @@ export default function UserOrders() {
               </div>
             </div>
 
-            {/* Shipping Address */}
             <div className="mb-4">
               <h2 className="mb-2 text-lg font-[700]">Shipping Address</h2>
               <p>
@@ -66,7 +65,6 @@ export default function UserOrders() {
               </p>
             </div>
 
-            {/* Cart Items */}
             <div className="mb-4">
               <h2 className="mb-2 font-[600]">Items</h2>
               <div className="space-y-2">
@@ -89,7 +87,6 @@ export default function UserOrders() {
               </div>
             </div>
 
-            {/* Order Summary */}
             <div className="border-t pt-4">
               <h2 className="mb-2 font-[600]">Order Summary</h2>
               <div className="flex justify-between">
