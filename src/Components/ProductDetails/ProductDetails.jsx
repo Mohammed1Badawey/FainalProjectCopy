@@ -207,7 +207,7 @@ export default function ProductDetails() {
               >
                 <div className="productBorder my-main-hover">
                   <Link
-                    to={`productdetails/${product.id}/${product.category.name}`}
+                    to={`/productdetails/${product.id}/${product.category.name}`}
                   >
                     <figure className="overflow-hidden">
                       <img

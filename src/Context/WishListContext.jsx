@@ -6,7 +6,6 @@ export let WishListContext = createContext();
 export default function WishListContextProvider({ children }) {
   const [numWishList, setNumWishList] = useState(0);
   const [wishlistdetails, setWishlistDetails] = useState(null);
-
   let headers = {
     token: localStorage.getItem("userToken"),
   };
