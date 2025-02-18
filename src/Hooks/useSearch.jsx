@@ -1,30 +1,14 @@
-import {  useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
+import useAllProducts from "./useAllProducts";
 
-export default function useSearch(SearchInputText) {
-  const queryClient = useQueryClient();
-
-  
-  const getCachedPageOneProducts = queryClient.getQueryData([
-    "products",
-    { pageNum: 1 },
-  ]) || [];
-  const getCachedPageTwoProducts = queryClient.getQueryData([
-    "products",
-    { pageNum: 2 },
-  ]) || [];
-
-
-  const allProducts = [...(getCachedPageOneProducts) , ...(getCachedPageTwoProducts) ] || [];
-
-
+export default function useSearch(SearchInputText,selectedCategory) {
+const {data:filteredProducts} = useAllProducts(selectedCategory);  
 
   const filteredBySearchProducts = useMemo(() => {
-    if (!SearchInputText) return allProducts || [];
-    return allProducts?.filter((product) =>
+    if (!SearchInputText) return filteredProducts || [];
+    return filteredProducts?.filter((product) =>
       product.slug.toLowerCase().includes(SearchInputText.toLowerCase())
     ) || [];
-  }, [SearchInputText, allProducts]);
-
+  }, [SearchInputText, filteredProducts]);
   return { data: filteredBySearchProducts };
 }

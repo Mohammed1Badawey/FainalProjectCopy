@@ -15,8 +15,8 @@ import { useQueryClient } from "@tanstack/react-query";
 export default function Products() {
   const queryClient = useQueryClient();
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [searchquery, setSearchquery] = useState("");
-  const { data: searchData } = useSearch(searchquery);
+  const [searchQuery, setSearchQuery] = useState("");
+  const { data: searchData } = useSearch(searchQuery, selectedCategory);
   const [pageNum, setPageNum] = useState(1);
 
   const { mutate: mutateAddToCart, isPending: pendingAddToCart } =
@@ -39,7 +39,9 @@ export default function Products() {
   const handleAddToCart = (productId) => {
     setCurrentItemId(productId);
     mutateAddToCart(productId, {
-      onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("cartItems");}
+      onSettled: () => {
+        setCurrentItemId(null), queryClient.invalidateQueries("cartItems");
+      },
     });
   };
 
@@ -50,11 +52,17 @@ export default function Products() {
     );
     if (isInWishList) {
       mutateRemove(productId, {
-        onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("WishListItems")}
+        onSettled: () => {
+          setCurrentItemId(null),
+            queryClient.invalidateQueries("WishListItems");
+        },
       });
     } else {
       mutateAddToWishList(productId, {
-        onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("WishListItems")}
+        onSettled: () => {
+          setCurrentItemId(null),
+            queryClient.invalidateQueries("WishListItems");
+        },
       });
     }
   };
@@ -67,7 +75,10 @@ export default function Products() {
     >
       <>
         <div>
-          <ProductsSearch setSearchquery={setSearchquery} />
+          <ProductsSearch
+            setSearchQuery={setSearchQuery}
+            selectedCategory={selectedCategory}
+          />
           <ProductsFilter
             setSelectedCategory={setSelectedCategory}
             selectedCategory={selectedCategory}
@@ -75,7 +86,7 @@ export default function Products() {
         </div>
         <div className="mt-18 grid grid-cols-12 justify-items-center gap-x-4 gap-y-12">
           {data?.length > 0 ? (
-            searchquery && searchData ? (
+            searchQuery && searchData ? (
               searchData.length > 0 ? (
                 searchData.map((product) => (
                   <ProductCard
@@ -114,7 +125,7 @@ export default function Products() {
             </p>
           )}
         </div>
-        {selectedCategory === "" && searchquery === "" && (
+        {selectedCategory === "" && searchQuery === "" && (
           <div className="m-auto mt-8 justify-center gap-6 text-center">
             <div className="flex justify-center">
               <div className="flex h-8 items-center -space-x-px text-sm">
