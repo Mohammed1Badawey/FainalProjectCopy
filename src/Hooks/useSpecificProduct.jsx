@@ -2,7 +2,6 @@ import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { publicAxios } from "../../API/AxiosConig";
-import Products from './../Components/Products/Products';
 export default function useSpecificProduct() {
   let { id } = useParams();
 
@@ -11,12 +10,12 @@ export default function useSpecificProduct() {
     return response.data.data }
 
   const queryClient = useQueryClient();
-  const getCachedData = queryClient.getQueryData(["allProducts", { "pageNum": 1 }]);
-  const filteredProducts = queryClient.getQueryData(["allProducts"]);
+  const getCachedDataPageOne = queryClient.getQueryData(["products", { "pageNum": 1 }]) || [];
+  const getCachedDataPageTwo = queryClient.getQueryData(["products", { "pageNum": 2 }]) || [];
 
   const allProducts = [
-    ...(getCachedData?.data || []),
-    ...(filteredProducts?.data || [])
+    ...(getCachedDataPageOne?.data || []),
+    ...(getCachedDataPageTwo?.data || [])
   ];
 
   let cachedProduct = allProducts?.find((product) => product.id == id);

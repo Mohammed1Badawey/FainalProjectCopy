@@ -13,7 +13,6 @@ export default function ProductsSearch({setSearchquery}) {
     const delaySearch = setTimeout(() => {
       setSearchquery(searchText);
     }, 500);
-
     return () => clearTimeout(delaySearch); 
   }, [searchText]);
 

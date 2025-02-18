@@ -15,15 +15,15 @@ export default function useAllProducts(selectedCategory,pageNum = 1) {
     if (pageNum == 1 && isStale) {
       const nextPage = pageNum + 1;
       queryClient.prefetchQuery({
-        queryKey: ["allProducts",{"pageNum":nextPage}],
+        queryKey: ["products",{"pageNum":nextPage}],
         queryFn: () => getAllProducts(nextPage),
       })
     } else {return}
   }, [pageNum,queryClient])
   
 
-  let { data: allProducts, isLoading, isError, error, isStale} = useQuery({
-    queryKey: ["allProducts",{pageNum}],
+  let { data: products, isLoading, isError, error, isStale} = useQuery({
+    queryKey: ["products",{pageNum}],
     queryFn: () => getAllProducts(pageNum),
     staleTime: 10 * 1000 * 60,
     retry: 3,
@@ -31,10 +31,10 @@ export default function useAllProducts(selectedCategory,pageNum = 1) {
   });
 
     const filteredProducts = useMemo(() => {
-      if (!selectedCategory) return allProducts || [];
-      return allProducts?.filter((product) => product.category.slug === selectedCategory
+      if (!selectedCategory) return products || [];
+      return products?.filter((product) => product.category.slug === selectedCategory
       ) || [];
-    }, [selectedCategory, allProducts , pageNum]);
+    }, [selectedCategory, products , pageNum]);
     return { data: filteredProducts, isLoading, isError, error };
   
 

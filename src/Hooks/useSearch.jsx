@@ -1,26 +1,23 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {  useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { publicAxios } from "../../API/AxiosConig";
 
 export default function useSearch(SearchInputText) {
   const queryClient = useQueryClient();
 
-  let getCachedData = queryClient.getQueryData(["allProducts"]);
+  
+  const getCachedPageOneProducts = queryClient.getQueryData([
+    "products",
+    { pageNum: 1 },
+  ]) || [];
+  const getCachedPageTwoProducts = queryClient.getQueryData([
+    "products",
+    { pageNum: 2 },
+  ]) || [];
 
-  async function getSearchProducts() {
-    const res = await publicAxios.get(`/products`);
-    return res.data.data;
-  }
 
-  const { data: allProducts, isLoading, isError, error } = useQuery({
-    queryKey: ["allProducts"],
-    queryFn: getSearchProducts,
-    staleTime: 10 * 1000 * 60, 
-    retry: 3,
-    retryDelay: 3000,
-    enabled: !getCachedData, 
-    initialData: getCachedData,
-  });
+  const allProducts = [...(getCachedPageOneProducts) , ...(getCachedPageTwoProducts) ] || [];
+
+
 
   const filteredBySearchProducts = useMemo(() => {
     if (!SearchInputText) return allProducts || [];
@@ -29,5 +26,5 @@ export default function useSearch(SearchInputText) {
     ) || [];
   }, [SearchInputText, allProducts]);
 
-  return { data: filteredBySearchProducts, isLoading, isError, error };
+  return { data: filteredBySearchProducts };
 }

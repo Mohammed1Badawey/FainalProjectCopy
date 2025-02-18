@@ -15,10 +15,11 @@ export const useAddToCart = () => {
     onMutate: (productId) => {
       const cartData = queryClient.getQueryData(["cartItems"]);
       const oldCart = Array.isArray(cartData?.data) ? cartData.data : [];
-      const allProduct = queryClient.getQueryData(["allProducts"]) || [];
-      const addedProduct = allProduct.find((product) => {
-        return product.id === productId;
-      });
+
+      const pageOneCachedData = queryClient.getQueryData(["products", { pageNum: 1 }]) || [];
+      const pageTwoCachedData  = queryClient.getQueryData(["products", { pageNum: 2 }]) || [];
+      const allProducts = [...pageOneCachedData,...pageTwoCachedData];
+      const addedProduct = allProducts.find((item) => item.id === productId);
       const newCart = [addedProduct, ...oldCart];
       queryClient.setQueryData(["cartItems"], { data: newCart });
       return () => queryClient.setQueryData(["cartItems"], { data: oldCart });

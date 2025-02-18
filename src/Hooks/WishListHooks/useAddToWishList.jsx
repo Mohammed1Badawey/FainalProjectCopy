@@ -18,9 +18,9 @@ export const useAddToWishList = () => {
       const oldWishList = Array.isArray(wishListData?.data)
         ? wishListData.data
         : [];
-      const allProductsQuery = queryClient.getQueryData(["allProducts"]) || [];
-      const allPageProducts = queryClient.getQueryData(["allProducts", { pageNum: 1 }]);
-      const allProducts = [...allProductsQuery,...allPageProducts];
+      const pageOneCachedData = queryClient.getQueryData(["products", { pageNum: 1 }]) || [];
+      const pageTwoCachedData  = queryClient.getQueryData(["products", { pageNum: 2 }]) || [];
+      const allProducts = [...pageOneCachedData,...pageTwoCachedData];
       const productWished = allProducts.find((item) => item.id === productId);
       const newWishList = [productWished, ...oldWishList];
 
