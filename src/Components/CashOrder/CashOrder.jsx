@@ -1,13 +1,15 @@
 import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
-import { CartContext } from "../../Context/CartContext";
 import { ordersContext } from "./../../Context/OrdersContext";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { JwtContext } from './../../Context/JwtContext';
+
+
 
 export default function CashOrder() {
   let { cashOrderCart } = useContext(ordersContext);
-  let { cartId } = useContext(CartContext);
+  let { userId } = useContext(JwtContext);
   let navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -34,14 +36,14 @@ export default function CashOrder() {
     },
     validationSchema,
     onSubmit: () => {
-      submitCashOrder(cartId);
+      submitCashOrder(userId);
     },
   });
 
-  async function submitCashOrder(cartId) {
+  async function submitCashOrder(userId) {
     setLoading(true);
     try {
-      await cashOrderCart(cartId, formik.values);
+      await cashOrderCart(userId, formik.values);
     } finally {
       setLoading(false);
       navigate("/allorders");

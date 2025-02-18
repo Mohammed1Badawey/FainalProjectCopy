@@ -1,64 +1,63 @@
 import React, { useContext, useState } from "react";
-import { FaStar } from "react-icons/fa";
-import { Link, NavLink } from "react-router-dom";
-import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
-import { WishListContext } from "../../Context/WishListContext";
-import ProductButtons from "../ProductButtons/ProductButtons";
 import LoadingAndErrorHandler from "../LoadingAndErrorHandler/LoadingAndErrorHandler";
-import useAllProducts from './../../Hooks/useAllProducts';
+import useAllProducts from "./../../Hooks/useAllProducts";
+import ProductsFilter from "../ProductsFilter/ProductsFilter";
+import ProductsSearch from "./../ProductsSearch/ProductsSearch";
+import useSearch from "../../Hooks/useSearch";
+import { ProductCard } from "../ProductCard/ProductCard";
+import { useAddToCart } from "../../Hooks/CartHooks/useAddToCart";
+import useGetUserWishList from "../../Hooks/WishListHooks/useGetUserWishList";
+import { useRemoveFromWishList } from "../../Hooks/WishListHooks/useRemoveFromWishList";
+import { useAddToWishList } from "../../Hooks/WishListHooks/useAddToWishList";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Products() {
-  let { addToCart } = useContext(CartContext);
-  let {
-    addToWishList,
-    wishlistdetails,
-    getUserWishList,
-    removeItemFromWishList,
-  } = useContext(WishListContext);
-  let { data, isLoading, isError, error } = useAllProducts();
-  const [loading, setLoading] = useState(false);
-  const [currentIdBtn, setCurrentIdBtn] = useState("");
-  const [loadingWish, setLoadingWish] = useState(false);
+  const queryClient = useQueryClient();
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchquery, setSearchquery] = useState("");
+  const { data: searchData } = useSearch(searchquery);
+  const [pageNum, setPageNum] = useState(1);
 
-  async function AddToCart(id) {
-    setCurrentIdBtn(id);
-    setLoading(true);
-    let response = await addToCart(id);
-    if (response?.data?.status == "success") {
-      setLoading(false);
-      toast.success(response.data.message, {
-        duration: 2000,
-        position: "top-center",
+  const { mutate: mutateAddToCart, isPending: pendingAddToCart } =
+    useAddToCart();
+
+  const { mutate: mutateAddToWishList } = useAddToWishList();
+
+  const { data: allWishListItems, isFetching } = useGetUserWishList();
+
+  const { mutate: mutateRemove, isPending: pendingRemove } =
+    useRemoveFromWishList();
+
+  const [currentItemId, setCurrentItemId] = useState(null);
+
+  const { data, isLoading, isError, error } = useAllProducts(
+    selectedCategory,
+    pageNum,
+  );
+
+  const handleAddToCart = (productId) => {
+    setCurrentItemId(productId);
+    mutateAddToCart(productId, {
+      onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("cartItems");}
+    });
+  };
+
+  const handleAddToWishList = (productId) => {
+    setCurrentItemId(productId);
+    const isInWishList = allWishListItems?.data?.some(
+      (item) => item.id === productId,
+    );
+    if (isInWishList) {
+      mutateRemove(productId, {
+        onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("WishListItems")}
       });
-      setLoading(false);
     } else {
-      setLoading(false);
-      toast.error(response.data.message);
+      mutateAddToWishList(productId, {
+        onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("WishListItems")}
+      });
     }
-    setLoading(false);
-  }
-
-  async function handleWishListToggle(id) {
-    setCurrentIdBtn(id);
-    setLoadingWish(true);
-    if (wishlistdetails?.some((item) => item.id === id)) {
-      let response = await removeItemFromWishList(id);
-      if (response?.data?.status === "success") {
-        await getUserWishList();
-        toast.success(response.data.message);
-        setLoadingWish(false);
-      }
-    }
-    if (!wishlistdetails?.some((item) => item.id === id)) {
-      let response = await addToWishList(id);
-      if (response?.data?.status === "success") {
-        await getUserWishList();
-        toast.success(response.data.message);
-        setLoadingWish(false);
-      }
-    }
-  }
+  };
 
   return (
     <LoadingAndErrorHandler
@@ -67,65 +66,74 @@ export default function Products() {
       error={error}
     >
       <>
+        <div>
+          <ProductsSearch setSearchquery={setSearchquery} />
+          <ProductsFilter
+            setSelectedCategory={setSelectedCategory}
+            selectedCategory={selectedCategory}
+          />
+        </div>
         <div className="mt-18 grid grid-cols-12 justify-items-center gap-x-4 gap-y-12">
-          {data?.map((product) => (
-            <div
-              key={product.id}
-              className="group col-span-6 md:col-span-6 md:px-5 lg:col-span-3"
-            >
-              <div className="productBorder my-main-hover">
-                <Link
-                  to={`/productdetails/${product.id}/${product.category.name}`}
-                >
-                  <figure className="overflow-hidden">
-                    <img
-                      className="w-full object-cover"
-                      src={product.imageCover}
-                      alt=""
-                    />
-                  </figure>
-                  <div className="p-2 md:p-5">
-                    <h3 className="text-emerald-600">
-                      {product.category.name}
-                    </h3>
-                    <h3>{product.title.split(" ").slice(0, 2).join(" ")}</h3>
-                    <div className="flex items-center justify-between">
-                      <span>{product.price} EGP</span>
-                      <span className="flex items-center gap-0.5">
-                        {product.ratingsAverage}{" "}
-                        <FaStar className="text-yellow-400" />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-
-                <ProductButtons
+          {data?.length > 0 ? (
+            searchquery && searchData ? (
+              searchData.length > 0 ? (
+                searchData.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    AddToCart={handleAddToCart}
+                    handleAddToWishList={handleAddToWishList}
+                    loadingAddToCart={
+                      pendingAddToCart && currentItemId === product.id
+                    }
+                    allWishListItems={allWishListItems?.data}
+                  />
+                ))
+              ) : (
+                <p className="col-span-12 text-center text-gray-500">
+                  No products found for your search.
+                </p>
+              )
+            ) : (
+              data.map((product) => (
+                <ProductCard
+                  key={product.id}
                   product={product}
-                  AddToCart={AddToCart}
-                  loading={loading}
-                  currentIdBtn={currentIdBtn}
-                  handleWishListToggle={handleWishListToggle}
-                  loadingWish={loadingWish}
-                  wishlistdetails={wishlistdetails}
+                  AddToCart={handleAddToCart}
+                  handleAddToWishList={handleAddToWishList}
+                  loadingAddToCart={
+                    pendingAddToCart && currentItemId === product.id
+                  }
+                  allWishListItems={allWishListItems?.data}
                 />
+              ))
+            )
+          ) : (
+            <p className="col-span-12 text-center text-gray-500">
+              No products found.
+            </p>
+          )}
+        </div>
+        {selectedCategory === "" && searchquery === "" && (
+          <div className="m-auto mt-8 justify-center gap-6 text-center">
+            <div className="flex justify-center">
+              <div className="flex h-8 items-center -space-x-px text-sm">
+                <button
+                  onClick={() => setPageNum(1)}
+                  className="flex h-8 cursor-pointer items-center justify-center border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                >
+                  1
+                </button>
+                <button
+                  onClick={() => setPageNum(2)}
+                  className="flex h-8 cursor-pointer items-center justify-center border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                >
+                  2
+                </button>
               </div>
             </div>
-          ))}
-        </div>
-        <div className="m-auto mt-8 hidden justify-center gap-6 text-center">
-          <NavLink to="/">
-            {" "}
-            <button className="cursor-pointer border border-emerald-600 px-2">
-              1
-            </button>
-          </NavLink>
-          <NavLink to="/">
-            {" "}
-            <button className="cursor-pointer border border-emerald-600 px-2">
-              2
-            </button>
-          </NavLink>
-        </div>
+          </div>
+        )}
       </>
     </LoadingAndErrorHandler>
   );

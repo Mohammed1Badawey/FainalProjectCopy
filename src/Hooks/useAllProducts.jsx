@@ -1,27 +1,41 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import React from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useEffect, useMemo } from "react";
+import { publicAxios } from "../../API/AxiosConig";
 
-export default function useAllProducts() {
-  function getAllProducts() {
-    let headers = {
-      token: localStorage.getItem("userToken"),
-    };
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/products`);
+export default function useAllProducts(selectedCategory,pageNum = 1) {
+
+  async function getAllProducts(pageNum) {
+    const res = await publicAxios.get(`/products` ,{params:{page:pageNum} });
+    return res.data.data;
   }
 
-  let productInfo = useQuery({
-    queryKey: ["allProducts"],
-    queryFn: getAllProducts,
-    staleTime: 30000,
-    retry: 5,
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (pageNum == 1 && isStale) {
+      const nextPage = pageNum + 1;
+      queryClient.prefetchQuery({
+        queryKey: ["allProducts",{"pageNum":nextPage}],
+        queryFn: () => getAllProducts(nextPage),
+      })
+    } else {return}
+  }, [pageNum,queryClient])
+  
+
+  let { data: allProducts, isLoading, isError, error, isStale} = useQuery({
+    queryKey: ["allProducts",{pageNum}],
+    queryFn: () => getAllProducts(pageNum),
+    staleTime: 10 * 1000 * 60,
+    retry: 3,
     retryDelay: 3000,
-    refetchInterval: 20000,
-    refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
-    gcTime: 10000,
-    select: (data) => data.data.data,
   });
 
-  return productInfo;
+    const filteredProducts = useMemo(() => {
+      if (!selectedCategory) return allProducts || [];
+      return allProducts?.filter((product) => product.category.slug === selectedCategory
+      ) || [];
+    }, [selectedCategory, allProducts , pageNum]);
+    return { data: filteredProducts, isLoading, isError, error };
+  
+
 }

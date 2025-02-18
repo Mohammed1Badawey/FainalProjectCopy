@@ -11,11 +11,10 @@ export default function useBrands() {
     queryKey: ["brands"],
     queryFn: getBrands,
     staleTime: Infinity,
-    retry: 5,
+    retry: 3,
     retryDelay: 3000,
     refetchInterval: Infinity,
     refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
     gcTime: 30000,
     select: (data) => data.data.data,
   });

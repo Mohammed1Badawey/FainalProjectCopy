@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import React from "react";
+import { publicAxios } from "../../../API/AxiosConig";
 
 export default function useCategoriesSllider() {
   function getCategories() {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/categories`);
+    return publicAxios.get(`/categories`);
   }
 
   let categoriesSlider = useQuery({

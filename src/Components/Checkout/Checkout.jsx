@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
-import { CartContext } from "../../Context/CartContext";
 import { ordersContext } from "./../../Context/OrdersContext";
 import * as yup from "yup";
+import { JwtContext } from "../../Context/JwtContext";
 
 
 export default function Checkout() {
   let { checkoutCart } = useContext(ordersContext);
-  let { cartId } = useContext(CartContext);
+  let { userId } = useContext(JwtContext);
   const [loading, setLoading] = useState(false);
   
 
@@ -30,15 +30,15 @@ export default function Checkout() {
     },
     validationSchema,
     onSubmit: () => {
-      return submitCheckout(cartId);
+      return submitCheckout(userId);
     },
   });
 
-  async function submitCheckout(cartId) {
+  async function submitCheckout(userId) {
     try {
       let BaseURL = window.location.origin;
       setLoading(true);
-      let { data } = await checkoutCart(cartId, BaseURL, formik.values);
+      let { data } = await checkoutCart(userId, BaseURL, formik.values);
       setLoading(false);
       window.location.href = data.session.url;
     }

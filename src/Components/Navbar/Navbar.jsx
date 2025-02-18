@@ -7,17 +7,11 @@ import { authContext } from "./../../Context/AuthContext";
 import { MdOutlineLogin } from "react-icons/md";
 import { HiMiniUserPlus } from "react-icons/hi2";
 import { VscSignIn } from "react-icons/vsc";
-import { CartContext } from "../../Context/CartContext";
-import { WishListContext } from "../../Context/WishListContext";
-import { JwtContext } from "../../Context/JwtContext";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { userToken, setuserToken } = useContext(authContext);
-  const { numCart } = useContext(CartContext);
-  const { numWishList } = useContext(WishListContext);
   const [accountBtn, setAccountBtn] = useState(false);
-  let { userName, setUserName } = useContext(JwtContext);
   
   const navigate = useNavigate();
 
@@ -88,21 +82,21 @@ export default function Navbar() {
                   <li>
                     <NavLink to="/cart" className="relative">
                       Cart
-                      {numCart > 0 && (
+                      {/* {numCart > 0 && (
                         <div className="absolute -top-4 -right-4 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
                           {numCart}
                         </div>
-                      )}
+                      )} */}
                     </NavLink>
                   </li>
                   <li>
                     <NavLink to="/wishlist" className="relative">
                       Wishlist
-                      {numWishList > 0 && (
+                      {/* {numWishList > 0 && (
                         <div className="absolute -top-4 -right-4 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
                           {numWishList}
                         </div>
-                      )}
+                      )} */}
                     </NavLink>
                   </li>
                 </ul>
@@ -194,21 +188,21 @@ export default function Navbar() {
                   <li>
                     <NavLink to="/cart" className="relative">
                       Cart
-                      {numCart > 0 && (
+                      {/* {numCart > 0 && (
                         <div className="absolute -top-1 -right-6 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
                           {numCart}
                         </div>
-                      )}
+                      )} */}
                     </NavLink>
                   </li>
                   <li>
                     <NavLink to="/wishlist" className="relative">
                       Wishlist
-                      {numWishList > 0 && (
+                      {/* {numWishList > 0 && (
                         <div className="absolute -top-1 -right-6 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
                           {numWishList}
                         </div>
-                      )}
+                      )} */}
                     </NavLink>
                   </li>
                   <li>

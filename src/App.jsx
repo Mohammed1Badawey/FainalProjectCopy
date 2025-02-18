@@ -14,7 +14,6 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import ProductDetails from "./Components/ProductDetails/ProductDetails";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devtools";
-import CartContextProvider from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
 import Checkout from "./Components/Checkout/Checkout";
 import OrdersContextProvider from "./Context/OrdersContext";
@@ -23,7 +22,6 @@ import ForgetPassword from "./Components/ForgetPassword/ForgetPassword";
 import VerificationCode from "./Components/VerificationCode/VerificationCode";
 import ResetPassword from "./Components/ResetPassword/ResetPassword";
 import { ForgettenEmailContextProvider } from "./Context/ForgettenMailContext";
-import WishListContextProvider from "./Context/WishListContext";
 import WishList from "./Components/WishList/WishList";
 import UserOrders from "./Components/UserOrders/UserOrders";
 import MyProfile from "./Components/MyProfile/MyProfile";
@@ -178,18 +176,14 @@ function App() {
   return (
     <AuthContextProvider>
       <QueryClientProvider client={query}>
-        <CartContextProvider>
           <OrdersContextProvider>
             <ForgettenEmailContextProvider>
-              <WishListContextProvider>
                 <JwtContextProvider>
                   <RouterProvider router={routes}></RouterProvider>
                 </JwtContextProvider>
-              </WishListContextProvider>
             </ForgettenEmailContextProvider>
           </OrdersContextProvider>
           <Toaster />
-        </CartContextProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>
     </AuthContextProvider>

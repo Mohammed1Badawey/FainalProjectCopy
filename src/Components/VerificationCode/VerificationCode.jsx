@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { publicAxios } from "../../../API/AxiosConig";
 

@@ -1,19 +1,17 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { publicAxios } from "../../../API/AxiosConig";
 
 export default function useCategories(categoryId = null) {
   function getCategories() {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/categories`);
+    return publicAxios.get(`/categories`);
   }
 
   async function getCategory(categoryId) {
     if (!categoryId) {
       return;
     } else {
-      return await axios.get(
-        `https://ecommerce.routemisr.com/api/v1/categories/${categoryId}/subcategories`,
-      );
+      return await publicAxios.get(`/categories/${categoryId}/subcategories`);
     }
   }
 

@@ -9,7 +9,8 @@ export default function CategoriesSlider() {
   let { data, isError, isLoading, error } = useCategoriesSllider();
 
   var settings = {
-    dots: true,
+    dots: false,
+    arrows: false,
     infinite: true,
     speed: 1000,
     slidesToShow: 7,
@@ -49,18 +50,18 @@ export default function CategoriesSlider() {
         <Slider {...settings}>
           {data?.data?.data.map((category) => {
             return (
-              <Link key={category._id} to={`/category/${category._id}`}>
-                <div key={category.name} className="mt-4 mb-10">
-                  <figure className="">
-                    <img
-                      src={category.image}
-                      alt={category.name}
-                      className="h-[200px] w-full object-cover"
-                    />
-                  </figure>
+              <div key={category.name} className="mt-4 mb-10">
+                <figure className="">
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    className="h-[200px] w-full object-cover"
+                  />
+                </figure>
+                <Link key={category._id} to={`/category/${category._id}`}>
                   <h4 className="ps-2 pt-2 font-[600]">{category.name}</h4>
-                </div>
-              </Link>
+                </Link>
+              </div>
             );
           })}
         </Slider>

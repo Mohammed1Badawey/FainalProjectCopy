@@ -1,64 +1,54 @@
 import React, { useContext, useState } from "react";
 import { FaStar } from "react-icons/fa6";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Slider from "react-slick";
-import useSpecificProduct from "../../Hooks/useSpecificProduct";
-import { CartContext } from "../../Context/CartContext";
-import toast from "react-hot-toast";
-import { WishListContext } from "../../Context/WishListContext";
 import useAllProducts from "../../Hooks/useAllProducts";
+import useSpecificProduct from './../../Hooks/useSpecificProduct';
+import { useAddToCart } from "../../Hooks/CartHooks/useAddToCart";
+import { useAddToWishList } from "../../Hooks/WishListHooks/useAddToWishList";
+import { useRemoveFromWishList } from "../../Hooks/WishListHooks/useRemoveFromWishList";
+import useGetUserWishList from "../../Hooks/WishListHooks/useGetUserWishList";
+import { ProductCard } from "../ProductCard/ProductCard";
+import LoadingAndErrorHandler from "../LoadingAndErrorHandler/LoadingAndErrorHandler";
+import { useQueryClient } from "@tanstack/react-query";
+
+
 
 export default function ProductDetails() {
+  const queryClient = useQueryClient();
   let { id, category } = useParams();
-  const [loading, setLoading] = useState(false);
-  const [loadingWish, setLoadingWish] = useState(false);
 
-  let { addToCart } = useContext(CartContext);
-  let {
-    addToWishList,
-    wishlistdetails,
-    getUserWishList,
-    removeItemFromWishList,
-  } = useContext(WishListContext);
-  const [currentIdBtn, setCurrentIdBtn] = useState("");
+  const { mutate: mutateAddToCart, isPending: pendingAddToCart } = useAddToCart();
+  const { mutate: mutateAddToWishList } = useAddToWishList();
+  const { mutate: mutateRemove } = useRemoveFromWishList();
+  const [currentItemId, setCurrentItemId] = useState(null);
+  const { data: allWishListItems } = useGetUserWishList();
 
-  async function AddToCart(id) {
-    setCurrentIdBtn(id);
-    setLoading(true);
-    let response = await addToCart(id);
-    if (response.data.status == "success") {
-      toast.success(response.data.message, {
-        duration: 2000,
-        position: "top-center",
-      });
-      setLoading(false);
-    } else {
-      toast.error(response.data.message);
-      setLoading(false);
-    }
-    setLoading(false);
+
+const handleAddToCart = (productId) => {
+  setCurrentItemId(productId);
+  mutateAddToCart(productId, {
+    onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("cartItems");}
+  });
+
+};
+
+const handleAddToWishList = (productId) => {
+  setCurrentItemId(productId);
+  const isInWishList = allWishListItems?.data?.some(
+    (item) => item.id === productId,
+  );
+  if (isInWishList) {
+    mutateRemove(productId, {
+      onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("WishListItems")}
+    });
+  } else {
+    mutateAddToWishList(productId, {
+      onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("WishListItems")}
+    });
   }
+};
 
-  async function handleWishListToggle(id) {
-    setCurrentIdBtn(id);
-    setLoadingWish(true);
-    if (wishlistdetails?.some((item) => item.id === id)) {
-      let response = await removeItemFromWishList(id);
-      if (response?.data?.status === "success") {
-        await getUserWishList();
-        toast.success(response.data.message);
-        setLoadingWish(false);
-      }
-    }
-    if (!wishlistdetails?.some((item) => item.id === id)) {
-      let response = await addToWishList(id);
-      if (response?.data?.status === "success") {
-        await getUserWishList();
-        toast.success(response.data.message);
-        setLoadingWish(false);
-      }
-    }
-  }
 
   var settings = {
     dots: true,
@@ -71,12 +61,12 @@ export default function ProductDetails() {
     arrows: false,
   };
 
-  let {
-    data: productData,
-    isLoading: productLoading,
-    isError: productIsError,
-    error: productError,
-  } = useSpecificProduct();
+  const { specificProduct } = useSpecificProduct();
+  
+  const productData = specificProduct?.data || {};
+
+  
+
 
   let {
     data: AllProductsData,
@@ -85,46 +75,20 @@ export default function ProductDetails() {
     error: AllProductsError,
   } = useAllProducts();
 
-  const filteredProducts = AllProductsData?.filter(
+  const filteredProducts = AllProductsData?.filter (
     (product) => product.category.name === category && product.id !== id,
   );
 
-  if (productIsError) {
-    return (
-      <h3 className="my-12 text-center text-4xl font-[600] text-red-600">
-        {productError.message}
-      </h3>
-    );
-  }
 
-  if (productLoading) {
-    return (
-      <div className="mt-18 flex items-center justify-center">
-        <span className="loader"></span>
-      </div>
-    );
-  }
-
-  if (AllProductsIsError) {
-    return (
-      <h3 className="my-12 text-center text-4xl font-[600] text-red-600">
-        {AllProductsError.message}
-      </h3>
-    );
-  }
-
-  if (AllProductsLoading) {
-    return (
-      <div className="mt-18 flex items-center justify-center">
-        <span className="loader"></span>
-      </div>
-    );
-  }
 
   return (
+        <LoadingAndErrorHandler
+          isLoading={AllProductsLoading}
+          isError={AllProductsIsError}
+          error={AllProductsError}
+        >
     <>
       <div className="grid grid-cols-12 gap-5 md:items-center">
-        {/* col-span-6 col-start-4 */}
         <section className="col-span-4 md:col-span-3 md:col-start-2">
           <div>
             <figure>
@@ -158,7 +122,7 @@ export default function ProductDetails() {
             </h3>
             <p className="text-gray-600">{productData?.description}</p>
             <h6 className="font-[400] text-emerald-600">
-              {productData?.category.name}
+              {productData?.category?.name}
             </h6>
             <div className="flex items-center justify-between">
               <span className="font-[500]">{productData?.price} EGP</span>
@@ -170,11 +134,12 @@ export default function ProductDetails() {
           </div>
 
           <div className="mt-6 flex items-center justify-between p-3 pe-3">
+
             <button
-              onClick={() => AddToCart(productData.id)}
+              onClick={() => handleAddToCart(productData?.id)}
               className="btn-specific-product"
             >
-              {loading && currentIdBtn == productData.id ? (
+              {pendingAddToCart && currentItemId == productData?.id ? (
                 <i className="fas fa-spinner fa-spin"></i>
               ) : (
                 `Add To Cart`
@@ -182,88 +147,42 @@ export default function ProductDetails() {
             </button>
 
             <button
-              onClick={() => handleWishListToggle(productData.id)}
+              onClick={() => handleAddToWishList(productData?.id)}
               className="text-gray-500 transition-colors duration-300 hover:text-emerald-600"
             >
-              {loadingWish && currentIdBtn === productData.id ? (
-                <i className="fas fa-spinner fa-spin"></i>
-              ) : wishlistdetails?.some(
-                  (item) => item.id === productData.id,
+              { allWishListItems?.data?.some(
+                  (item) => item.id === productData?.id,
                 ) ? (
                 <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-600"></i>
               ) : (
                 <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
               )}
             </button>
+
+
           </div>
         </section>
 
         <section className="col-span-12">
+
           <div className="mt-18 grid grid-cols-12 justify-items-center gap-x-4 gap-y-12">
-            {filteredProducts?.map((product) => (
-              <div
-                key={product.id}
-                className="group col-span-6 md:col-span-6 md:px-5 lg:col-span-3"
-              >
-                <div className="productBorder my-main-hover">
-                  <Link
-                    to={`/productdetails/${product.id}/${product.category.name}`}
-                  >
-                    <figure className="overflow-hidden">
-                      <img
-                        className="w-full object-cover"
-                        src={product.imageCover}
-                        alt=""
-                      />
-                    </figure>
-                    <div className="p-2 md:p-5">
-                      <h3 className="text-emerald-600">
-                        {product.category.name}
-                      </h3>
-                      <h3>{product.title.split(" ").slice(0, 2).join(" ")}</h3>
-                      <div className="flex items-center justify-between">
-                        <span>{product.price} EGP</span>
-                        <span className="flex items-center gap-0.5">
-                          {product.ratingsAverage}{" "}
-                          <FaStar className="text-yellow-400" />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
 
-                  <div className="flex items-center justify-center p-3 pe-3">
-                    <button
-                      onClick={() => AddToCart(product.id)}
-                      className="btn-add-product-sm md:btn-add-product my-2"
-                    >
-                      {loading && currentIdBtn == product.id ? (
-                        <i className="fas fa-spinner fa-spin"></i>
-                      ) : (
-                        `Add To Cart`
-                      )}
-                    </button>
-
-                    <button
-                      onClick={() => handleWishListToggle(product.id)}
-                      className="text-gray-500 transition-colors duration-300 hover:text-emerald-600"
-                    >
-                      {loadingWish && currentIdBtn === product.id ? (
-                        <i className="fas fa-spinner fa-spin"></i>
-                      ) : wishlistdetails?.some(
-                          (item) => item.id === product.id,
-                        ) ? (
-                        <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-emerald-600"></i>
-                      ) : (
-                        <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+            { filteredProducts?.map((product) => (
+                            <ProductCard
+                              key={product.id}
+                              product={product}
+                              AddToCart={handleAddToCart}
+                              handleAddToWishList={handleAddToWishList}
+                              loadingAddToCart={
+                                pendingAddToCart && currentItemId === product.id
+                              }
+                              allWishListItems={allWishListItems?.data}
+                            />
+                          ))}
           </div>
         </section>
       </div>
     </>
+    </LoadingAndErrorHandler>
   );
 }

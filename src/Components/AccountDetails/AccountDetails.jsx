@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import { JwtContext } from "./../../Context/JwtContext";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
 import { authContext } from "../../Context/AuthContext";
+import { authAxios } from "../../../API/AxiosConig";
 
 export default function AccountDetails() {
   let { setuserToken } = useContext(authContext);
@@ -23,10 +23,8 @@ export default function AccountDetails() {
   async function updateUserData(editObj) {
     setApiError("");
     setIsLoading(true);
-    return await axios
-      .put(`https://ecommerce.routemisr.com/api/v1/users/updateMe/`, editObj, {
-        headers,
-      })
+    return await authAxios
+      .put(`/users/updateMe/`, editObj)
       .then((res) => {
         setApiSuccess(res.data.message);
         setIsLoading(false);
@@ -46,22 +44,16 @@ export default function AccountDetails() {
   }
 
   async function updateUserPassword(passObj) {
-    setApiErrorPass("")
+    setApiErrorPass("");
     setIsLoadingPass(true);
-    return await axios
-      .put(
-        `https://ecommerce.routemisr.com/api/v1/users/changeMyPassword`,
-        passObj,
-        {
-          headers,
-        },
-      )
+    return await authAxios
+      .put(`/users/changeMyPassword`, passObj)
       .then((res) => {
         setApiSuccessPass(res.data.message);
         setIsLoadingPass(false);
-        setuserToken(res.data.token)
-        localStorage.setItem("userToken" , res.data.token)
-        formik2.resetForm()
+        setuserToken(res.data.token);
+        localStorage.setItem("userToken", res.data.token);
+        formik2.resetForm();
         return res;
       })
       .catch((err) => {
@@ -94,14 +86,14 @@ export default function AccountDetails() {
       .required("Name is required"),
 
     password: yup
-          .string()
-          .min(6, "Min Length is 6")
-          .required("Password is required"),
-    
-        rePassword: yup
-          .string()
-          .required("rePassword Is Required")
-          .oneOf([yup.ref("password")], "Not Matched With Password"),
+      .string()
+      .min(6, "Min Length is 6")
+      .required("Password is required"),
+
+    rePassword: yup
+      .string()
+      .required("rePassword Is Required")
+      .oneOf([yup.ref("password")], "Not Matched With Password"),
   });
 
   let formik = useFormik({
@@ -120,7 +112,7 @@ export default function AccountDetails() {
       password: "",
       rePassword: "",
     },
-    validationSchema:validationPassword,
+    validationSchema: validationPassword,
     onSubmit: updateUserPassword,
   });
 
@@ -287,96 +279,104 @@ export default function AccountDetails() {
         </div>
 
         {editOpenPass && (
-          <div className="min-w-400px flex items-center p-6 justify-between bg-gray-100">
+          <div className="min-w-400px flex items-center justify-between bg-gray-100 p-6">
             <form
               onSubmit={formik2.handleSubmit}
               className="mx-auto max-w-2xl px-8 py-2"
             >
+              <div className="group relative z-0 mb-5 w-full">
+                <input
+                  type="password"
+                  name="currentPassword"
+                  value={formik2.values.currentPassword}
+                  onChange={formik2.handleChange}
+                  onBlur={formik2.handleBlur}
+                  id="currentPassword"
+                  className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
+                  placeholder=" "
+                />
+                <label
+                  htmlFor="currentPassword"
+                  className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-emerald-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
+                >
+                  Enter Your CurrentPassword
+                </label>
+                {formik2.errors.currentPassword &&
+                formik2.touched.currentPassword ? (
+                  <div
+                    className="rounded-lg p-2 text-sm text-red-800"
+                    role="alert"
+                  >
+                    {formik2.errors.currentPassword}
+                  </div>
+                ) : null}
+              </div>
 
-    <div className="group relative z-0 mb-5 w-full">
-          <input
-            type="password"
-            name="currentPassword"
-            value={formik2.values.currentPassword}
-            onChange={formik2.handleChange}
-            onBlur={formik2.handleBlur}
-            id="currentPassword"
-            className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
-            placeholder=" "
-          />
-          <label
-            htmlFor="currentPassword"
-            className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-emerald-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
-          >
-            Enter Your CurrentPassword
-          </label>
-          {formik2.errors.currentPassword && formik2.touched.currentPassword ? (
-            <div className="rounded-lg p-2 text-sm text-red-800" role="alert">
-              {formik2.errors.currentPassword}
-            </div>
-          ) : null}
-        </div>
+              <div className="group relative z-0 mb-5 w-full">
+                <input
+                  type="password"
+                  name="password"
+                  value={formik2.values.password}
+                  onChange={formik2.handleChange}
+                  onBlur={formik2.handleBlur}
+                  id="password"
+                  className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
+                  placeholder=" "
+                />
+                <label
+                  htmlFor="password"
+                  className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-emerald-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
+                >
+                  Enter Your New Password
+                </label>
+                {formik2.errors.password && formik2.touched.password ? (
+                  <div
+                    className="rounded-lg p-2 text-sm text-red-800"
+                    role="alert"
+                  >
+                    {formik2.errors.password}
+                  </div>
+                ) : null}
+              </div>
 
-        <div className="group relative z-0 mb-5 w-full">
-          <input
-            type="password"
-            name="password"
-            value={formik2.values.password}
-            onChange={formik2.handleChange}
-            onBlur={formik2.handleBlur}
-            id="password"
-            className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
-            placeholder=" "
-          />
-          <label
-            htmlFor="password"
-            className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-emerald-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
-          >
-            Enter Your New Password
-          </label>
-          {formik2.errors.password && formik2.touched.password ? (
-            <div className="rounded-lg p-2 text-sm text-red-800" role="alert">
-              {formik2.errors.password}
-            </div>
-          ) : null}
-        </div>
-
-        <div className="group relative z-0 mb-5 w-full">
-          <input
-            type="password"
-            name="rePassword"
-            value={formik2.values.rePassword}
-            onChange={formik2.handleChange}
-            onBlur={formik2.handleBlur}
-            id="rePassword"
-            className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
-            placeholder=" "
-          />
-          <label
-            htmlFor="rePassword"
-            className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-emerald-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
-          >
-            Enter Your rePassword
-          </label>
-          {formik2.errors.rePassword && formik2.touched.rePassword ? (
-            <div className="rounded-lg p-2 text-sm text-red-800" role="alert">
-              {formik2.errors.rePassword}
-            </div>
-          ) : null}
-        </div>
-
-
-
+              <div className="group relative z-0 mb-5 w-full">
+                <input
+                  type="password"
+                  name="rePassword"
+                  value={formik2.values.rePassword}
+                  onChange={formik2.handleChange}
+                  onBlur={formik2.handleBlur}
+                  id="rePassword"
+                  className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-emerald-600 focus:ring-0 focus:outline-none"
+                  placeholder=" "
+                />
+                <label
+                  htmlFor="rePassword"
+                  className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-emerald-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
+                >
+                  Enter Your rePassword
+                </label>
+                {formik2.errors.rePassword && formik2.touched.rePassword ? (
+                  <div
+                    className="rounded-lg p-2 text-sm text-red-800"
+                    role="alert"
+                  >
+                    {formik2.errors.rePassword}
+                  </div>
+                ) : null}
+              </div>
 
               {ApiErrorPass && (
-                <div className="text-md mx-auto m-4 rounded-md border-2 border-red-600 p-2 text-center font-semibold text-black">
+                <div className="text-md m-4 mx-auto rounded-md border-2 border-red-600 p-2 text-center font-semibold text-black">
                   {ApiErrorPass}
                 </div>
               )}
 
               {ApiSuccessPass && (
-                <div className="text-md mx-auto m-4  rounded-md border-2 border-emerald-600 p-2 text-center font-semibold text-black">
-                  <span className="text-emerald-700 text-2xl font-bold">{ApiSuccessPass}</span>
+                <div className="text-md m-4 mx-auto rounded-md border-2 border-emerald-600 p-2 text-center font-semibold text-black">
+                  <span className="text-2xl font-bold text-emerald-700">
+                    {ApiSuccessPass}
+                  </span>
                 </div>
               )}
 
