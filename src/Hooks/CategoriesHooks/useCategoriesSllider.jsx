@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { publicAxios } from "../../../API/AxiosConig";
+import { publicAxios } from "../../../API/AxiosConfig";
 
 export default function useCategoriesSllider() {
   function getCategories() {

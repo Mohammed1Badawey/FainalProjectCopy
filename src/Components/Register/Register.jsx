@@ -2,29 +2,26 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
-import { publicAxios } from "../../../API/AxiosConig";
+import { publicAxios } from "../../../API/AxiosConfig";
 
 export default function Register() {
   let navigate = useNavigate();
   const [ApiError, setApiError] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
 
-
   async function submitData(registerObj) {
     setIsLoading(true);
 
     try {
-        const res = await publicAxios.post(`/auth/signup`, registerObj)
-        setApiError("");
-        localStorage.setItem("userToken", res.data.token);
-        navigate("/login");
-      }
-      catch(res) {
-        setApiError(res.response.data.message);
-      }
-      finally {
-        setIsLoading(false);
-      }
+      const res = await publicAxios.post(`/auth/signup`, registerObj);
+      setApiError("");
+      localStorage.setItem("userToken", res.data.token);
+      navigate("/login");
+    } catch (res) {
+      setApiError(res.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   let validationSchema = yup.object().shape({

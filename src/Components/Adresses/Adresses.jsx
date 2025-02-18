@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
-import { authAxios } from "../../../API/AxiosConig";
+import { authAxios } from "../../../API/AxiosConfig";
 
 export default function AddressManager() {
   const [addresses, setAddresses] = useState([]);

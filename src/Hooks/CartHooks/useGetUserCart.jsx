@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { authAxios } from "../../../API/AxiosConig";
-
+import { authAxios } from "../../../API/AxiosConfig";
 
 const getUserCart = async () => {
   const res = await authAxios.get(`/cart`);
@@ -8,12 +7,11 @@ const getUserCart = async () => {
 };
 
 const useGetUserCart = () => {
-
   const query = useQuery({
-      queryFn: () => getUserCart(),
+    queryFn: () => getUserCart(),
     queryKey: ["cartItems"],
-    staleTime: 0.5 * (1000*60),
-    select: (cartData) => cartData?.data
+    staleTime: 0.5 * (1000 * 60),
+    select: (cartData) => cartData?.data,
   });
   return query;
 };

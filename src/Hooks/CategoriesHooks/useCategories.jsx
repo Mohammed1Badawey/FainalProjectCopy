@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { publicAxios } from "../../../API/AxiosConig";
+import { publicAxios } from "../../../API/AxiosConfig";
 
 export default function useCategories(categoryId = null) {
   function getCategories() {

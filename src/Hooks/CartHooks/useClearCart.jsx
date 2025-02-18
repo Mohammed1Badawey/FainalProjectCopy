@@ -1,5 +1,5 @@
 import React from "react";
-import { authAxios } from "../../../API/AxiosConig";
+import { authAxios } from "../../../API/AxiosConfig";
 import { useMutation } from "@tanstack/react-query";
 
 export const useClearCart = () => {

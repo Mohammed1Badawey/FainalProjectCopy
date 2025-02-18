@@ -3,7 +3,7 @@ import { JwtContext } from "./../../Context/JwtContext";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { authContext } from "../../Context/AuthContext";
-import { authAxios } from "../../../API/AxiosConig";
+import { authAxios } from "../../../API/AxiosConfig";
 
 export default function AccountDetails() {
   let { setuserToken } = useContext(authContext);

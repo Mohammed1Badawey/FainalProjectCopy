@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
-import { publicAxios } from "../../../API/AxiosConig";
+import { publicAxios } from "../../../API/AxiosConfig";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -13,21 +13,19 @@ export default function Login() {
   async function submitData(VerifyObj) {
     setIsLoading(true);
     try {
-        const res = await publicAxios.post(`/auth/verifyResetCode`,VerifyObj)
-        setApiError("");
-        if (res.data.status) {
-          setApiSuccess(res.data.status);
-          setTimeout(() => {
-            navigate("/resetpassword");
-          }, 3000);
-        }
+      const res = await publicAxios.post(`/auth/verifyResetCode`, VerifyObj);
+      setApiError("");
+      if (res.data.status) {
+        setApiSuccess(res.data.status);
+        setTimeout(() => {
+          navigate("/resetpassword");
+        }, 3000);
       }
-      catch (err) {
-        setApiError(err.response.data.message);
-      }
-      finally {
-        setIsLoading(false);
-      }
+    } catch (err) {
+      setApiError(err.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   let validationSchema = yup.object().shape({

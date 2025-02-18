@@ -1,15 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { authAxios, publicAxios } from "../../API/AxiosConig";
+import { authAxios, publicAxios } from "../../API/AxiosConfig";
 import { useContext } from "react";
 import { JwtContext } from "../Context/JwtContext";
 
 export default function useUserOrders() {
-  
-  const {userId}  = useContext(JwtContext);
+  const { userId } = useContext(JwtContext);
 
   async function checkToken() {
-      const response = await authAxios.get(`/auth/verifyToken`);
-      return response.data.decoded.id;
+    const response = await authAxios.get(`/auth/verifyToken`);
+    return response.data.decoded.id;
   }
 
   async function getUserOrders() {

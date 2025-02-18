@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
 import { ForgettenEmailContext } from "../../Context/ForgettenMailContext";
 import { authContext } from "../../Context/AuthContext";
-import { publicAxios } from "../../../API/AxiosConig";
+import { publicAxios } from "../../../API/AxiosConfig";
 
 export default function ResetPassword({}) {
   let navigate = useNavigate();
@@ -14,27 +14,24 @@ export default function ResetPassword({}) {
   const [ApiSuccess, setApiSuccess] = useState(false);
   const [IsLoading, setIsLoading] = useState(false);
 
-
   async function submitData(resetObj) {
     let BaseURL = window.location.origin;
     setIsLoading(true);
     try {
-        const res = await publicAxios.put(`/auth/resetPassword`, resetObj)
-        setApiError("");
-        if (res.status === 200) {
-          setuserToken(res.data.token);
-          setApiSuccess(true);
-          setTimeout(() => {
-            window.location.href = BaseURL;
-          }, 4000);
-        }
+      const res = await publicAxios.put(`/auth/resetPassword`, resetObj);
+      setApiError("");
+      if (res.status === 200) {
+        setuserToken(res.data.token);
+        setApiSuccess(true);
+        setTimeout(() => {
+          window.location.href = BaseURL;
+        }, 4000);
       }
-      catch(err) {
-        setApiError(err.response.data.message);
-      }
-      finally {
-        setIsLoading(false);
-      }
+    } catch (err) {
+      setApiError(err.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {

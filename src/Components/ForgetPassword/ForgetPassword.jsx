@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
 import { ForgettenEmailContext } from "../../Context/ForgettenMailContext";
-import { publicAxios } from "../../../API/AxiosConig";
+import { publicAxios } from "../../../API/AxiosConfig";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -12,27 +12,23 @@ export default function Login() {
   const [ApiSuccess, setApiSuccess] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
 
-
   async function submitData(ForgetObj) {
     setIsLoading(true);
     try {
-      await publicAxios.post(`/auth/forgotPasswords`,
-        ForgetObj)
-        if (res.data.statusMsg) {
-          setApiError("");
-          setApiSuccess(res.data.message);
-          setForgettnEmail(formik.values.email);
-          setTimeout(() => {
-            navigate("/verifycode");
-          }, 3000);
-        }
+      await publicAxios.post(`/auth/forgotPasswords`, ForgetObj);
+      if (res.data.statusMsg) {
+        setApiError("");
+        setApiSuccess(res.data.message);
+        setForgettnEmail(formik.values.email);
+        setTimeout(() => {
+          navigate("/verifycode");
+        }, 3000);
+      }
+    } catch (err) {
+      setApiError(err.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
-      catch(err) {
-        setApiError(err.response.data.message);
-      }
-      finally {
-        setIsLoading(false);
-      }
   }
 
   let validationSchema = yup.object().shape({

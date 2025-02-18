@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
-import { publicAxios } from "../../../API/AxiosConig";
+import { publicAxios } from "../../../API/AxiosConfig";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -14,20 +14,18 @@ export default function Login() {
   async function submitData(loginObj) {
     setIsLoading(true);
     try {
-        const res = await publicAxios.post(`/auth/signin`, loginObj)
-        if (res.data.message) {
-        }
-        setApiError("");
-        localStorage.setItem("userToken", res.data.token);
-        setuserToken(res.data.token);
-        navigate("/");
+      const res = await publicAxios.post(`/auth/signin`, loginObj);
+      if (res.data.message) {
       }
-      catch(err) {
-        setApiError(err.response.data.message);
-      }
-      finally {
-        setIsLoading(false);
-      }
+      setApiError("");
+      localStorage.setItem("userToken", res.data.token);
+      setuserToken(res.data.token);
+      navigate("/");
+    } catch (err) {
+      setApiError(err.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   let validationSchema = yup.object().shape({
