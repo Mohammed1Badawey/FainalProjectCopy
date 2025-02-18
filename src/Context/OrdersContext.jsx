@@ -1,17 +1,15 @@
 import React, { createContext, useContext } from "react";
 import toast from "react-hot-toast";
 import { authAxios } from "../../API/AxiosConig";
+
+
 export const ordersContext = createContext();
 
 export default function OrdersContextProvider({ children }) {
 
-  // let { setNumCart } = useContext(CartContext);
-
-
-  async function checkoutCart(cartId, url, formData) {
+  async function checkoutCart(userCartId, url, formData) {
     try {
-        const res = await authAxios.post(`/orders/checkout-session/${cartId}?url=${url}`, {shippingAddress: formData})
-        // setNumCart(res.data.numOfCartItems);
+        const res = await authAxios.post(`/orders/checkout-session/${userCartId}?url=${url}`, {shippingAddress: formData})
         return res;
       }
       catch(err) { return err }
@@ -21,7 +19,6 @@ export default function OrdersContextProvider({ children }) {
     try {
         const res = await authAxios.post(`/orders/${cartId}`, {shippingAddress: formData})
         toast.success(res.data.status);
-        // setNumCart(0);
         return res;
       }
       catch(err) { return err }

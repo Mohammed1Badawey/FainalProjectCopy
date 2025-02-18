@@ -2,14 +2,15 @@ import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
 import { ordersContext } from "./../../Context/OrdersContext";
 import * as yup from "yup";
-import { JwtContext } from "../../Context/JwtContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export default function Checkout() {
+  const queryClient = useQueryClient();
   let { checkoutCart } = useContext(ordersContext);
-  let { userId } = useContext(JwtContext);
   const [loading, setLoading] = useState(false);
-  
+  const cartData = queryClient.getQueryData(["cartItems"]);
+  const userCartId = cartData?.cartId;
 
   let validationSchema = yup.object().shape({
     details: yup.string().min(12,"min length is 12 letter").max(30,"max length is 30 letter").required("details required"),
@@ -30,15 +31,15 @@ export default function Checkout() {
     },
     validationSchema,
     onSubmit: () => {
-      return submitCheckout(userId);
+      return submitCheckout(userCartId);
     },
   });
 
-  async function submitCheckout(userId) {
+  async function submitCheckout(userCartId) {
     try {
       let BaseURL = window.location.origin;
       setLoading(true);
-      let { data } = await checkoutCart(userId, BaseURL, formik.values);
+      let { data } = await checkoutCart(userCartId, BaseURL, formik.values);
       setLoading(false);
       window.location.href = data.session.url;
     }

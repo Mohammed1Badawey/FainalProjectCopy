@@ -3,15 +3,17 @@ import { useFormik } from "formik";
 import { ordersContext } from "./../../Context/OrdersContext";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { JwtContext } from './../../Context/JwtContext';
-
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export default function CashOrder() {
+  const queryClient = useQueryClient();
   let { cashOrderCart } = useContext(ordersContext);
-  let { userId } = useContext(JwtContext);
   let navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
+  const cartData = queryClient.getQueryData(["cartItems"]);
+  const userCartId = cartData?.cartId;
 
   let validationSchema = yup.object().shape({
     details: yup
@@ -36,14 +38,14 @@ export default function CashOrder() {
     },
     validationSchema,
     onSubmit: () => {
-      submitCashOrder(userId);
+      submitCashOrder(userCartId);
     },
   });
 
-  async function submitCashOrder(userId) {
+  async function submitCashOrder(userCartId) {
     setLoading(true);
     try {
-      await cashOrderCart(userId, formik.values);
+      await cashOrderCart(userCartId, formik.values);
     } finally {
       setLoading(false);
       navigate("/allorders");

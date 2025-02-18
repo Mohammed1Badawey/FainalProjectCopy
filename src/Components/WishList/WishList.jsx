@@ -16,7 +16,7 @@ export default function WishList() {
   async function RemoveItemFromWishList(id) {
     setCurrentItemId(id);
     mutateRemove(id, {
-      onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("WishListItems")}
+      onSettled: () => {setCurrentItemId(null)}
     });
   }
 
