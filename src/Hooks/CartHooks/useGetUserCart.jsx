@@ -11,7 +11,7 @@ const useGetUserCart = () => {
     queryFn: () => getUserCart(),
     queryKey: ["cartItems"],
     staleTime: 0.5 * (1000 * 60),
-    select: (cartData) => cartData?.data,
+    select: (cartData) => cartData,
   });
   return query;
 };

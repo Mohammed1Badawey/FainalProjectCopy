@@ -1,6 +1,7 @@
 import React from "react";
 import { authAxios } from "../../../API/AxiosConfig";
 import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export const useUpdateCart = () => {
   async function updateCartItems({ productId, newCount }) {

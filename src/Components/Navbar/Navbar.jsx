@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Logo from "../../assets/freshcart-logo.svg";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import HumburgerBotton from "../../assets/NavBar/burger-menu.svg";
@@ -7,14 +7,18 @@ import { authContext } from "./../../Context/AuthContext";
 import { MdOutlineLogin } from "react-icons/md";
 import { HiMiniUserPlus } from "react-icons/hi2";
 import { VscSignIn } from "react-icons/vsc";
+import useGetUserWishList from "../../Hooks/WishListHooks/useGetUserWishList";
+import useGetUserCart from "../../Hooks/CartHooks/useGetUserCart";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { userToken, setuserToken } = useContext(authContext);
+  const [cartNumber,setCartNumber ] = useState(0);
+  const [wishlistNumber,setWishlistNumber ] = useState(0);
+  const { data: cartData } = useGetUserCart();
+  const { data: wishlistData } = useGetUserWishList();
+  const { userToken, setUserToken } = useContext(authContext);
   const [accountBtn, setAccountBtn] = useState(false);
-  
   const navigate = useNavigate();
-
   const menuClass = classNames(
     "p-0.5",
     "border",
@@ -25,7 +29,6 @@ export default function Navbar() {
     "hover:bg-slate-400/80",
     { "bg-slate-400": isMenuOpen },
   );
-
   const accountClass = classNames(
     "inline-flex",
     "items-center",
@@ -41,13 +44,16 @@ export default function Navbar() {
     "cursor-pointer",
     { "bg-emerald-800": accountBtn },
   );
-
   function hundelLogout() {
     localStorage.removeItem("userToken");
-    setuserToken(null);
+    setUserToken(null);
     navigate("/login");
     setIsMenuOpen(false);
   }
+  useEffect(() => {
+    setWishlistNumber(wishlistData?.count || 0);
+    setCartNumber(cartData?.numOfCartItems || 0);
+  }, [cartData,wishlistData]);
 
   return (
     <>
@@ -82,21 +88,21 @@ export default function Navbar() {
                   <li>
                     <NavLink to="/cart" className="relative">
                       Cart
-                      {/* {numCart > 0 && (
+                      {cartNumber > 0 && (
                         <div className="absolute -top-4 -right-4 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
-                          {numCart}
+                          {cartNumber}
                         </div>
-                      )} */}
+                      )}
                     </NavLink>
                   </li>
                   <li>
                     <NavLink to="/wishlist" className="relative">
                       Wishlist
-                      {/* {numWishList > 0 && (
+                      {wishlistNumber > 0 && (
                         <div className="absolute -top-4 -right-4 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
-                          {numWishList}
+                          {wishlistNumber}
                         </div>
-                      )} */}
+                      )}
                     </NavLink>
                   </li>
                 </ul>
@@ -188,21 +194,21 @@ export default function Navbar() {
                   <li>
                     <NavLink to="/cart" className="relative">
                       Cart
-                      {/* {numCart > 0 && (
+                      {cartNumber > 0 && (
                         <div className="absolute -top-1 -right-6 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
-                          {numCart}
+                          {cartNumber}
                         </div>
-                      )} */}
+                      )}
                     </NavLink>
                   </li>
                   <li>
                     <NavLink to="/wishlist" className="relative">
                       Wishlist
-                      {/* {numWishList > 0 && (
+                      {wishlistNumber > 0 && (
                         <div className="absolute -top-1 -right-6 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
-                          {numWishList}
+                          {wishlistNumber}
                         </div>
-                      )} */}
+                      )}
                     </NavLink>
                   </li>
                   <li>

@@ -50,7 +50,7 @@ export default function Cart() {
       error={error}
     >
       <>
-        {allcartItems?.products?.length > 0 ? (
+        {allcartItems?.data?.products?.length > 0 ? (
           <>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="w-full text-left text-sm text-gray-500 rtl:text-right">
@@ -74,7 +74,7 @@ export default function Cart() {
                   </tr>
                 </thead>
                 <tbody>
-                  {allcartItems?.products.map((product) => (
+                  {allcartItems?.data?.products.map((product) => (
                     <tr
                       key={product._id}
                       className="border-b border-gray-200 bg-white hover:bg-gray-50"
@@ -165,8 +165,8 @@ export default function Cart() {
                 </button>
                 <h2 className="p-4 text-center font-[900] md:text-end">
                   <span className="font-[600]">Total Price: </span>
-                  {allcartItems?.totalCartPrice
-                    ? allcartItems.totalCartPrice.toLocaleString("en-US", {
+                  {allcartItems?.data?.totalCartPrice
+                    ? allcartItems.data?.totalCartPrice.toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })
