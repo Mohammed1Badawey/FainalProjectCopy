@@ -16,9 +16,6 @@ export default function AccountDetails() {
   const [editOpenInfo, setEditOpenInfo] = useState(false);
   const [editOpenPass, setEditOpenPass] = useState(false);
 
-  let headers = {
-    token: localStorage.getItem("userToken"),
-  };
 
   async function updateUserData(editObj) {
     setApiError("");

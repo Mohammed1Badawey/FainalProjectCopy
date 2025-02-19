@@ -9,7 +9,6 @@ export default function useUserOrders() {
 
   async function checkToken() {
     const response = await authAxios.get(`/auth/verifyToken`);
-    console.log(response.data.decoded.id);
     return response.data.decoded.id;
   }
 
