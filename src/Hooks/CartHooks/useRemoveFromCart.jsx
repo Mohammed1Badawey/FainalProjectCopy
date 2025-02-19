@@ -19,6 +19,7 @@ export const useRemoveFromCart = () => {
       const newCart = oldCart.filter(
         (product) => product.product._id !== productId,
       );
+      
       queryClient.setQueryData(["cartItems"], { data: { products: newCart } });
       return () =>
         queryClient.setQueryData(["cartItems"], {

@@ -35,8 +35,8 @@ export default function MainBanner() {
       <div className="grid grid-cols-12 grid-rows-2 py-8">
         <div className="col-span-12 row-span-2 lg:col-span-8">
           <Slider {...settings}>
-            <img className="h-[400px] w-full" src={slide1} alt="" />
-            <img className="h-[400px] w-full" src={slide2} alt="" />
+            <img className="h-[200px] md:h-[400px] w-full" src={slide1} alt="" />
+            <img className="h-[200px] md:h-[400px] w-full" src={slide2} alt="" />
           </Slider>
         </div>
 

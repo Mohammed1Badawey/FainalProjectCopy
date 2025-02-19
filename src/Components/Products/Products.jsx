@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import toast from "react-hot-toast";
+import React, { useState } from "react";
 import LoadingAndErrorHandler from "../LoadingAndErrorHandler/LoadingAndErrorHandler";
 import useAllProducts from "./../../Hooks/useAllProducts";
 import ProductsFilter from "../ProductsFilter/ProductsFilter";
@@ -16,17 +15,18 @@ export default function Products() {
   const queryClient = useQueryClient();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const { data: searchData } = useSearch(searchQuery, selectedCategory);
+  
   const [pageNum, setPageNum] = useState(1);
+  const { data: searchData } = useSearch(searchQuery, selectedCategory,pageNum);
 
   const { mutate: mutateAddToCart, isPending: pendingAddToCart } =
     useAddToCart();
 
   const { mutate: mutateAddToWishList } = useAddToWishList();
 
-  const { data: allWishListItems, isFetching } = useGetUserWishList();
+  const { data: allWishListItems } = useGetUserWishList();
 
-  const { mutate: mutateRemove, isPending: pendingRemove } =
+  const { mutate: mutateRemove } =
     useRemoveFromWishList();
 
   const [currentItemId, setCurrentItemId] = useState(null);

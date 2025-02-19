@@ -51,15 +51,23 @@ const handleAddToWishList = (productId) => {
 
 
   var settings = {
-    dots: true,
+    dots: false,
     infinite: true,
-    speed: 1000,
+    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     accessibility: true,
     autoplay: true,
     arrows: false,
   };
+
+
+  const pageOneCachedData =
+    queryClient.getQueryData(["products", { pageNum: 1 }]) || [];
+  const pageTwoCachedData =
+    queryClient.getQueryData(["products", { pageNum: 2 }]) || [];
+  const allProducts = [...pageOneCachedData, ...pageTwoCachedData];
+
 
   const { specificProduct } = useSpecificProduct();
   
@@ -75,7 +83,7 @@ const handleAddToWishList = (productId) => {
     error: AllProductsError,
   } = useAllProducts();
 
-  const filteredProducts = AllProductsData?.filter (
+  const filteredProducts = allProducts?.filter (
     (product) => product.category.name === category && product.id !== id,
   );
 
@@ -88,8 +96,12 @@ const handleAddToWishList = (productId) => {
           error={AllProductsError}
         >
     <>
+
+    {/* <div className="grid grid-cols-12 gap-5 md:items-center">
+    <section className="col-span-4 md:col-span-3 md:col-start-2"> */}
+
       <div className="grid grid-cols-12 gap-5 md:items-center">
-        <section className="col-span-4 md:col-span-3 md:col-start-2">
+        <section className="col-span-12  md:col-span-3 md:col-start-2">
           <div>
             <figure>
               {productData?.images?.length > 1 ? (
@@ -98,7 +110,7 @@ const handleAddToWishList = (productId) => {
                     <img
                       key={productData?.id}
                       src={src}
-                      className="w-full"
+                      className="w-[90%]"
                       alt=""
                     />
                   ))}
@@ -115,7 +127,7 @@ const handleAddToWishList = (productId) => {
           </div>
         </section>
 
-        <section className="col-span-8 md:col-span-6 md:col-start-5">
+        <section className="col-span-12 md:col-span-6 md:col-start-5">
           <div className="flex flex-col gap-4">
             <h3 className="text-2xl font-[600] text-black">
               {productData?.title}

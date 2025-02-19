@@ -13,7 +13,20 @@ export const ProductCard = ({
     key={product.id}
     className="group col-span-6 md:col-span-6 md:px-5 lg:col-span-3"
   >
-    <div className="productBorder my-main-hover">
+    <div className="productBorder my-main-hover relative ">
+    <div className="absolute flex rounded justify-center items-center size-6 p-4 top-3 right-5">
+
+    <button
+        onClick={() => handleAddToWishList(product.id)}
+        className="text-gray-500 transition-colors duration-300 md:hover:text-red-700"
+      >
+        { allWishListItems?.some(item => item.id === product.id) ? (
+          <i className="fa-solid fa-heart fa-xl md:fa-2xl cursor-pointer text-red-700"></i>
+        ) : (
+          <i className="fa-regular fa-heart fa-xl md:fa-2xl cursor-pointer"></i>
+        )}
+      </button>
+    </div>
       <Link to={`/productdetails/${product.id}/${product.category.name}`}>
         <figure className="overflow-hidden">
           <img
@@ -22,7 +35,7 @@ export const ProductCard = ({
             alt=""
           />
         </figure>
-        <div className="p-2 md:p-5">
+        <div className="p-2 md:p-5 text-center md:text-start">
           <h3 className="text-emerald-600">{product.category.name}</h3>
           <h3>{product.title.split(" ").slice(0, 2).join(" ")}</h3>
           <div className="flex items-center justify-between">

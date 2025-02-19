@@ -12,11 +12,9 @@ export default function Cart() {
   const queryClient = useQueryClient();
   const { data: allcartItems, isLoading, error, isError } = useGetUserCart();
   const [currentItemId, setCurrentItemId] = useState(null);
-  const { mutate: mutateRemove, isPending: pendingRemove } =
-    useRemoveFromCart();
+  const { mutate: mutateRemove, isPending: pendingRemove } = useRemoveFromCart();
   const { mutate: mutateClear, isPending: pendingClear } = useClearCart();
-  const { mutateAsync: mutateUpdate, isPending: pendingUpdate } =
-    useUpdateCart();
+  const { mutateAsync: mutateUpdate, isPending: pendingUpdate } = useUpdateCart();
 
   async function RemoveItemFromCart(id) {
     setCurrentItemId(id);
@@ -38,7 +36,7 @@ export default function Cart() {
     mutateUpdate(
       { productId, newCount },
       {
-        onSettled: () => {setCurrentItemId(null), queryClient.invalidateQueries("cartItems");}
+        onSettled: () => {setCurrentItemId(null)}
       },
     );
   }

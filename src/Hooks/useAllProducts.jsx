@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useMemo } from "react";
 import { publicAxios } from "../../API/AxiosConfig";
 
-export default function useAllProducts(selectedCategory, pageNum = 1) {
+export default function useAllProducts(selectedCategory, pageNum,SearchInputText) {
   async function getAllProducts(pageNum) {
     const res = await publicAxios.get(`/products`, {
       params: { page: pageNum },
@@ -38,11 +38,19 @@ export default function useAllProducts(selectedCategory, pageNum = 1) {
     retryDelay: 3000,
   });
 
+  let allProducts;
+
+if (selectedCategory||SearchInputText) {
   const pageOneCachedData =
-    queryClient.getQueryData(["products", { pageNum: 1 }]) || [];
+  queryClient.getQueryData(["products", { pageNum: 1 }]) || [];
   const pageTwoCachedData =
-    queryClient.getQueryData(["products", { pageNum: 2 }]) || [];
-  const allProducts = [...pageOneCachedData, ...pageTwoCachedData];
+  queryClient.getQueryData(["products", { pageNum: 2 }]) || [];
+  allProducts = [...pageOneCachedData, ...pageTwoCachedData];
+} else {
+
+  allProducts = products;
+
+};
 
   const filteredProducts = useMemo(() => {
     if (!selectedCategory) return allProducts || [];
