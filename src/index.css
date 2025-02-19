@@ -132,7 +132,7 @@ body {
 }
 
 .btn-add-product-sm {
-  @apply mx-auto block w-full cursor-pointer items-center rounded-2xl border-2 border-emerald-600 py-1 duration-500 lg:hover:bg-emerald-600 lg:hover:text-white;
+  @apply mx-auto block w-[75%] cursor-pointer items-center rounded-2xl border-2 border-emerald-600 py-1 duration-500 lg:hover:bg-emerald-600 lg:hover:text-white;
 }
 
 .btn-specific-product {

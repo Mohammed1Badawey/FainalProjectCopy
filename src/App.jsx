@@ -31,11 +31,6 @@ import JwtContextProvider from "./Context/JwtContext";
 import CashOrder from "./Components/CashOrder/CashOrder";
 
 let query = new QueryClient();
-
-let headers = {
-  token: localStorage.getItem("userToken"),
-};
-
 let routes = createBrowserRouter([
   {
     path: "",

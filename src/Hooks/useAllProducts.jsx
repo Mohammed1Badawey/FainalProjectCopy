@@ -10,6 +10,8 @@ export default function useAllProducts(selectedCategory, pageNum,SearchInputText
     return res.data.data;
   }
 
+  
+
   const queryClient = useQueryClient();
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoadingAndErrorHandler from "../LoadingAndErrorHandler/LoadingAndErrorHandler";
 import useAllProducts from "./../../Hooks/useAllProducts";
 import ProductsFilter from "../ProductsFilter/ProductsFilter";
@@ -10,6 +10,7 @@ import useGetUserWishList from "../../Hooks/WishListHooks/useGetUserWishList";
 import { useRemoveFromWishList } from "../../Hooks/WishListHooks/useRemoveFromWishList";
 import { useAddToWishList } from "../../Hooks/WishListHooks/useAddToWishList";
 import { useQueryClient } from "@tanstack/react-query";
+import ScrollToTop from "../ScrollToTop/ScrollToTop";
 
 export default function Products() {
   const queryClient = useQueryClient();
@@ -36,6 +37,11 @@ export default function Products() {
     pageNum,
   );
 
+  useEffect(() => { 
+    window.scrollTo(0, 0); 
+  }, [pageNum]);
+  
+
   const handleAddToCart = (productId) => {
     setCurrentItemId(productId);
     mutateAddToCart(productId, {
@@ -53,15 +59,15 @@ export default function Products() {
     if (isInWishList) {
       mutateRemove(productId, {
         onSettled: () => {
-          setCurrentItemId(null),
-            queryClient.invalidateQueries("WishListItems");
+          setCurrentItemId(null)
+            // queryClient.invalidateQueries("WishListItems");
         },
       });
     } else {
       mutateAddToWishList(productId, {
         onSettled: () => {
-          setCurrentItemId(null),
-            queryClient.invalidateQueries("WishListItems");
+          setCurrentItemId(null)
+            // queryClient.invalidateQueries("WishListItems");
         },
       });
     }
@@ -72,6 +78,7 @@ export default function Products() {
       isLoading={isLoading}
       isError={isError}
       error={error}
+      
     >
       <>
         <div>

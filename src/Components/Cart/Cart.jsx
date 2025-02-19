@@ -46,6 +46,7 @@ export default function Cart() {
       isLoading={isLoading}
       isError={isError}
       error={error}
+      
     >
       <>
         {allcartItems?.data?.products?.length > 0 ? (
