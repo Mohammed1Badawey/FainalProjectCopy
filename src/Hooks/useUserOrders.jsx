@@ -1,13 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { authAxios, publicAxios } from "../../API/AxiosConfig";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { JwtContext } from "../Context/JwtContext";
 
 export default function useUserOrders() {
+
   const { userId } = useContext(JwtContext);
 
   async function checkToken() {
     const response = await authAxios.get(`/auth/verifyToken`);
+    console.log(response.data.decoded.id);
     return response.data.decoded.id;
   }
 
@@ -16,13 +18,17 @@ export default function useUserOrders() {
     return response.data;
   }
 
+  useEffect(() => {
+    getUserOrders();
+  }, [userId]);
+
   const ordersQuery = useQuery({
     queryKey: ["userOrders", userId],
     queryFn: () => getUserOrders(),
     enabled: !!userId,
     staleTime: Infinity,
     retry: 3,
-    retryDelay: 3000,
+    retryDelay: 2000,
   });
 
   return ordersQuery;

@@ -7,11 +7,13 @@ const getUserCart = async () => {
 };
 
 const useGetUserCart = () => {
+  const ifUser = localStorage.getItem("userToken");
   const query = useQuery({
     queryFn: () => getUserCart(),
     queryKey: ["cartItems"],
     staleTime: 0.5 * (1000 * 60),
     select: (cartData) => cartData,
+    enabled: !!ifUser,
   });
   return query;
 };

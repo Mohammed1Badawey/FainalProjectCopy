@@ -9,7 +9,7 @@ import { publicAxios } from "../../../API/AxiosConfig";
 export default function ResetPassword({}) {
   let navigate = useNavigate();
   let { forgettnEmail } = useContext(ForgettenEmailContext);
-  let { userToken, setuserToken } = useContext(authContext);
+  let { userToken, setUserToken } = useContext(authContext);
   const [ApiError, setApiError] = useState("");
   const [ApiSuccess, setApiSuccess] = useState(false);
   const [IsLoading, setIsLoading] = useState(false);
@@ -21,7 +21,7 @@ export default function ResetPassword({}) {
       const res = await publicAxios.put(`/auth/resetPassword`, resetObj);
       setApiError("");
       if (res.status === 200) {
-        setuserToken(res.data.token);
+        setUserToken(res.data.token);
         setApiSuccess(true);
         setTimeout(() => {
           window.location.href = BaseURL;

@@ -1,13 +1,12 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { authContext } from './AuthContext';
 
 export const JwtContext = createContext();
 export default function JwtContextProvider({ children }) {
   const [userName, setUserName] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [userToken, setUserToken] = useState(
-    localStorage.getItem("userToken") || null,
-  );
+  const { userToken } = useContext(authContext);
 
   function tokenDetails() {
     if (userToken) {

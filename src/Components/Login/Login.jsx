@@ -4,12 +4,14 @@ import * as yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
 import { authContext } from "../../Context/AuthContext";
 import { publicAxios } from "../../../API/AxiosConfig";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Login() {
   let navigate = useNavigate();
   const [ApiError, setApiError] = useState("");
   const [IsLoading, setIsLoading] = useState(false);
-  const { setuserToken } = useContext(authContext);
+  const { setUserToken } = useContext(authContext);
+  const queryClient = useQueryClient();
 
   async function submitData(loginObj) {
     setIsLoading(true);
@@ -19,8 +21,10 @@ export default function Login() {
       }
       setApiError("");
       localStorage.setItem("userToken", res.data.token);
-      setuserToken(res.data.token);
+      setUserToken(res.data.token);
       navigate("/");
+      queryClient.invalidateQueries(["cartItems"]); 
+      queryClient.invalidateQueries(["WishListItems"]);    
     } catch (err) {
       setApiError(err.response.data.message);
     } finally {

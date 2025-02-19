@@ -6,7 +6,7 @@ import { authContext } from "../../Context/AuthContext";
 import { authAxios } from "../../../API/AxiosConfig";
 
 export default function AccountDetails() {
-  let { setuserToken } = useContext(authContext);
+  let { setUserToken } = useContext(authContext);
   const [ApiError, setApiError] = useState("");
   const [ApiErrorPass, setApiErrorPass] = useState("");
   const [ApiSuccess, setApiSuccess] = useState(false);
@@ -51,7 +51,7 @@ export default function AccountDetails() {
       .then((res) => {
         setApiSuccessPass(res.data.message);
         setIsLoadingPass(false);
-        setuserToken(res.data.token);
+        setUserToken(res.data.token);
         localStorage.setItem("userToken", res.data.token);
         formik2.resetForm();
         return res;
