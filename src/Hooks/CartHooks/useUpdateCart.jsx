@@ -2,9 +2,16 @@ import React from "react";
 import { authAxios } from "../../../API/AxiosConfig";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-
+import { useRemoveFromCart } from "./useRemoveFromCart";
 
 export const useUpdateCart = () => {
+  async function RemoveItemFromCart(id) {
+    setCurrentItemId(id);
+    mutateRemove(id, {
+      onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("cartItems")}
+    });
+  }
+
   const queryClient = useQueryClient();
   async function updateCartItems({ productId, newCount }) {
     const res = await authAxios.put(`/cart/${productId}`, { count: newCount });
@@ -13,26 +20,38 @@ export const useUpdateCart = () => {
 
   const updateCart = useMutation({
     mutationFn: updateCartItems,
-    onMutate: ({ productId, newCount })=> {
-      const oldCartItems = queryClient.getQueryData(["cartItems"])?.data?.products || [];
-      const updatedCartItems = oldCartItems.map((item) => {
-        if (item.product.id === productId) {
-          item.count = newCount;
-          return item;
+    onMutate: ({ productId, newCount }) => {
+      const oldCartItems =
+        queryClient.getQueryData(["cartItems"])?.data?.products || [];
+        let updatedCartItems;
+        if (newCount <= 0) {
+          updatedCartItems = oldCartItems.filter(
+            (item) => item.product.id !== productId
+          );
         } else {
-          return item; }
-      });
-      queryClient.setQueryData(["cartItems"], {
-        data: { products: updatedCartItems },
-      });
+          updatedCartItems = oldCartItems.map((item) =>
+            item.product.id === productId ? { ...item, count: newCount } : item
+          );
+        }
+
+        queryClient.setQueryData(["cartItems"], {
+          data: { products: updatedCartItems },
+        });
+
+        return { previousCartItems: oldCartItems };
+
     },
 
     onSuccess: (res) => {
       toast.success("Product Updated Successfully");
+      queryClient.invalidateQueries(["cartItems"]);
     },
-    onError: (error) => {
+    onError: (error, _ , context) => {
       toast.error("Something Wrong");
       console.error(error);
+      queryClient.setQueryData(["cartItems"], {
+        data: { products: context.previousCartItems },
+      });
     },
   });
   return updateCart;

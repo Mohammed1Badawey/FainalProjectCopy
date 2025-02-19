@@ -19,7 +19,7 @@ export default function Cart() {
   async function RemoveItemFromCart(id) {
     setCurrentItemId(id);
     mutateRemove(id, {
-      onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("cartItems");}
+      onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("cartItems")}
     });
   }
 
