@@ -11,7 +11,7 @@ export const useClearCart = () => {
   const clearCart = useMutation({
     mutationFn: clearItemsFromCart,
     onSuccess: () => {
-      toast.success("Cart Cleard Successfully");
+      toast.success("Cart Cleared Successfully");
     },
     onError: (error) => {
       toast.error("Something Wrong");
@@ -20,3 +20,4 @@ export const useClearCart = () => {
   });
   return clearCart;
 };
+

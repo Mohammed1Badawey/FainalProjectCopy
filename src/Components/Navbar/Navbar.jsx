@@ -9,7 +9,6 @@ import { HiMiniUserPlus } from "react-icons/hi2";
 import { VscSignIn } from "react-icons/vsc";
 import useGetUserWishList from "../../Hooks/WishListHooks/useGetUserWishList";
 import useGetUserCart from "../../Hooks/CartHooks/useGetUserCart";
-
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartNumber,setCartNumber ] = useState(0);
@@ -44,7 +43,7 @@ export default function Navbar() {
     "cursor-pointer",
     { "bg-emerald-800": accountBtn },
   );
-  function hundelLogout() {
+  function handelLogout() {
     localStorage.removeItem("userToken");
     setUserToken(null);
     navigate("/login");
@@ -138,7 +137,7 @@ export default function Navbar() {
                         <li className="p-1">
                           <span
                             className="cursor-pointer"
-                            onClick={hundelLogout}
+                            onClick={handelLogout}
                             to=""
                           >
                             Logout
@@ -220,12 +219,12 @@ export default function Navbar() {
                         <li>
                           <div
                             className="group flex w-[120px] cursor-pointer items-center justify-center gap-2 rounded-full border-1 border-red-400 px-2 py-1.5 transition-all duration-300 hover:bg-red-400"
-                            onClick={hundelLogout}
+                            onClick={handelLogout}
                             to=""
                           >
                             <span
                               className="font-normal"
-                              onClick={hundelLogout}
+                              onClick={handelLogout}
                               to=""
                             >
                               Logout
