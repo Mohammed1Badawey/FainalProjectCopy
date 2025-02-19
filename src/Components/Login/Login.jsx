@@ -117,22 +117,19 @@ export default function Login() {
         >
           {IsLoading ? <i className="fas fa-spinner fa-spin"></i> : "Login"}
         </button>
-        <div className="mx-auto">
-          <h6 className="text-center">
+        <div className="flex justify-center items-center gap-2">
+          <p className="text-center">
             New to FrechCart?{" "}
-            <Link to={"/register"}>
-              {" "}
-              <span className="font-semibold underline">Register</span> now
-            </Link>
-          </h6>
-
-          <h6 className="text-center">
-            Forget Password?{" "}
-            <Link to={"/forgetpassword"}>
-              {" "}
-              <span className="font-semibold underline">Forget Password</span>
-            </Link>
-          </h6>
+          </p>
+            <span className="font-semibold text-center underline">
+            <Link to={"/register"}> Register </Link>
+                </span> 
+               </div>
+        <div className="flex justify-center items-center gap-2">
+          <p className="text-center"> Forget Password? </p>
+              <span className="font-semibold text-center underline">
+            <Link to={"/forgetpassword"}> Reset Now </Link>
+              </span>
         </div>
       </form>
     </>
