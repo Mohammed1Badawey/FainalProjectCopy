@@ -32,16 +32,13 @@ export default function Navbar() {
     "inline-flex",
     "items-center",
     "rounded-lg",
-    "bg-emerald-600",
     "px-5",
     "py-2.5",
     "text-center",
     "text-sm",
     "font-medium",
-    "text-white",
-    "hover:bg-emerald-800",
+    "text-black",
     "cursor-pointer",
-    { "bg-emerald-800": accountBtn },
   );
   function handelLogout() {
     localStorage.removeItem("userToken");
@@ -116,7 +113,7 @@ export default function Navbar() {
                     className={accountClass}
                     type="button"
                   >
-                    Account
+                    My Account
                     <i className="fa-solid fa-angle-down ps-2"></i>
                   </button>
                   {accountBtn && (
