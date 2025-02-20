@@ -77,25 +77,17 @@ export default function WishList() {
                   <td className="px-4 py-2 md:px-6 md:py-4">
                     <div className="flex flex-col gap-2">
                       <button
-                        className="cursor-pointer font-medium text-emerald-600 hover:underline"
+                        className="cursor-pointer font-medium text-emerald-600 hover:underline active:scale-93 transition-all duration-300"
                         onClick={() => handleAddToCart(product.id)}
                       >
-                        {isPending && currentItemId == product.id ? (
-                          <i className="fas fa-spinner fa-spin"></i>
-                        ) : (
-                          <span>Add to cart</span>
-                        )}
+                          <span className="">Add to cart</span>
                       </button>
 
                       <button
-                        className="cursor-pointer font-medium text-red-600 hover:underline"
+                        className="cursor-pointer font-medium text-red-600 hover:underline active:scale-93 transition-all duration-300"
                         onClick={() => RemoveItemFromWishList(product.id)}
                       >
-                        {pendingRemove && currentItemId == product.id ? (
-                          <i className="fas fa-spinner fa-spin"></i>
-                        ) : (
                           <span>Remove</span>
-                        )}
                       </button>
                     </div>
                   </td>

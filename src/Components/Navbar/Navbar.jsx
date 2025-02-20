@@ -86,7 +86,7 @@ export default function Navbar() {
                       Cart
                       {cartNumber > 0 && (
                         <div className="absolute -top-4 -right-4 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
-                          {cartNumber}
+                          {cartData?.numOfCartItems}
                         </div>
                       )}
                     </NavLink>

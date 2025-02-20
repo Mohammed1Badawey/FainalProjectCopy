@@ -14,25 +14,28 @@ export const useAddToCart = () => {
 
     onMutate: (productId) => {
       const cartData = queryClient.getQueryData(["cartItems"]);
-      const oldCart = Array.isArray(cartData?.data) ? cartData.data : [];
-
-      const pageOneCachedData =
-        queryClient.getQueryData(["products", { pageNum: 1 }]) || [];
+      const oldCart = Array.isArray(cartData?.data?.products) ? cartData.data.products : [];      
+      const countItems = (cartData?.numOfCartItems) ? cartData?.numOfCartItems : 0;
+      const pageOneCachedData = 
+        queryClient.getQueryData(["products", { "pageNum": 1 }]) || [];
       const pageTwoCachedData =
-        queryClient.getQueryData(["products", { pageNum: 2 }]) || [];
-      const allProducts = [...pageOneCachedData, ...pageTwoCachedData];
+        queryClient.getQueryData(["products", { "pageNum": 2 }]) || [];
+      const allProducts = [...(pageOneCachedData), ...(pageTwoCachedData)];
       const addedProduct = allProducts.find((item) => item.id === productId);
-      const newCart = [addedProduct, ...oldCart];
-      queryClient.setQueryData(["cartItems"], { data: newCart });
+      const isProductInCart = oldCart.some((item) => item.product.id === productId);
+      const newCount = isProductInCart ? countItems : countItems + 1;
+      const newCart = [addedProduct, ...(oldCart)];
+      queryClient.setQueryData(["cartItems"], { numOfCartItems: newCount, data: newCart });
       return () => queryClient.setQueryData(["cartItems"], { data: oldCart });
     },
-
     onSuccess: () => {
       toast.success("Product Added Successfully");
+      queryClient.invalidateQueries(["cartItems"]);
     },
-    onError: (error) => {
-      toast.error("Something Wrong");
+    onError: (error, variables, rollback) => {
+      toast.error("Something went wrong");
       console.error(error);
+      if (rollback) rollback();
     },
   });
   return addProduct;

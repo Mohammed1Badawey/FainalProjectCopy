@@ -23,9 +23,8 @@ export default function Cart() {
     });
   }
 
-  async function ClearItemsFromCart(id) {
-    setCurrentItemId(id);
-    mutateClear(id, {
+  async function ClearItemsFromCart() {
+    mutateClear({
       onSettled: () => { setCurrentItemId(null),
       queryClient.invalidateQueries("cartItems")}
     });
@@ -36,7 +35,7 @@ export default function Cart() {
     mutateUpdate(
       { productId, newCount },
       {
-        onSettled: () => {setCurrentItemId(null)}
+        onSettled: () => {setCurrentItemId(null), queryClient.invalidateQueries("cartItems") }
       },
     );
   }
@@ -97,7 +96,7 @@ export default function Cart() {
                       <td className="px-4 py-2 md:px-6 md:py-4">
                         <div className="flex items-center">
                           <button
-                            className="me-2 inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 focus:outline-none"
+                            className="me-2 inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 hover:bg-gray-100 active:scale-93 transition-all duration-300"
                             type="button"
                             onClick={() =>
                               UpdateItemsFromCart(
@@ -109,15 +108,10 @@ export default function Cart() {
                             <i className="fa-solid fa-minus"></i>
                           </button>
                           <div>
-                            {pendingUpdate &&
-                            currentItemId == product.product.id ? (
-                              <i className="fas fa-spinner fa-spin"></i>
-                            ) : (
                               <span>{product.count}</span>
-                            )}
                           </div>
                           <button
-                            className="ms-2 inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 focus:outline-none"
+                            className="ms-2  inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 hover:bg-gray-100 active:scale-93 transition-all duration-300"
                             type="button"
                             onClick={() =>
                               UpdateItemsFromCart(
@@ -135,15 +129,12 @@ export default function Cart() {
                       </td>
                       <td className="px-4 py-2 md:px-6 md:py-4">
                         <button
-                          className="cursor-pointer font-medium text-red-600 hover:underline"
+                          className="cursor-pointer font-medium text-red-600 hover:underline active:scale-93 transition-all duration-300"
                           onClick={() => RemoveItemFromCart(product.product.id)}
                         >
-                          {pendingRemove &&
-                          currentItemId == product.product.id ? (
-                            <i className="fas fa-spinner fa-spin"></i>
-                          ) : (
+
                             <span>remove</span>
-                          )}
+                          
                         </button>
                       </td>
                     </tr>
@@ -153,14 +144,10 @@ export default function Cart() {
 
               <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:items-center">
                 <button
-                  className="btn-clear-cart rounded w-[170px] bg-red-600 px-4 py-2 text-white hover:bg-red-700 md:px-6 md:py-3"
+                  className="btn-clear-cart rounded active:scale-93 transition-all duration-300 w-[170px] bg-red-600 px-4 py-2 text-white hover:bg-red-700 md:px-6 md:py-3"
                   onClick={ClearItemsFromCart}
                 >
-                  {pendingClear ? (
-                    <i className="fas fa-spinner fa-spin"></i>
-                  ) : (
                     <span>Clear Cart</span>
-                  )}
                 </button>
                 <h2 className="p-4 text-center font-[900] md:text-end">
                   <span className="font-[600]">Total Price: </span>

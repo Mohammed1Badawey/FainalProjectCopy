@@ -23,7 +23,7 @@ export default function Products() {
   const { mutate: mutateAddToCart, isPending: pendingAddToCart } =
     useAddToCart();
 
-  const { mutate: mutateAddToWishList } = useAddToWishList();
+  const { mutate: mutateAddToWishList , isPending:addToCartPenfing } = useAddToWishList();
 
   const { data: allWishListItems } = useGetUserWishList();
 
@@ -46,7 +46,7 @@ export default function Products() {
     setCurrentItemId(productId);
     mutateAddToCart(productId, {
       onSettled: () => {
-        setCurrentItemId(null), queryClient.invalidateQueries("cartItems");
+        // setCurrentItemId(null), queryClient.invalidateQueries("cartItems");
       },
     });
   };

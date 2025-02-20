@@ -6,15 +6,13 @@ export default function ProductButtons({
   return (
     <div className="flex flex-col-reverse items-center justify-center p-3 pe-3">
       <button
-        disabled={loadingAddToCart}
+
+        disabled = {loadingAddToCart}
+
         onClick={() => AddToCart(product.id)}
-        className="btn-add-product-sm md:btn-add-product my-2"
+        className="btn-add-product-sm md:btn-add-product my-2 active:scale-93 transition-all duration-300"
       >
-        {loadingAddToCart ? (
-          <i className="fas fa-spinner fa-spin"></i>
-        ) : (
-          `Add To Cart`
-        )}
+          Add To Cart
       </button>
     </div>
   );

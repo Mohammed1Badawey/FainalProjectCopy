@@ -21,9 +21,11 @@ export const useUpdateCart = () => {
   const updateCart = useMutation({
     mutationFn: updateCartItems,
     onMutate: ({ productId, newCount }) => {
-      const oldCartItems =
-        queryClient.getQueryData(["cartItems"])?.data?.products || [];
+      const cartData = queryClient.getQueryData(["cartItems"]);
+      const oldCartItems = cartData?.data?.products || [];
+      const countItems = (cartData?.numOfCartItems) ? cartData?.numOfCartItems : 0;
         let updatedCartItems;
+        const newCountItems = newCount <= 0 ? countItems - 1 : countItems; 
         if (newCount <= 0) {
           updatedCartItems = oldCartItems.filter(
             (item) => item.product.id !== productId
@@ -34,21 +36,18 @@ export const useUpdateCart = () => {
           );
         }
 
-        queryClient.setQueryData(["cartItems"], {
-          data: { products: updatedCartItems },
-        });
+        queryClient.setQueryData(["cartItems"], { numOfCartItems: newCountItems, data: { products: updatedCartItems } });
 
         return { previousCartItems: oldCartItems };
 
     },
 
-    onSuccess: (res) => {
-      toast.success("Product Updated Successfully");
+    onSuccess: () => {
       queryClient.invalidateQueries(["cartItems"]);
     },
-    onError: (error, _ , context) => {
+    onError: (error) => {
       toast.error("Something Wrong");
-      console.error(error);
+      console.warn(error);
       queryClient.setQueryData(["cartItems"], {
         data: { products: context.previousCartItems },
       });

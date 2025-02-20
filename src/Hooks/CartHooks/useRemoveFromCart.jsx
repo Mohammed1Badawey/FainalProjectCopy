@@ -14,13 +14,14 @@ export const useRemoveFromCart = () => {
     mutationFn: removeFromCart,
 
     onMutate: (productId) => {
-      const oldCart =
-        queryClient.getQueryData(["cartItems"])?.data?.products || [];
+      const cartData = queryClient.getQueryData(["cartItems"]);
+      const oldCart = Array.isArray(cartData?.data?.products) ? cartData.data.products : [];      
+      const countItems = (cartData?.numOfCartItems) ? cartData?.numOfCartItems : 0;
       const newCart = oldCart.filter(
         (product) => product.product._id !== productId,
       );
-      
-      queryClient.setQueryData(["cartItems"], { data: { products: newCart } });
+      const newCount = countItems > 0 ? countItems - 1 : 0;
+      queryClient.setQueryData(["cartItems"], { numOfCartItems: newCount, data: {products: newCart} });
       return () =>
         queryClient.setQueryData(["cartItems"], {
           data: { products: oldCart },
