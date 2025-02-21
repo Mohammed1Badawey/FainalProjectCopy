@@ -15,7 +15,7 @@ export default function Login() {
   async function submitData(ForgetObj) {
     setIsLoading(true);
     try {
-      await publicAxios.post(`/auth/forgotPasswords`, ForgetObj);
+      const res = await publicAxios.post(`/auth/forgotPasswords`, ForgetObj);
       if (res.data.statusMsg) {
         setApiError("");
         setApiSuccess(res.data.message);
@@ -26,6 +26,7 @@ export default function Login() {
       }
     } catch (err) {
       setApiError(err.response.data.message);
+      console.log(err);  
     } finally {
       setIsLoading(false);
     }
