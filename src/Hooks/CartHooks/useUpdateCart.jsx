@@ -32,14 +32,12 @@ export const useUpdateCart = () => {
           );
         } else {
           updatedCartItems = oldCartItems.map((item) =>
-            item.product.id === productId ? { ...item, count: newCount } : item
+            item.product.id === productId ? { ...item, count: newCount , price: item.price } : item
           );
-        }
-
-        queryClient.setQueryData(["cartItems"], { numOfCartItems: newCountItems, data: { products: updatedCartItems } });
-
+        }      
+        const newTotalCartPrice =  updatedCartItems.reduce((acc, item) => acc + item.price * item.count, 0);
+        queryClient.setQueryData(["cartItems"], { numOfCartItems: newCountItems, data: { products: updatedCartItems, totalCartPrice: newTotalCartPrice } });
         return { previousCartItems: oldCartItems };
-
     },
 
     onSuccess: () => {
