@@ -11,8 +11,8 @@ import useGetUserWishList from "../../Hooks/WishListHooks/useGetUserWishList";
 import useGetUserCart from "../../Hooks/CartHooks/useGetUserCart";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cartNumber,setCartNumber ] = useState(0);
-  const [wishlistNumber,setWishlistNumber ] = useState(0);
+  const [cartNumber, setCartNumber] = useState(0);
+  const [wishlistNumber, setWishlistNumber] = useState(0);
   const { data: cartData } = useGetUserCart();
   const { data: wishlistData } = useGetUserWishList();
   const { userToken, setUserToken } = useContext(authContext);
@@ -49,7 +49,7 @@ export default function Navbar() {
   useEffect(() => {
     setWishlistNumber(wishlistData?.count || 0);
     setCartNumber(cartData?.numOfCartItems || 0);
-  }, [cartData,wishlistData]);
+  }, [cartData, wishlistData]);
 
   return (
     <>
@@ -175,41 +175,45 @@ export default function Navbar() {
                   onClick={() => setIsMenuOpen(false)}
                   className="flex flex-col items-start space-y-5 px-4"
                 >
-                  <li>
-                    <NavLink to="/"> Home </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/products"> Products </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/categories"> Categories </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/brands"> Brands </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/cart" className="relative">
-                      Cart
-                      {cartNumber > 0 && (
-                        <div className="absolute -top-1 -right-6 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
-                          {cartNumber}
-                        </div>
-                      )}
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/wishlist" className="relative">
-                      Wishlist
-                      {wishlistNumber > 0 && (
-                        <div className="absolute -top-1 -right-6 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
-                          {wishlistNumber}
-                        </div>
-                      )}
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/myprofile">My Profile</NavLink>
-                  </li>
+                  {userToken && (
+                    <>
+                      <li>
+                        <NavLink to="/"> Home </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/products"> Products </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/categories"> Categories </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/brands"> Brands </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/cart" className="relative">
+                          Cart
+                          {cartNumber > 0 && (
+                            <div className="absolute -top-1 -right-6 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
+                              {cartNumber}
+                            </div>
+                          )}
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/wishlist" className="relative">
+                          Wishlist
+                          {wishlistNumber > 0 && (
+                            <div className="absolute -top-1 -right-6 flex size-5 items-center justify-center rounded-full bg-emerald-600 p-1 text-center font-normal text-white">
+                              {wishlistNumber}
+                            </div>
+                          )}
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/myprofile">My Profile</NavLink>
+                      </li>
+                    </>
+                  )}
                   <div className="w-full border-t py-4">
                     {userToken && (
                       <div>

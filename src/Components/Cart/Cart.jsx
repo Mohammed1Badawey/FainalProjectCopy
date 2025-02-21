@@ -169,19 +169,19 @@ export default function Cart() {
               </div>
             </div>
 
-            <div className="mt-6 flex justify-center gap-8">
-              <button className="max-w-fit">
+            <div className="mt-6 flex justify-center gap-6">
+              <button className="w-[50%] max-w-[250px]">
                 <Link
-                  className="cursor-pointer rounded-2xl bg-emerald-600 px-16 py-3 text-white duration-500 hover:bg-emerald-700"
+                  className="block w-full cursor-pointer rounded-2xl bg-emerald-600 px-6 py-3 text-white duration-500 hover:bg-emerald-700"
                   to={"/checkout"}
                 >
                   Visa
                 </Link>
               </button>
 
-              <button className="max-w-fit">
+              <button className="w-[50%] max-w-[250px]">
                 <Link
-                  className="cursor-pointer rounded-2xl bg-emerald-600 px-16 py-3 text-white duration-500 hover:bg-emerald-700"
+                  className="block w-full cursor-pointer rounded-2xl bg-emerald-600 px-6 py-3 text-white duration-500 hover:bg-emerald-700"
                   to={"/cashorder"}
                 >
                   On Delivery
