@@ -12,21 +12,26 @@ export default function Cart() {
   const queryClient = useQueryClient();
   const { data: allcartItems, isLoading, error, isError } = useGetUserCart();
   const [currentItemId, setCurrentItemId] = useState(null);
-  const { mutate: mutateRemove, isPending: pendingRemove } = useRemoveFromCart();
+  const { mutate: mutateRemove, isPending: pendingRemove } =
+    useRemoveFromCart();
   const { mutate: mutateClear, isPending: pendingClear } = useClearCart();
-  const { mutateAsync: mutateUpdate, isPending: pendingUpdate } = useUpdateCart();
+  const { mutateAsync: mutateUpdate, isPending: pendingUpdate } =
+    useUpdateCart();
 
   async function RemoveItemFromCart(id) {
     setCurrentItemId(id);
     mutateRemove(id, {
-      onSettled: () => {setCurrentItemId(null),queryClient.invalidateQueries("cartItems")}
+      onSettled: () => {
+        setCurrentItemId(null), queryClient.invalidateQueries("cartItems");
+      },
     });
   }
 
   async function ClearItemsFromCart() {
     mutateClear({
-      onSettled: () => { setCurrentItemId(null),
-      queryClient.invalidateQueries("cartItems")}
+      onSettled: () => {
+        setCurrentItemId(null), queryClient.invalidateQueries("cartItems");
+      },
     });
   }
 
@@ -35,7 +40,9 @@ export default function Cart() {
     mutateUpdate(
       { productId, newCount },
       {
-        onSettled: () => {setCurrentItemId(null), queryClient.invalidateQueries("cartItems") }
+        onSettled: () => {
+          setCurrentItemId(null), queryClient.invalidateQueries("cartItems");
+        },
       },
     );
   }
@@ -45,7 +52,6 @@ export default function Cart() {
       isLoading={isLoading}
       isError={isError}
       error={error}
-      
     >
       <>
         {allcartItems?.data?.products?.length > 0 ? (
@@ -96,7 +102,7 @@ export default function Cart() {
                       <td className="px-4 py-2 md:px-6 md:py-4">
                         <div className="flex items-center">
                           <button
-                            className="me-2 inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 hover:bg-gray-100 active:scale-93 transition-all duration-300"
+                            className="me-2 inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 transition-all duration-300 hover:bg-gray-100 active:scale-93"
                             type="button"
                             onClick={() =>
                               UpdateItemsFromCart(
@@ -108,10 +114,10 @@ export default function Cart() {
                             <i className="fa-solid fa-minus"></i>
                           </button>
                           <div>
-                              <span>{product.count}</span>
+                            <span>{product.count}</span>
                           </div>
                           <button
-                            className="ms-2  inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 hover:bg-gray-100 active:scale-93 transition-all duration-300"
+                            className="ms-2 inline-flex size-6 items-center justify-center rounded-full border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 transition-all duration-300 hover:bg-gray-100 active:scale-93"
                             type="button"
                             onClick={() =>
                               UpdateItemsFromCart(
@@ -129,12 +135,10 @@ export default function Cart() {
                       </td>
                       <td className="px-4 py-2 md:px-6 md:py-4">
                         <button
-                          className="cursor-pointer font-medium text-red-600 hover:underline active:scale-93 transition-all duration-300"
+                          className="cursor-pointer font-medium text-red-600 transition-all duration-300 hover:underline active:scale-93"
                           onClick={() => RemoveItemFromCart(product.product.id)}
                         >
-
-                            <span>remove</span>
-                          
+                          <span>remove</span>
                         </button>
                       </td>
                     </tr>
@@ -144,18 +148,21 @@ export default function Cart() {
 
               <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:items-center">
                 <button
-                  className="btn-clear-cart rounded active:scale-93 transition-all duration-300 w-[170px] bg-red-600 px-4 py-2 text-white hover:bg-red-700 md:px-6 md:py-3"
+                  className="btn-clear-cart w-[170px] rounded bg-red-600 px-4 py-2 text-white transition-all duration-300 hover:bg-red-700 active:scale-93 md:px-6 md:py-3"
                   onClick={ClearItemsFromCart}
                 >
-                    <span>Clear Cart</span>
+                  <span>Clear Cart</span>
                 </button>
                 <h2 className="p-4 text-center font-[900] md:text-end">
                   <span className="font-[600]">Total Price: </span>
                   {allcartItems?.data?.totalCartPrice
-                    ? allcartItems.data?.totalCartPrice.toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })
+                    ? allcartItems.data?.totalCartPrice.toLocaleString(
+                        "en-US",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        },
+                      )
                     : "0.00"}{" "}
                   EGP
                 </h2>
@@ -177,7 +184,7 @@ export default function Cart() {
                   className="cursor-pointer rounded-2xl bg-emerald-600 px-16 py-3 text-white duration-500 hover:bg-emerald-700"
                   to={"/cashorder"}
                 >
-                  Cash
+                  On Delivery
                 </Link>
               </button>
             </div>
