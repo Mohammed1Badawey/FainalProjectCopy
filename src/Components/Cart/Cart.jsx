@@ -78,7 +78,7 @@ export default function Cart() {
                   </tr>
                 </thead>
                 <tbody>
-                  {allcartItems?.data?.products.map((product) => (
+                  {allcartItems?.data?.products?.map((product) => (
                     <tr
                       key={product._id}
                       className="border-b border-gray-200 bg-white hover:bg-gray-50"
