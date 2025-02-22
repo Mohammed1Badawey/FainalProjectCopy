@@ -20,12 +20,12 @@ export default function UserOrders() {
   }
 
   return (
-    <div className="p-4 ">
-      <h1 className="mb-4 text-2xl font-bold text-center">Your Orders</h1>
+    <div className="p-4">
+      <h1 className="mb-4 text-center text-2xl font-bold">Your Orders</h1>
       <div className="flex flex-col-reverse">
         {orders?.map((order) => (
-          <div key={order._id} className="rounded-lg border p-4 shadow-sm my-3">
-            <div className="mb-4 flex md:flex-row flex-col items-center justify-between">
+          <div key={order._id} className="my-3 rounded-lg border p-4 shadow-sm">
+            <div className="mb-4 flex flex-col items-center justify-between md:flex-row">
               <div>
                 <p className="font-semibold">Order ID: {order._id}</p>
                 <p className="text-sm text-gray-500">
